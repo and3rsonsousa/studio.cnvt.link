@@ -1,13 +1,14 @@
 let colors = require("tailwindcss/colors");
 
 module.exports = {
-	content: ["./app/**/*.{js,jsx,ts,tsx}"],
+	content: ["./app/**/*.{js,jsx,ts,tsx}", "./styles/*.html"],
 	theme: {
 		colors: {
 			...colors,
 			gray: colors.slate,
+			brand: colors.indigo,
 		},
 		extend: {},
 	},
-	plugins: [],
+	plugins: [require("@tailwindcss/forms")],
 };

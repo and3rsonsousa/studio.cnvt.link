@@ -2,6 +2,100 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-	@apply text-gray-500 antialiased;
+@layer base {
+	body {
+		@apply text-gray-500 antialiased;
+	}
+
+	h1 {
+		@apply mb-4 text-5xl font-bold tracking-tight;
+	}
+	h2 {
+		@apply mb-4 text-3xl font-bold tracking-tight;
+	}
+	h3 {
+		@apply mb-4 text-2xl font-bold tracking-tight;
+	}
+	h4 {
+		@apply mb-4 text-xl font-bold tracking-tight;
+	}
+	h5 {
+		@apply mb-2 font-medium uppercase tracking-wide;
+	}
+	h6 {
+		@apply mb-2 text-sm font-medium;
+	}
+
+	p {
+		@apply mb-4;
+	}
+}
+
+@layer utilities {
+	.text-xx {
+		font-size: 0.625rem;
+		line-height: 1rem;
+	}
+	.text-xxx {
+		font-size: 0.5rem;
+		line-height: 0.75rem;
+	}
+}
+
+@layer components {
+	.button {
+		@apply inline-flex rounded-xl bg-gray-200 px-6 py-3 font-bold text-gray-600 transition duration-300 hover:bg-gray-300 hover:text-gray-900 focus:text-gray-900 focus:outline-none focus:ring-4 focus:ring-brand-600/50 active:bg-gray-100 active:duration-75;
+	}
+
+	.button-primary {
+		@apply bg-brand-500 text-white hover:bg-brand-600 hover:text-brand-200 focus:bg-brand-600 focus:text-brand-200 active:bg-brand-400;
+	}
+
+	.button-ghost {
+		@apply bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent;
+	}
+
+	.button-small {
+		@apply rounded-lg px-4 py-2 text-sm;
+	}
+	.button-large {
+		@apply rounded-xl px-8 py-4 text-2xl;
+	}
+
+	.button-icon {
+		@apply grid h-12 w-12 place-content-center p-0 text-2xl font-normal;
+	}
+	.button-icon.button-small {
+		@apply h-9 w-9 text-lg;
+	}
+	.button-icon.button-large {
+		@apply h-16 w-16 text-4xl;
+	}
+
+	/* Forms */
+
+	.field {
+		@apply block w-full text-gray-400 focus-within:text-gray-900;
+	}
+
+	.field span {
+		@apply mb-2 mt-4 block font-medium;
+	}
+	.field [type="text"],
+	[type="email"],
+	[type="url"],
+	[type="password"],
+	[type="number"],
+	[type="date"],
+	[type="datetime-local"],
+	[type="month"],
+	[type="search"],
+	[type="tel"],
+	[type="time"],
+	[type="week"],
+	[multiple],
+	textarea,
+	select {
+		@apply w-full rounded-xl border-gray-300   px-4 py-[11px] text-gray-700 transition placeholder:text-gray-300 focus:border-brand-600 focus:ring-4 focus:ring-brand-600/50;
+	}
 }

@@ -1,0 +1,3 @@
+"exports": {
+  "default": "./dist/umd/supabase.js"
+}

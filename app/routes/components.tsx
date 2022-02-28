@@ -117,6 +117,14 @@ export default function Components() {
 						<span>Label</span>
 						<input type="text" placeholder="input text" />
 					</label>
+					<p className="mt-4">
+						Use <Code>.field</Code> with:
+						<pre className="whitespace-pre-wrap text-sm font-bold ">
+							text, email, url, password, number, date,
+							datetime-local, month, search, tel, time, week,
+							multiple, textarea, select
+						</pre>
+					</p>
 				</div>
 				<div>
 					<Code block={true}>

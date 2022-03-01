@@ -101,5 +101,5 @@
 }
 
 .error-banner {
-	@apply container min-w-max rounded-xl border-2 p-16 text-red-500;
+	@apply container min-w-max rounded-xl border-2 p-16 text-error-500;
 }

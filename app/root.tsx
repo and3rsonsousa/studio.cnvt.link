@@ -65,7 +65,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
 	return (
 		<Document>
 			<div className="grid h-screen place-content-center">
-				<div className="error-banner max-w-lg">
+				<div className="error-banner max-w-sm">
 					<h1>Error</h1>
 					<p className="text-gray-700">{error.message}</p>
 					<pre className="whitespace-pre-wrap text-xs">
@@ -83,7 +83,7 @@ export function CatchBoundary() {
 	return (
 		<Document>
 			<div className="grid h-screen place-content-center">
-				<div className="error-banner max-w-lg">
+				<div className="error-banner max-w-sm">
 					<h1>{caught.status}</h1>
 					<p className="text-gray-700">{caught.statusText}</p>
 					<pre className="whitespace-pre-wrap text-xs">

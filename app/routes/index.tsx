@@ -2,12 +2,10 @@ import { createClient } from "@supabase/supabase-js";
 import { LoaderFunction, useLoaderData } from "remix";
 
 export const loader: LoaderFunction = async ({ context }) => {
-	let db = createClient(
-		"https://prmvfibheijucdazdfzc.supabase.co",
-		"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzY4MzI1MCwiZXhwIjoxOTU5MjU5MjUwfQ.ElgtQJthx_B3DM_zIL2acASAo_J_F9HclpLDv1m_hQ0"
-	);
+	let db = createClient(context.SUPABASE_URL, context.SUPABASE_KEY, {
+		fetch: fetch.bind(self),
+	});
 	let data = await db.from("actions").select("*");
-	console.log(context);
 
 	return { data };
 };

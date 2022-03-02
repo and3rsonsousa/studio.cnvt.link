@@ -40,19 +40,29 @@
 		font-size: 0.5rem;
 		line-height: 0.75rem;
 	}
+	.focus-30 {
+		@apply focus:outline-none focus:ring-4 focus:ring-brand-600/30;
+	}
+	.focus-50 {
+		@apply focus:outline-none focus:ring-4 focus:ring-brand-600/50;
+	}
 }
 
 @layer components {
 	.button {
-		@apply inline-flex rounded-xl bg-gray-200 px-6 py-3 font-bold text-gray-600 transition duration-300 hover:bg-gray-300 hover:text-gray-900 focus:text-gray-900 focus:outline-none focus:ring-4 focus:ring-brand-600/50 active:bg-gray-100 active:duration-75;
+		@apply inline-flex rounded-xl bg-gray-200 px-6 py-3 font-bold text-gray-600 transition duration-300 hover:bg-gray-300 hover:text-gray-900 focus:text-gray-900 focus:outline-none focus:ring-4 focus:ring-brand-600/30 active:bg-gray-100 active:duration-75;
 	}
 
 	.button-primary {
-		@apply bg-brand-500 text-white hover:bg-brand-600 hover:text-brand-200 focus:bg-brand-600 focus:text-brand-200 active:bg-brand-400;
+		@apply bg-brand-500 text-white hover:bg-brand-700 hover:text-white focus:bg-brand-700 focus:text-white active:bg-brand-400;
 	}
 
 	.button-ghost {
 		@apply bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent;
+	}
+
+	.button-white {
+		@apply bg-white shadow-md ring-1 ring-black/5 hover:bg-gray-50 focus:bg-gray-50 active:bg-gray-100;
 	}
 
 	.button-small {
@@ -63,11 +73,13 @@
 	}
 
 	.button-icon {
-		@apply grid h-12 w-12 place-content-center p-0 text-2xl font-normal;
+		@apply grid h-12 w-12 place-content-center p-0 text-2xl font-normal text-gray-400;
 	}
+
 	.button-icon.button-small {
 		@apply h-9 w-9 text-lg;
 	}
+
 	.button-icon.button-large {
 		@apply h-16 w-16 text-4xl;
 	}
@@ -75,13 +87,19 @@
 	/* Forms */
 
 	.field {
-		@apply block w-full text-gray-400 focus-within:text-gray-900;
+		@apply block w-full text-gray-400 transition focus-within:text-gray-900;
 	}
 
 	.field span {
 		@apply mb-2 mt-4 block font-medium;
 	}
-	.field [type="text"],
+	/* 
+	.field  { */
+	.field .input {
+		@apply flex w-full gap-2 rounded-xl border border-gray-300 bg-gray-100  transition placeholder:text-gray-300 focus-within:border-brand-600 focus-within:ring-4 focus-within:ring-brand-600/30;
+	}
+
+	.field .input [type="text"],
 	[type="email"],
 	[type="url"],
 	[type="password"],
@@ -96,10 +114,39 @@
 	[multiple],
 	textarea,
 	select {
-		@apply w-full rounded-xl border-gray-300   px-4 py-[11px] text-gray-700 transition placeholder:text-gray-300 focus:border-brand-600 focus:ring-4 focus:ring-brand-600/50;
+		@apply w-full rounded-xl bg-transparent px-4 py-[11px] text-gray-700 focus:outline-none;
 	}
 }
 
-.error-banner {
+.page {
+	@apply px-4 py-6 lg:p-8;
+}
+
+.error-block {
 	@apply container min-w-max rounded-xl border-2 p-16 text-error-500;
+}
+
+.error-banner {
+	@apply inline-block rounded-lg bg-error-100 px-4 py-1 text-error-700;
+}
+
+.warning-banner {
+	@apply inline-block rounded-lg bg-warning-100 px-4 py-1 text-warning-700;
+}
+
+.success-banner {
+	@apply inline-block rounded-lg bg-success-100 px-4 py-1 text-success-700;
+}
+
+.brick {
+	@apply rounded-xl bg-white px-8 py-10 shadow-xl shadow-gray-500/30;
+}
+
+.sidebar .link {
+	/* @apply flex rounded-lg px-4 py-2 text-sm font-medium text-gray-400 transition hover:bg-gray-800 hover:text-gray-200; */
+	@apply focus-50 block rounded-lg px-2 py-2 text-sm font-medium text-gray-400 hover:bg-gray-800 hover:text-gray-200 lg:px-4;
+}
+
+.sidebar .link span {
+	@apply w-full overflow-hidden text-ellipsis whitespace-nowrap;
 }

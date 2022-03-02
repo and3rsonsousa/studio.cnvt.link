@@ -5,11 +5,12 @@ import {
 	Outlet,
 	Scripts,
 	ScrollRestoration,
+	useCatch,
+	useTransition,
 } from "remix";
 import type { MetaFunction, LinksFunction } from "remix";
 
 import styles from "./app.css";
-import { useCatch, useTransition } from "@remix-run/react";
 import { ReactChild } from "react";
 
 export const links: LinksFunction = () => {
@@ -18,11 +19,15 @@ export const links: LinksFunction = () => {
 			rel: "stylesheet",
 			href: styles,
 		},
+		{
+			rel: "favicon",
+			href: "./favicon.png",
+		},
 	];
 };
 
 export const meta: MetaFunction = () => {
-	return { title: "Remix + Cloudflare Pages + Tailwind CSS + Supabase" };
+	return { title: "STUDIO" };
 };
 
 export default function App() {
@@ -65,7 +70,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
 	return (
 		<Document>
 			<div className="grid h-screen place-content-center">
-				<div className="error-banner max-w-sm">
+				<div className="error-block max-w-sm">
 					<h1>Error</h1>
 					<p className="text-gray-700">{error.message}</p>
 					<pre className="whitespace-pre-wrap text-xs">
@@ -83,7 +88,7 @@ export function CatchBoundary() {
 	return (
 		<Document>
 			<div className="grid h-screen place-content-center">
-				<div className="error-banner max-w-sm">
+				<div className="error-block max-w-sm">
 					<h1>{caught.status}</h1>
 					<p className="text-gray-700">{caught.statusText}</p>
 					<pre className="whitespace-pre-wrap text-xs">

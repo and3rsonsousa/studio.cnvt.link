@@ -1,0 +1,60 @@
+import { ReactChild } from "react";
+
+export type ProfileType = {
+	id: number;
+	user_id: string;
+	name: string;
+	email: string;
+	image?: string;
+	role: number;
+};
+
+export type AccountType = {
+	id: number;
+	name: string;
+	slug: string;
+	user_id: string[];
+	image?: string;
+	colors?: string[];
+};
+
+export type ICampaign = {
+	id: number;
+	name: string;
+	slug: string;
+	account_id: number;
+	action_id: number;
+	created_by: string;
+	start: string;
+	end: string;
+};
+
+export type IAction = {
+	id: number;
+	name: string;
+	description: string;
+	created_by: string;
+
+	user_id: string;
+	account_id: number;
+	flow_id: number;
+	status_id: number;
+	tag_id: number;
+	campaign_id: number;
+
+	account?: AccountType;
+	flows?: IBasic;
+	status?: IBasic;
+	tags?: IBasic;
+	campaigns: ICampaign;
+
+	start: string;
+	end: string;
+	validating?: true | false;
+};
+
+export type IBasic = {
+	id: number;
+	name?: string | ReactChild;
+	slug?: string;
+};

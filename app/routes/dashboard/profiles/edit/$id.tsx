@@ -84,6 +84,8 @@ export const action: ActionFunction = async ({ request }) => {
 		}
 	});
 
+	accountsUpsert.console.log(accountsUpsert);
+
 	Promise.all([
 		supabase
 			.from("profiles")

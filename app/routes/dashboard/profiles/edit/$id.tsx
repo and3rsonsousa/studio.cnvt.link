@@ -111,7 +111,7 @@ export default function () {
 
 	return (
 		<div className="lg:order-2">
-			<div className="brick mx-auto max-w-lg p-8 lg:w-96">
+			<div className="mx-auto max-w-lg lg:w-96">
 				<h2 className="text-gray-900">Editar Usuário</h2>
 				{actionData?.data?.error && (
 					<div className="error-banner-micro flex items-center gap-4">

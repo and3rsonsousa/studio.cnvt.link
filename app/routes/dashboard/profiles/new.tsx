@@ -49,7 +49,7 @@ export default function () {
 	let actionData = useActionData();
 
 	return (
-		<div className="mx-auto max-w-lg xl:mx-0 xl:w-96">
+		<div className="mx-auto max-w-lg lg:order-2 lg:m-0 xl:mx-0 xl:w-96">
 			<h2 className="text-gray-900">Novo Usuário</h2>
 			{actionData?.auth?.error && (
 				<div className="error-banner-micro flex items-center gap-4">

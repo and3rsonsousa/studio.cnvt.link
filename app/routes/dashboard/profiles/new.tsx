@@ -1,7 +1,7 @@
 import { ActionFunction, Form, useActionData } from "remix";
 import { Input } from "~/components/Fields";
-import db from "~/lib/db";
-import { IProfile } from "~/types";
+import { supabase } from "~/lib/supabase";
+import { ProfileType } from "~/types";
 
 export const action: ActionFunction = async ({ request }) => {
 	const formData = await request.formData();
@@ -17,14 +17,14 @@ export const action: ActionFunction = async ({ request }) => {
 		};
 	}
 
-	let auth = await db.auth.signUp({
+	let auth = await supabase.auth.signUp({
 		...values,
 	});
 
-	let profile: IProfile;
+	let profile: ProfileType;
 
 	if (auth.user) {
-		let { data, error } = await db
+		let { data, error } = await supabase
 			.from("profiles")
 			.insert({
 				name: values.name,
@@ -36,7 +36,7 @@ export const action: ActionFunction = async ({ request }) => {
 		if (error) throw new Error(error.message);
 
 		profile = data;
-		let home = await db.from("home").insert({
+		let home = await supabase.from("home").insert({
 			profile_id: profile.id,
 		});
 		return { auth, profile, home };

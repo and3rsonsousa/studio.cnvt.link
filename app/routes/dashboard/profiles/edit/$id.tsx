@@ -5,12 +5,12 @@ import {
 	useActionData,
 	useLoaderData,
 } from "remix";
-import db from "~/lib/db";
+import { supabase } from "~/lib/supabase";
 import { Input } from "~/components/Fields";
-import { IProfile } from "~/types";
+import { ProfileType } from "~/types";
 
 export const loader: LoaderFunction = async ({ params }) => {
-	let { data: profile, error } = await db
+	let { data: profile, error } = await supabase
 		.from("profiles")
 		.select()
 		.match({ id: params.id })
@@ -37,7 +37,7 @@ export const action: ActionFunction = async ({ request }) => {
 		};
 	}
 
-	let { data: account, error } = await db
+	let { data: account, error } = await supabase
 		.from("profiles")
 		.update({
 			name: values.name,
@@ -51,7 +51,7 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function () {
-	let { profile }: { profile: IProfile } = useLoaderData();
+	let { profile }: { profile: ProfileType } = useLoaderData();
 	let actionData = useActionData();
 
 	return (

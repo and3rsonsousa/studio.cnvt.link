@@ -6,10 +6,13 @@ import {
 	useLoaderData,
 } from "remix";
 import { CheckBoxGroup, Input } from "~/components/Fields";
-import db from "~/lib/db";
+import { supabase } from "~/lib/supabase";
 
 export const loader: LoaderFunction = async () => {
-	let { data: profiles } = await db.from("profiles").select().order("name");
+	let { data: profiles } = await supabase
+		.from("profiles")
+		.select()
+		.order("name");
 	return { profiles };
 };
 
@@ -32,7 +35,7 @@ export const action: ActionFunction = async ({ request }) => {
 		};
 	}
 
-	let { data: account, error } = await db
+	let { data: account, error } = await supabase
 		.from("accounts")
 		.insert({
 			...values,
@@ -41,7 +44,7 @@ export const action: ActionFunction = async ({ request }) => {
 
 	if (error) throw new Error(error.message);
 
-	let home = await db.from("home").insert({
+	let home = await supabase.from("home").insert({
 		account_id: account.id,
 	});
 

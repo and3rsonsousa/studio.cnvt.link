@@ -6,12 +6,15 @@ import {
 	useLoaderData,
 	useTransition,
 } from "remix";
-import db from "~/lib/db";
-import { IAccount } from "~/types";
+import { supabase } from "~/lib/supabase";
+import { AccountType } from "~/types";
 import ListItem from "~/components/ListItem";
 
 export const loader: LoaderFunction = async () => {
-	let { data: accounts } = await db.from("accounts").select().order("name");
+	let { data: accounts } = await supabase
+		.from("accounts")
+		.select()
+		.order("name");
 
 	return { accounts };
 };
@@ -21,12 +24,12 @@ export const action: ActionFunction = async ({ request }) => {
 
 	if (!formData.get("id")) throw new Error("Campo id vazio");
 
-	let home = await db
+	let home = await supabase
 		.from("home")
 		.delete()
 		.match({ account_id: formData.get("id") as string });
 
-	let { data, error } = await db
+	let { data, error } = await supabase
 		.from("accounts")
 		.delete()
 		.match({
@@ -48,7 +51,7 @@ export default function () {
 				<h3 className="text-gray-900">Contas</h3>
 				{accounts.length ? (
 					<div>
-						{accounts.map((account: IAccount) => (
+						{accounts.map((account: AccountType) => (
 							<ListItem
 								item={account}
 								edit

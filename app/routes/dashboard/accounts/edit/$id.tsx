@@ -6,19 +6,19 @@ import {
 	useActionData,
 	useLoaderData,
 } from "remix";
-import db from "~/lib/db";
+import { supabase } from "~/lib/supabase";
 import { CheckBoxGroup, Input } from "~/components/Fields";
-import { IAccount, IProfile } from "~/types";
+import { AccountType, ProfileType } from "~/types";
 
 export const loader: LoaderFunction = async ({ params }) => {
-	let { data: account, error } = await db
+	let { data: account, error } = await supabase
 		.from("accounts")
 		.select()
 		.match({ id: params.id })
 		.single();
 	if (error) throw new Error(error.message);
 
-	let { data: profiles } = await db.from("profiles").select();
+	let { data: profiles } = await supabase.from("profiles").select();
 
 	return { account, profiles };
 };
@@ -42,7 +42,7 @@ export const action: ActionFunction = async ({ request }) => {
 		};
 	}
 
-	let { data: account, error } = await db
+	let { data: account, error } = await supabase
 		.from("accounts")
 		.update({
 			name: values.name,
@@ -58,8 +58,10 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function () {
-	let { account, profiles }: { account: IAccount; profiles: IProfile[] } =
-		useLoaderData();
+	let {
+		account,
+		profiles,
+	}: { account: AccountType; profiles: ProfileType[] } = useLoaderData();
 	let actionData = useActionData();
 
 	return (

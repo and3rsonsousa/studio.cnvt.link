@@ -1,13 +1,13 @@
 import { LoaderFunction, useLoaderData } from "remix";
-import db from "~/lib/db";
+import { supabase } from "~/lib/supabase";
 import { getSession } from "~/lib/session.server";
-import { IProfile } from "~/types";
+import { ProfileType } from "~/types";
 
 export const loader: LoaderFunction = async ({ request }) => {
 	let session = await getSession(request.headers.get("Cookie"));
 	let userId = session.get("userId");
 
-	let { data: profile } = await db
+	let { data: profile } = await supabase
 		.from("profiles")
 		.select()
 		.eq("user_id", userId)
@@ -16,7 +16,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function () {
-	let { profile }: { profile: IProfile } = useLoaderData();
+	let { profile }: { profile: ProfileType } = useLoaderData();
 	return (
 		<div>
 			<h2 className="text-gray-700">{profile.name}</h2>

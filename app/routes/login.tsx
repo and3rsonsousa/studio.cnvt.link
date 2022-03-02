@@ -26,8 +26,6 @@ export const action: ActionFunction = async ({ request }) => {
 
 	session.set("userId", auth.user.id);
 
-	console.log(session.has("userId"));
-
 	return redirect("/dashboard", {
 		headers: {
 			"Set-Cookie": await commitSession(session),

@@ -86,8 +86,6 @@ export const action: ActionFunction = async ({ request }) => {
 
 	accountsUpsert = accountsUpsert?.filter((account) => account !== undefined);
 
-	console.log(accountsUpsert);
-
 	Promise.all([
 		supabase
 			.from("profiles")

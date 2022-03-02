@@ -67,7 +67,7 @@ export default function SideBar({ links, profile }: SideBarType) {
 					</Form>
 				</div>
 			</div>
-			{/* {profile.role === 1 ? (
+			{profile.role === 1 ? (
 				<div className="mt-8 space-y-6 border-t border-gray-800 px-2 pt-4 lg:px-4">
 					<h6 className="hidden px-4 pt-4 font-bold text-gray-600 lg:block">
 						ADM
@@ -86,7 +86,6 @@ export default function SideBar({ links, profile }: SideBarType) {
 					</div>
 				</div>
 			) : null}
-		`/dashboard/account/${account.slug}` */}
 		</aside>
 	);
 }

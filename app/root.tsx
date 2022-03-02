@@ -69,11 +69,11 @@ const Document = ({ children }: { children: ReactChild }) => {
 export function ErrorBoundary({ error }: { error: Error }) {
 	return (
 		<Document>
-			<div className="grid h-screen place-content-center">
-				<div className="error-block max-w-sm">
+			<div className="p-8">
+				<div className="error-block">
 					<h1>Error</h1>
 					<p className="text-gray-700">{error.message}</p>
-					<pre className="whitespace-pre-wrap text-xs">
+					<pre className="max-w-lg whitespace-pre-line text-xs">
 						{error.stack}
 					</pre>
 				</div>

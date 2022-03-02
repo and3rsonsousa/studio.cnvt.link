@@ -123,7 +123,7 @@
 }
 
 .error-block {
-	@apply container min-w-max rounded-xl border-2 p-16 text-error-500;
+	@apply mx-auto max-w-2xl rounded-xl border-2 border-error-500 p-16 text-error-500;
 }
 
 .error-banner {

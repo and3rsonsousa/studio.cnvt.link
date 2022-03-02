@@ -7,7 +7,7 @@ import {
 	useLoaderData,
 } from "remix";
 import { supabase } from "~/lib/supabase";
-import { CheckBoxGroup, Input } from "~/components/Fields";
+import { CheckBoxGroup, Input } from "~/components/Forms/Fields";
 import { AccountType, ProfileType } from "~/types";
 
 export const loader: LoaderFunction = async ({ params }) => {

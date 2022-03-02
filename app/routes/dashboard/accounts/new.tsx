@@ -5,7 +5,7 @@ import {
 	useActionData,
 	useLoaderData,
 } from "remix";
-import { CheckBoxGroup, Input } from "~/components/Fields";
+import { CheckBoxGroup, Input } from "~/components/Forms/Fields";
 import { supabase } from "~/lib/supabase";
 
 export const loader: LoaderFunction = async () => {

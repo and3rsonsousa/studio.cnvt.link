@@ -42,7 +42,7 @@ export default function ListItem({
 					<input type="hidden" value={item.id} name="id" />
 					{edit && (
 						<Link
-							className="  text-gray-300 transition hover:text-gray-500"
+							className="button button-icon button-small button-ghost"
 							to={`/dashboard/${model}/edit/${item.id}`}
 						>
 							<BsFillPencilFill />
@@ -51,7 +51,7 @@ export default function ListItem({
 					{del && (
 						<button
 							type="submit"
-							className=" text-gray-300 transition hover:text-gray-500"
+							className="button button-icon button-small button-ghost"
 							name="_action"
 							value="delete"
 						>

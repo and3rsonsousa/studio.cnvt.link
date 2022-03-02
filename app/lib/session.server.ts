@@ -25,6 +25,8 @@ export { getSession, commitSession, destroySession };
 
 export async function logout(request: Request) {
 	let session = await getSession(request.headers.get("Cookie"));
+	console.log("fazer logout");
+
 	return redirect("/dashboard", {
 		headers: {
 			"Set-Cookie": await destroySession(session),

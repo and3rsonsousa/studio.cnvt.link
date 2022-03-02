@@ -7,6 +7,8 @@ export type ProfileType = {
 	email: string;
 	image?: string;
 	role: number;
+	account_id: number;
+	accounts: AccountType[];
 };
 
 export type AccountType = {
@@ -43,9 +45,9 @@ export type IAction = {
 	campaign_id: number;
 
 	account?: AccountType;
-	flows?: IBasic;
-	status?: IBasic;
-	tags?: IBasic;
+	flows?: BasicType;
+	status?: BasicType;
+	tags?: BasicType;
 	campaigns: ICampaign;
 
 	start: string;
@@ -53,7 +55,7 @@ export type IAction = {
 	validating?: true | false;
 };
 
-export type IBasic = {
+export type BasicType = {
 	id: number;
 	name?: string | ReactChild;
 	slug?: string;

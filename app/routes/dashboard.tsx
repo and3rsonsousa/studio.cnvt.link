@@ -10,24 +10,26 @@ export const loader: LoaderFunction = async ({ request }) => {
 	if (!session.has("userId")) return redirect("/login");
 	let userId = session.get("userId");
 
-	let { data: accounts } = await supabase
-		.from("accounts")
-		.select()
-		.contains("user_id", [userId])
-		.order("name");
+	let data = await Promise.all([
+		supabase.from("profiles").select("*").eq("user_id", userId).single(),
+		supabase
+			.from("accounts")
+			.select("*")
+			.contains("user_id", [userId])
+			.order("name"),
+	]);
 
-	let { data: profile } = await supabase
-		.from("profiles")
-		.select()
-		.eq("user_id", userId)
-		.single();
+	let { data: profile } = data[0];
+	let { data: accounts, error } = data[1];
 
-	return { accounts, profile };
+	if (error) throw new Error(error.message);
+
+	return { profile, accounts };
 };
 
 export default function () {
-	let { accounts, profile } =
-		useLoaderData<{ accounts: AccountType[]; profile: ProfileType }>();
+	let { profile, accounts } =
+		useLoaderData<{ profile: ProfileType; accounts: AccountType[] }>();
 	let links: LinkType[] = accounts.map((account) => ({
 		name: account.name,
 		url: `/dashboard/account/${account.slug}`,
@@ -37,7 +39,7 @@ export default function () {
 			<SideBar links={links} profile={profile} />
 
 			<article className="flex-1 px-4 py-6 lg:p-8">
-				<Outlet context={{ accounts, profile }} />
+				<Outlet context={{ profile }} />
 			</article>
 		</div>
 	);

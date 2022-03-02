@@ -2,7 +2,7 @@ import { Form, Link } from "remix";
 import { AccountType, ProfileType } from "~/types";
 import { HiOutlineUsers } from "react-icons/hi";
 import { MdWorkOutline } from "react-icons/md";
-import Avatar, { AvatarType } from "~/components/Avatar";
+import Avatar from "~/components/Avatar";
 
 export type LinkType = { name: string; url: string };
 
@@ -13,7 +13,7 @@ type SideBarType = {
 
 export default function SideBar({ links, profile }: SideBarType) {
 	return (
-		<aside className="sidebar border-r bg-gray-900 py-8 lg:w-52 ">
+		<aside className="sidebar  bg-gray-900 py-8 lg:w-52 ">
 			<div className="space-y-6 px-2 lg:px-4">
 				<Link
 					to="/dashboard"

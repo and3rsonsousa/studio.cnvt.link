@@ -12,8 +12,9 @@ export default function () {
 	let { data } = useLoaderData();
 
 	return (
-		<div className="g-gray-100 flex min-h-screen w-full flex-col justify-start gap-16 xl:flex-row">
-			<div className="mx-auto max-w-lg xl:mx-0 xl:w-96">
+		<div className="g-gray-100 flex min-h-screen w-full flex-col justify-start gap-16 lg:flex-row">
+			<Outlet />
+			<div className="mx-auto lg:order-1 lg:mx-0 xl:w-96">
 				<h3 className="text-gray-900">Usuários</h3>
 				{data.length ? (
 					<div>
@@ -35,8 +36,6 @@ export default function () {
 					</div>
 				)}
 			</div>
-
-			<Outlet />
 		</div>
 	);
 }

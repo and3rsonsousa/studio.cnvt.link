@@ -11,10 +11,12 @@ import { AccountType } from "~/types";
 import ListItem from "~/components/ListItem";
 
 export const loader: LoaderFunction = async () => {
-	let { data: accounts } = await supabase
+	let { data: accounts, error } = await supabase
 		.from("accounts")
 		.select()
 		.order("name");
+
+	if (error) throw new Error(error.message);
 
 	return { accounts };
 };
@@ -57,6 +59,7 @@ export default function () {
 								edit
 								del
 								model="accounts"
+								key={account.id}
 							/>
 						))}
 					</div>

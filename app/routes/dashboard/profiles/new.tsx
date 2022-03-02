@@ -1,5 +1,5 @@
 import { ActionFunction, Form, useActionData } from "remix";
-import { Input } from "~/components/Fields";
+import { Input } from "~/components/Forms/Fields";
 import { supabase } from "~/lib/supabase";
 import { ProfileType } from "~/types";
 

@@ -1,15 +1,15 @@
-import { Fragment, ReactChild, useRef, useState } from "react";
-import { Listbox, Menu } from "@headlessui/react";
-import { IBasic } from "~/types";
-import { HiCheckCircle } from "react-icons/hi";
+import { Listbox } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
-import { menu } from "~/lib/animations";
+import { Fragment, ReactChild, useState } from "react";
+import { HiCheckCircle } from "react-icons/hi";
 import { Form } from "remix";
+import { menu } from "~/lib/animations";
+import { BasicType } from "~/types";
 
 type ListboxProps = {
 	action_id: number;
-	values: Array<IBasic>;
-	selected?: IBasic;
+	values: Array<BasicType>;
+	selected?: BasicType;
 	start?: boolean;
 	end?: boolean;
 	indicator?: boolean | ReactChild;
@@ -18,12 +18,16 @@ type ListboxProps = {
 	table: string;
 };
 
-let listboxButtonClasses = (slug: string, start?: boolean, end?: boolean) =>
+export let listboxButtonClasses = (
+	slug: string,
+	start?: boolean,
+	end?: boolean
+) =>
 	`text-xx relative w-full inline-block bg-gray-200 py-0.5 px-2 font-semibold uppercase relative tracking-wide transition-all overflow-hidden text-ellipsis whitespace-nowrap duration-300 focus:z-10 focus:border-interdimensional focus:outline-none focus:ring-4 focus:ring-interdimensional/30 ${
 		start ? "rounded-l-full pl-3" : ""
 	} ${end ? "rounded-r-full pr-3" : ""} ${slug}-bg`;
 
-let listboxOptionsClasses = (
+export let listboxOptionsClasses = (
 	start?: boolean,
 	end?: boolean,
 	columns?: 2 | 3
@@ -40,7 +44,7 @@ let listboxOptionsClasses = (
 	} ${columns ? columns_classes[columns] : ""}`;
 };
 
-let listboxOptionClasses = (active: boolean, selected: boolean) =>
+export let listboxOptionClasses = (active: boolean, selected: boolean) =>
 	`flex cursor-pointer items-center gap-2 rounded-md py-2 px-3 transition hover:bg-gray-500/20 ${
 		active ? "bg-gray-500/20" : ""
 	}`;
@@ -151,30 +155,5 @@ export const ListBox = ({
 				)}
 			</Listbox>
 		</div>
-	);
-};
-
-type DropdownProps = {
-	values: Array<IBasic>;
-	name: string | ReactChild;
-};
-
-export const Dropdown = ({ values, name }: DropdownProps) => {
-	return (
-		<Menu as={"div"} className="relative">
-			<Menu.Button>{name}</Menu.Button>
-			<Menu.Items
-				className={`${listboxOptionsClasses()} right-0 left-auto`}
-			>
-				{values.map((value) => (
-					<button
-						className={listboxOptionClasses(false, false)}
-						key={value.id}
-					>
-						{value.name}
-					</button>
-				))}
-			</Menu.Items>
-		</Menu>
 	);
 };

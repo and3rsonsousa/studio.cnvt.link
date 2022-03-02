@@ -78,13 +78,15 @@ export const action: ActionFunction = async ({ request }) => {
 			return {
 				...account,
 				user_id: account.user_id
-					? account.user_id.push(values.user_id)
+					? [...account.user_id, values.user_id]
 					: [values.user_id],
 			};
 		}
 	});
 
-	accountsUpsert.console.log(accountsUpsert);
+	accountsUpsert = accountsUpsert?.filter((account) => account !== undefined);
+
+	console.log(accountsUpsert);
 
 	Promise.all([
 		supabase
@@ -95,13 +97,7 @@ export const action: ActionFunction = async ({ request }) => {
 			.eq("id", formData.get("id"))
 			.single(),
 		accountsUpsert != undefined
-			? supabase
-					.from("accounts")
-					.upsert(
-						accountsUpsert.filter(
-							(accounts) => accounts != undefined
-						)
-					)
+			? supabase.from("accounts").upsert(accountsUpsert)
 			: null,
 	]);
 

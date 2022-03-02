@@ -1,14 +1,11 @@
 import { LoaderFunction, Outlet, redirect, useLoaderData } from "remix";
 import SideBar, { LinkType } from "~/components/SideBar";
 import { supabase } from "~/lib/supabase";
-import { getSession } from "~/lib/session.server";
+import { getSession, getUserId } from "~/lib/session.server";
 import { AccountType, ProfileType } from "~/types";
 
 export const loader: LoaderFunction = async ({ request }) => {
-	let session = await getSession(request.headers.get("Cookie"));
-
-	if (!session.has("userId")) return redirect("/login");
-	let userId = session.get("userId");
+	let userId = await getUserId(request);
 
 	let data = await Promise.all([
 		supabase.from("profiles").select("*").eq("user_id", userId).single(),
@@ -39,7 +36,7 @@ export default function () {
 			<SideBar links={links} profile={profile} />
 
 			<article className="flex-1 px-4 py-6 lg:p-8">
-				<Outlet context={{ profile }} />
+				<Outlet context={{ profile, accounts }} />
 			</article>
 		</div>
 	);

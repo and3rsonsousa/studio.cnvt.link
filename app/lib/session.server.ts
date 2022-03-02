@@ -32,3 +32,11 @@ export async function logout(request: Request) {
 		},
 	});
 }
+
+export async function getUserId(request: Request) {
+	let session = await getSession(request.headers.get("Cookie"));
+
+	if (!session.has("userId")) return redirect("/login");
+	let userId = session.get("userId");
+	return userId;
+}

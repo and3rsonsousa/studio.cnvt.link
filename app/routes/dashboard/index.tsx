@@ -8,12 +8,17 @@ import { AccountType, ProfileType } from "~/types";
 
 export const loader: LoaderFunction = async ({ request }) => {
 	let userId = await getUserId(request);
-	let { data: actions } = await supabase
+	let { data: accounts } = await supabase
 		.from("accounts")
 		.select("*, actions(*)")
 		.contains("user_id", [userId]);
 
-	let { data: profiles } = await supabase.from("profiles").select("*");
+	let user_ids = accounts?.map((account) => account.user_id).flat() || [];
+
+	let { data: profiles } = await supabase
+		.from("profiles")
+		.select("*")
+		.in("user_id", user_ids);
 
 	return { profiles };
 };

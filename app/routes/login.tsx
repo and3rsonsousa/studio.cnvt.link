@@ -72,6 +72,7 @@ export default function () {
 								type={passowrdVisible ? "text" : "password"}
 								name="password"
 								placeholder="Sua senha"
+								className="rounded-r-none"
 							/>
 							<button
 								type="button"

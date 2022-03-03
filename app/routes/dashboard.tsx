@@ -5,7 +5,8 @@ import { getSession, getUserId } from "~/lib/session.server";
 import { AccountType, ProfileType } from "~/types";
 
 export const loader: LoaderFunction = async ({ request }) => {
-	let userId = await getUserId(request);
+	let userId: string = await getUserId(request);
+	if (!userId) return redirect("/login");
 
 	let data = await Promise.all([
 		supabase.from("profiles").select("*").eq("user_id", userId).single(),

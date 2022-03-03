@@ -152,7 +152,7 @@
 	}
 
 	[type="checkbox"] {
-		@apply rounded-sm;
+		@apply rounded;
 	}
 
 	[type="radio"] {

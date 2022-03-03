@@ -4,7 +4,7 @@ import { LoaderFunction, useLoaderData, useOutletContext } from "remix";
 import AddAction from "~/components/AddAction";
 import { getUserId } from "~/lib/session.server";
 import { supabase } from "~/lib/supabase";
-import { AccountType, ProfileType } from "~/types";
+import { AccountType, ActionType, ProfileType } from "~/types";
 
 export const loader: LoaderFunction = async ({ request }) => {
 	let userId = await getUserId(request);
@@ -14,13 +14,14 @@ export const loader: LoaderFunction = async ({ request }) => {
 		.contains("user_id", [userId]);
 
 	let user_ids = accounts?.map((account) => account.user_id).flat() || [];
+	let actions:ActionType = 
 
 	let { data: profiles } = await supabase
 		.from("profiles")
 		.select("*")
 		.in("user_id", user_ids);
 
-	return { profiles };
+	return { profiles, accounts };
 };
 export default function () {
 	let data = useLoaderData();

@@ -31,7 +31,7 @@ export type ICampaign = {
 	end: string;
 };
 
-export type IAction = {
+export type ActionType = {
 	id: number;
 	name: string;
 	description: string;

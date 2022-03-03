@@ -9,10 +9,14 @@ import { CheckBoxGroup, Input } from "~/components/Forms/Fields";
 import { supabase } from "~/lib/supabase";
 
 export const loader: LoaderFunction = async () => {
-	let { data: profiles } = await supabase
+	let { data: profiles, error } = await supabase
 		.from("profiles")
 		.select()
 		.order("name");
+	console.log(profiles);
+
+	if (error) throw new Error(error.message);
+
 	return { profiles };
 };
 
@@ -70,7 +74,7 @@ export default function () {
 				<CheckBoxGroup
 					label="Usuários"
 					name="user_id"
-					values={profiles}
+					items={profiles}
 				/>
 				<div className="mt-8 text-right">
 					<button

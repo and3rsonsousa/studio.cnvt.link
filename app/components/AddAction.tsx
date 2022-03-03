@@ -53,27 +53,28 @@ export default function ({
 				<Form method="post" name="new_action" id="new_action">
 					{/* Usuário que está criando */}
 					<input type="hidden" value={userId} name="created_by" />
+					<input type="hidden" value={userId} name="user_id" />
 					{actionData?.error ? (
-						<div className="error-banner-micro mt-8">
+						<div className="error-banner mt-8">
 							{actionData.error.message}
 						</div>
 					) : null}
-					<div className={largeForm ? "" : "hidden"}>
-						<SelectField
-							label="campaign_id"
-							values={campaigns}
-							name="Campanha"
-						/>
-					</div>
 					<Input label="Título" name="name" type="text" />
+					{largeForm && (
+						<>
+							<SelectField
+								label="campaign_id"
+								values={campaigns}
+								name="Campanha"
+							/>
 
-					<div className={largeForm ? "" : "hidden"}>
-						<Input
-							label="Descrição"
-							name="description"
-							type="textarea"
-						/>
-					</div>
+							<Input
+								label="Descrição"
+								name="description"
+								type="textarea"
+							/>
+						</>
+					)}
 
 					<motion.div layout>
 						<RadioGroup
@@ -86,49 +87,51 @@ export default function ({
 							columns={largeForm ? 3 : 2}
 						/>
 					</motion.div>
-					<div className={largeForm ? "" : "hidden"}>
-						<RadioGroup
-							label="Responsável"
-							name="user_id"
-							items={profiles.map((profile) => ({
-								id: profile.id,
-								name: profile.name,
-								value: profile.user_id,
-							}))}
-							selected={userId}
-							columns={largeForm ? 3 : 2}
-						/>
-						<RadioGroup
-							label="Fluxo"
-							name="flow_id"
-							items={flows.map((flow) => ({
-								id: flow.id,
-								name: flow.name,
-							}))}
-							selected={1}
-							columns={largeForm ? 3 : 2}
-						/>
-						<RadioGroup
-							label="Status"
-							name="status_id"
-							items={steps.map((step) => ({
-								id: step.id,
-								name: step.name,
-							}))}
-							selected={1}
-							columns={largeForm ? 3 : 2}
-						/>
-						<RadioGroup
-							label="Tags"
-							name="tag_id"
-							items={tags.map((tag) => ({
-								id: tag.id,
-								name: tag.name,
-							}))}
-							selected={1}
-							columns={largeForm ? 3 : 2}
-						/>
-					</div>
+					{largeForm && (
+						<>
+							<RadioGroup
+								label="Responsável"
+								name="user_id"
+								items={profiles.map((profile) => ({
+									id: profile.id,
+									name: profile.name,
+									value: profile.user_id,
+								}))}
+								selected={userId}
+								columns={largeForm ? 3 : 2}
+							/>
+							<RadioGroup
+								label="Fluxo"
+								name="flow_id"
+								items={flows.map((flow) => ({
+									id: flow.id,
+									name: flow.name,
+								}))}
+								selected={1}
+								columns={largeForm ? 3 : 2}
+							/>
+							<RadioGroup
+								label="Status"
+								name="step_id"
+								items={steps.map((step) => ({
+									id: step.id,
+									name: step.name,
+								}))}
+								selected={1}
+								columns={largeForm ? 3 : 2}
+							/>
+							<RadioGroup
+								label="Tags"
+								name="tag_id"
+								items={tags.map((tag) => ({
+									id: tag.id,
+									name: tag.name,
+								}))}
+								selected={1}
+								columns={largeForm ? 3 : 2}
+							/>
+						</>
+					)}
 
 					<div
 						className={`${

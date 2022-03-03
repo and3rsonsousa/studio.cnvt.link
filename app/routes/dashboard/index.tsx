@@ -1,14 +1,17 @@
 import dayjs from "dayjs";
 import { AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HiPlus } from "react-icons/hi";
 import {
+	ActionFunction,
 	LoaderFunction,
 	useActionData,
 	useLoaderData,
 	useOutletContext,
+	useTransition,
 } from "remix";
 import AddAction from "~/components/AddAction";
+import { handleDelete, handleUpdate } from "~/lib/actions.server";
 import { getUserId } from "~/lib/session.server";
 import { supabase } from "~/lib/supabase";
 import { AccountType, ActionType, ProfileType } from "~/types";
@@ -60,12 +63,59 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 	return { profiles, accounts, actions, userId, campaigns };
 };
-export default function () {
+
+export const action: ActionFunction = async ({ request }) => {
+	const formData = await request.formData();
+
+	let values = Object.fromEntries(formData);
+
+	if (values?.action === "update") {
+		let updated = handleUpdate(
+			values.table as string,
+			values,
+			values.id as string
+		);
+		return updated;
+	} else if (values?.action === "delete") {
+		let deleted = handleDelete(
+			values.table as string,
+			values,
+			values.id as string
+		);
+		return deleted;
+	}
+
+	console.log(values);
+	if (values.name === "" || values.name === undefined) {
+		return {
+			error: { message: "Insira um título na sua ação." },
+		};
+	}
+
+	if (values.account_id === undefined) {
+		return {
+			error: { message: "Defina um cliente para essa ação." },
+		};
+	}
+
+	let newAction = await supabase.from("actions").insert({
+		...values,
+		campaign_id: values.campaign_id === "" ? null : values.campaign_id,
+	});
+
+	return newAction;
+};
+
+export default function DashboardIndex() {
 	let data = useLoaderData();
 	let actionData = useActionData();
 	let { profile } = useOutletContext<{ profile: ProfileType }>();
 	let [showAddActionForm, set_showAddActionForm] = useState(true);
 	let { profiles, accounts, actions, userId, campaigns } = data;
+
+	// useEffect(()=> {
+
+	// }, [])
 
 	return (
 		<>

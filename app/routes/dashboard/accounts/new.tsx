@@ -5,15 +5,15 @@ import {
 	useActionData,
 	useLoaderData,
 } from "remix";
-import { CheckBoxGroup, Input } from "~/components/Forms/Fields";
+import { CheckboxGroup, Input } from "~/components/Forms/";
 import { supabase } from "~/lib/supabase";
+import { ProfileType } from "~/types";
 
 export const loader: LoaderFunction = async () => {
 	let { data: profiles, error } = await supabase
 		.from("profiles")
-		.select()
+		.select("*")
 		.order("name");
-	console.log(profiles);
 
 	if (error) throw new Error(error.message);
 
@@ -56,7 +56,7 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function () {
-	let { profiles } = useLoaderData();
+	let { profiles } = useLoaderData<{ profiles: ProfileType[] }>();
 	let actionData = useActionData();
 
 	return (
@@ -71,10 +71,14 @@ export default function () {
 			<Form method="post">
 				<Input label="Nome" type="text" name="name" />
 				<Input label="Slug" type="text" name="slug" />
-				<CheckBoxGroup
+				<CheckboxGroup
 					label="Usuários"
 					name="user_id"
-					items={profiles}
+					items={profiles.map((profile) => ({
+						id: profile.id,
+						name: profile.name,
+						value: profile.user_id,
+					}))}
 				/>
 				<div className="mt-8 text-right">
 					<button

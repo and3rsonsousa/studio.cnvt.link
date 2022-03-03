@@ -7,8 +7,9 @@ import {
 	useLoaderData,
 } from "remix";
 import { supabase } from "~/lib/supabase";
-import { CheckBoxGroup, Input } from "~/components/Forms/Fields";
+import { CheckboxGroup, Input } from "~/components/Forms";
 import { AccountType, ProfileType } from "~/types";
+import profile from "../../profile";
 
 export const loader: LoaderFunction = async ({ params }) => {
 	let { data: account, error } = await supabase
@@ -87,10 +88,14 @@ export default function () {
 							name="slug"
 							value={account.slug}
 						/>
-						<CheckBoxGroup
+						<CheckboxGroup
 							label="Usuários"
 							name="user_id"
-							values={profiles}
+							items={profiles.map((profile) => ({
+								id: profile.id,
+								name: profile.name,
+								value: profile.user_id,
+							}))}
 							selected={account.user_id}
 						/>
 						<div className="mt-8 text-right">

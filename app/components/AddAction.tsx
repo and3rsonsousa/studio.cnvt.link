@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { BiExpand, BiCollapse } from "react-icons/bi";
 import { Form } from "remix";
-import { Input, RadioGroup, SelectField } from "~/components/Forms/Fields";
+import { Input, RadioGroup, SelectField } from "~/components/Forms";
 import { popup } from "~/lib/animations";
 import { flows, steps, tags } from "~/lib/data";
 import { AccountType, ICampaign, ProfileType } from "~/types";

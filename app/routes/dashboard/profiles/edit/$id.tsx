@@ -6,7 +6,7 @@ import {
 	useLoaderData,
 } from "remix";
 import { supabase } from "~/lib/supabase";
-import { CheckBoxGroup, Input } from "~/components/Forms/Fields";
+import { CheckboxGroup, Input } from "~/components/Forms";
 import { AccountType, ProfileType } from "~/types";
 
 export const loader: LoaderFunction = async ({ params }) => {
@@ -132,11 +132,13 @@ export default function () {
 						value={profile.name}
 					/>
 
-					<CheckBoxGroup
+					<CheckboxGroup
 						label="Clientes"
 						name="accounts"
-						values={accounts}
-						value="id"
+						items={accounts.map((account) => ({
+							id: account.id,
+							name: account.name,
+						}))}
 						selected={[profile.user_id]}
 					/>
 

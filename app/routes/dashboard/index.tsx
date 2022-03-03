@@ -85,7 +85,6 @@ export const action: ActionFunction = async ({ request }) => {
 		return deleted;
 	}
 
-	console.log(values);
 	if (values.name === "" || values.name === undefined) {
 		return {
 			error: { message: "Insira um título na sua ação." },

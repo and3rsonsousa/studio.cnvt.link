@@ -75,7 +75,7 @@ export default function () {
 							/>
 							<button
 								type="button"
-								className="button button-icon button-ghost w-14  flex-shrink-0 rounded-l-none"
+								className="button button-icon button-ghost w-14  flex-shrink-0 rounded-l-none rounded-r-xl"
 								onClick={() => showPassword(!passowrdVisible)}
 							>
 								<HiOutlineLockClosed />

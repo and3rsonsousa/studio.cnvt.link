@@ -3,8 +3,6 @@ import { supabase } from "~/lib/supabase";
 export const handleUpdate = async (table: string, values: any, id: string) => {
 	let obj: any = {};
 
-	// console.log(id);
-
 	for (const key in values) {
 		if (Object.prototype.hasOwnProperty.call(values, key)) {
 			if (key != "id" && key != "table" && key != "action") {

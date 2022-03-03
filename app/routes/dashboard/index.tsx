@@ -1,33 +1,71 @@
+import dayjs from "dayjs";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { LoaderFunction, useLoaderData, useOutletContext } from "remix";
+import { HiPlus } from "react-icons/hi";
+import {
+	LoaderFunction,
+	useActionData,
+	useLoaderData,
+	useOutletContext,
+} from "remix";
 import AddAction from "~/components/AddAction";
 import { getUserId } from "~/lib/session.server";
 import { supabase } from "~/lib/supabase";
 import { AccountType, ActionType, ProfileType } from "~/types";
 
 export const loader: LoaderFunction = async ({ request }) => {
+	//Returns the user ID
 	let userId = await getUserId(request);
+	// Returns 'accounts'
 	let { data: accounts } = await supabase
 		.from("accounts")
 		.select("*, actions(*)")
-		.contains("user_id", [userId]);
+		.contains("user_id", [userId])
+		.order("name");
 
-	let user_ids = accounts?.map((account) => account.user_id).flat() || [];
-	let actions:ActionType = 
+	// Set 'actions' array and returns/flats the user_id's in accounts array
+	// also set the 'actions' array with the values.
+	let actions: ActionType[] = [];
+	let account_ids: number[] = [];
+	let user_ids =
+		accounts
+			?.map((account: AccountType) => {
+				account.actions?.map((action) => {
+					actions.push({
+						...action,
+						start: action.start ?? dayjs(action.start),
+						end: dayjs(action.end),
+					});
+				});
+				account_ids.push(account.id);
+				return account.user_id;
+			})
+			.flat() || [];
 
+	//Returns profiles
 	let { data: profiles } = await supabase
 		.from("profiles")
 		.select("*")
-		.in("user_id", user_ids);
+		.in("user_id", user_ids)
+		.order("name");
 
-	return { profiles, accounts };
+	let { data: campaigns } = await supabase
+		.from("campaigns")
+		.select("*")
+		.in("account_id", account_ids)
+		.order("name");
+
+	//Order the actions by 'end' date
+	actions = actions.sort((a, b) => dayjs(a.end).diff(b.end));
+
+	return { profiles, accounts, actions, userId, campaigns };
 };
 export default function () {
 	let data = useLoaderData();
-	let { profile, accounts } =
-		useOutletContext<{ profile: ProfileType; accounts: AccountType[] }>();
-	let [showAddActionForm, set_showAddActionForm] = useState(false);
+	let actionData = useActionData();
+	let { profile } = useOutletContext<{ profile: ProfileType }>();
+	let [showAddActionForm, set_showAddActionForm] = useState(true);
+	let { profiles, accounts, actions, userId, campaigns } = data;
 
 	return (
 		<>
@@ -54,8 +92,22 @@ export default function () {
 					sit dicta doloremque tempore eos iusto ad ducimus debitis
 					nisi vitae nobis inventore. Quaerat, id?
 				</p>
+				<div className="fixed bottom-8 right-8">
+					<button
+						onClick={() =>
+							set_showAddActionForm(() => !showAddActionForm)
+						}
+						className="button-primary focus:ring-interdimensional/30 grid h-12 w-12 place-content-center rounded-full transition-all duration-300 focus:ring-4 active:translate-y-0.5"
+					>
+						<HiPlus
+							className={`text-3xl transition duration-500 ${
+								showAddActionForm ? "-rotate-45" : ""
+							}`}
+						/>
+					</button>
+				</div>
 			</div>
-			{/* <AnimatePresence>
+			<AnimatePresence>
 				{showAddActionForm && (
 					<AddAction
 						data={{
@@ -67,7 +119,7 @@ export default function () {
 						}}
 					/>
 				)}
-			</AnimatePresence> */}
+			</AnimatePresence>
 		</>
 	);
 }

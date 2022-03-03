@@ -7,14 +7,14 @@ export let popup = {
 		scale: 1,
 		opacity: 1,
 		transition: {
-			ease: "backOut",
+			ease: "easeOut",
 		},
 	},
 	exit: {
 		scale: 0.8,
 		opacity: 0,
 		transition: {
-			ease: "backIn",
+			ease: "easeOut",
 		},
 	},
 };

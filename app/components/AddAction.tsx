@@ -3,15 +3,15 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { BiExpand, BiCollapse } from "react-icons/bi";
 import { Form } from "remix";
-import { Input, RadioGroup, SelectField } from "~/components/Fields";
+import { Input, RadioGroup, SelectField } from "~/components/Forms/Fields";
 import { popup } from "~/lib/animations";
 import { flows, steps, tags } from "~/lib/data";
-import { IAccount, ICampaign, IProfile } from "~/types";
+import { AccountType, ICampaign, ProfileType } from "~/types";
 
 type AddActionsProps = {
 	data: {
-		accounts: IAccount[];
-		profiles: IProfile[];
+		accounts: AccountType[];
+		profiles: ProfileType[];
 		userId: string;
 		actionData: any;
 		campaigns: ICampaign[];
@@ -79,37 +79,52 @@ export default function ({
 						<RadioGroup
 							label="Cliente"
 							name="account_id"
-							values={accounts}
+							items={accounts.map((account) => ({
+								id: account.id,
+								name: account.name,
+							}))}
 							columns={largeForm ? 3 : 2}
 						/>
 					</motion.div>
-
 					<div className={largeForm ? "" : "hidden"}>
 						<RadioGroup
 							label="Responsável"
 							name="user_id"
-							values={profiles}
+							items={profiles.map((profile) => ({
+								id: profile.id,
+								name: profile.name,
+								value: profile.user_id,
+							}))}
 							selected={userId}
 							columns={largeForm ? 3 : 2}
 						/>
 						<RadioGroup
 							label="Fluxo"
 							name="flow_id"
-							values={flows}
+							items={flows.map((flow) => ({
+								id: flow.id,
+								name: flow.name,
+							}))}
 							selected={1}
 							columns={largeForm ? 3 : 2}
 						/>
 						<RadioGroup
 							label="Status"
 							name="status_id"
-							values={steps}
+							items={steps.map((step) => ({
+								id: step.id,
+								name: step.name,
+							}))}
 							selected={1}
 							columns={largeForm ? 3 : 2}
 						/>
 						<RadioGroup
 							label="Tags"
 							name="tag_id"
-							values={tags}
+							items={tags.map((tag) => ({
+								id: tag.id,
+								name: tag.name,
+							}))}
 							selected={1}
 							columns={largeForm ? 3 : 2}
 						/>
@@ -122,7 +137,7 @@ export default function ({
 					>
 						<div className={largeForm ? "" : "hidden"}>
 							<Input
-								label="Data de Inicio"
+								label="Data de Início"
 								name="start"
 								type="date"
 								value={today.format("YYYY-MM-DD")}

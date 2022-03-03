@@ -16,8 +16,7 @@ export interface InputProps {
 export interface CheckBoxGroupProps {
 	label: string;
 	name: string;
-	values: ProfileType[] | AccountType[];
-	value?: string;
+	items: [{ id: number; name: string; value: string | number }];
 	selected?: string[];
 	columns?: number;
 }
@@ -25,11 +24,7 @@ export interface CheckBoxGroupProps {
 export interface RadioGroupProps {
 	label: string;
 	name: string;
-	values: Array<{
-		id?: number | string;
-		user_id?: string | string[];
-		name: string;
-	}>;
+	items: Array<{ id: number; name: string; value?: string | number }>;
 	selected?: string | number;
 	columns?: number;
 }
@@ -63,8 +58,7 @@ export const Input = ({ label, type, name, value }: InputProps) => {
 export const CheckBoxGroup = ({
 	label,
 	name,
-	values,
-	value,
+	items,
 	selected = [],
 	columns = 2,
 }: CheckBoxGroupProps) => {
@@ -76,25 +70,25 @@ export const CheckBoxGroup = ({
 					columns === 2 ? "grid-cols-2" : "grid-cols-3"
 				} space-y-2 md:grid md:gap-4 md:space-y-0`}
 			>
-				{values.map((_value) => (
-					<label key={_value.id}>
+				{items.map((item) => (
+					<label key={item.id}>
 						<input
 							type="checkbox"
 							name={name}
-							value={value ? _value[value] : _value.user_id}
-							defaultChecked={
-								selected
-									? selected.filter((id) =>
-											Array.isArray(_value.user_id)
-												? _value.user_id.filter(
-														(user) => user === id
-												  ).length > 0
-												: id === _value.user_id
-									  ).length > 0
-									: false
-							}
+							value={item.value}
+							// defaultChecked={
+							// 	selected
+							// 		? selected.filter((id) =>
+							// 				Array.isArray(item.user_id)
+							// 					? item.user_id.filter(
+							// 							(user) => user === id
+							// 					  ).length > 0
+							// 					: id === item.user_id
+							// 		  ).length > 0
+							// 		: false
+							// }
 						/>
-						<span>{_value.name}</span>
+						<span>{item.name}</span>
 					</label>
 				))}
 			</div>
@@ -105,34 +99,34 @@ export const CheckBoxGroup = ({
 export const RadioGroup = ({
 	label,
 	name,
-	values,
+	items,
 	selected,
 	columns = 2,
 }: RadioGroupProps) => {
 	return (
-		<fieldset className="field">
+		<fieldset className="field-group">
 			<span>{label}</span>
 			<div
 				className={`${
 					columns === 2 ? "grid-cols-2" : "grid-cols-3"
 				} space-y-2 md:grid md:gap-4 md:space-y-0`}
 			>
-				{values.map((value) => (
-					<label className="field-inline" key={value.id}>
+				{items.map((item) => (
+					<label className="field-inline" key={item.id}>
 						<input
 							type="radio"
 							name={name}
-							value={value.user_id || value.id}
+							value={item.value ?? item.id}
 							defaultChecked={
-								value.user_id
-									? selected === value.user_id
-									: selected === value.id
+								item.value
+									? selected === item.value
+									: selected === item.id
 							}
 						/>
 						<span
 							className={`w-full overflow-hidden text-ellipsis whitespace-nowrap`}
 						>
-							{value.name}
+							{item.name}
 						</span>
 					</label>
 				))}
@@ -144,14 +138,16 @@ export const RadioGroup = ({
 export const SelectField = ({ label, name, values, selected }: SelectProps) => (
 	<div className="field">
 		<span>{name}</span>
-		<select name={label}>
-			<option></option>
-			{values.map((item) => (
-				<option value={item.id} key={item.id}>
-					{item.name}
-				</option>
-			))}
-		</select>
+		<div className="input">
+			<select name={label}>
+				<option></option>
+				{values.map((item) => (
+					<option value={item.id} key={item.id}>
+						{item.name}
+					</option>
+				))}
+			</select>
+		</div>
 	</div>
 );
 

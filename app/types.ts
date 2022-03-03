@@ -1,3 +1,4 @@
+import { Dayjs } from "dayjs";
 import { ReactChild } from "react";
 
 export type ProfileType = {
@@ -18,6 +19,7 @@ export type AccountType = {
 	user_id: string[];
 	image?: string;
 	colors?: string[];
+	actions?: ActionType[];
 };
 
 export type ICampaign = {
@@ -50,8 +52,8 @@ export type ActionType = {
 	tags?: BasicType;
 	campaigns: ICampaign;
 
-	start: string;
-	end: string;
+	start?: string | Dayjs;
+	end: string | Dayjs;
 	validating?: true | false;
 };
 

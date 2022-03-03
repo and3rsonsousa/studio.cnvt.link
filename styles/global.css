@@ -87,16 +87,16 @@
 	/* Forms */
 
 	.field {
-		@apply block w-full text-gray-400 transition focus-within:text-gray-900;
+		@apply mt-2 block w-full transition focus-within:text-gray-900;
 	}
 
 	.field-group {
-		@apply block w-full text-gray-400;
+		@apply mt-2 block w-full;
 	}
 
 	.field span,
 	.field-group > span {
-		@apply mb-2 mt-4 block font-medium;
+		@apply mb-2 mt-4 block font-bold text-gray-600;
 	}
 
 	.field-group label {
@@ -122,12 +122,22 @@
 	[multiple],
 	textarea,
 	select {
-		@apply w-full rounded-xl bg-transparent px-4 py-[11px] text-gray-700 focus:outline-none;
+		@apply w-full appearance-none rounded-xl bg-transparent px-4 py-[11px] text-gray-700 focus:outline-none;
+	}
+
+	.field .input select {
+		background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+		background-position: right 0.5rem center;
+		background-repeat: no-repeat;
+		background-size: 1.5em 1.5em;
+		padding-right: 2.5rem;
+		-webkit-print-color-adjust: exact;
+		color-adjust: exact;
 	}
 
 	.field-group [type="checkbox"],
 	[type="radio"] {
-		@apply focus-50 inline-block h-4 w-4 appearance-none  border border-gray-300 bg-white p-0 align-middle text-brand-600 checked:border-transparent checked:bg-current focus:border-brand-600;
+		@apply focus-50 inline-block h-4 w-4 flex-shrink-0  appearance-none border border-gray-300 bg-white p-0 align-middle text-brand-600 transition checked:border-transparent checked:bg-current focus:border-brand-600;
 		background-size: 100% 100%;
 		background-position: center;
 		background-repeat: no-repeat;

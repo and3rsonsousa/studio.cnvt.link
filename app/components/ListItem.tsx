@@ -2,7 +2,7 @@ import { BsFillPencilFill } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
 import { Form, Link } from "remix";
 
-interface Props {
+interface ListItemProps {
 	id: number;
 	name: string;
 	description?: string;
@@ -15,7 +15,7 @@ export default function ListItem({
 	del,
 	model,
 }: {
-	item: Props;
+	item: ListItemProps;
 	edit?: boolean;
 	del?: boolean;
 	model: string;

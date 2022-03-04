@@ -1,11 +1,13 @@
+import { useEffect, useRef } from "react";
 import {
 	ActionFunction,
 	Form,
 	LoaderFunction,
 	useActionData,
 	useLoaderData,
+	useTransition,
 } from "remix";
-import { CheckboxGroup, Input } from "~/components/Forms/";
+import { CheckboxGroup, Input, Button } from "~/components/Forms/";
 import { supabase } from "~/lib/supabase";
 import { ProfileType } from "~/types";
 
@@ -48,9 +50,9 @@ export const action: ActionFunction = async ({ request }) => {
 
 	if (error) throw new Error(error.message);
 
-	let home = await supabase.from("home").insert({
-		account_id: account.id,
-	});
+	// let home = await supabase.from("home").insert({
+	// 	account_id: account.id,
+	// });
 
 	return account;
 };
@@ -58,6 +60,18 @@ export const action: ActionFunction = async ({ request }) => {
 export default function () {
 	let { profiles } = useLoaderData<{ profiles: ProfileType[] }>();
 	let actionData = useActionData();
+	let transition = useTransition();
+	let state = transition.state;
+	let isAdding =
+		transition.submission &&
+		transition.submission.formData.get("action") === "create";
+	let formRef = useRef<null | HTMLFormElement>(null);
+
+	useEffect(() => {
+		if (isAdding) {
+			formRef.current?.reset();
+		}
+	}, [state]);
 
 	return (
 		<div className="mx-auto max-w-lg lg:order-2 lg:m-0 xl:mx-0 xl:w-96">
@@ -68,7 +82,7 @@ export default function () {
 				</div>
 			)}
 
-			<Form method="post">
+			<Form method="post" ref={formRef}>
 				<Input label="Nome" type="text" name="name" />
 				<Input label="Slug" type="text" name="slug" />
 				<CheckboxGroup
@@ -81,14 +95,13 @@ export default function () {
 					}))}
 				/>
 				<div className="mt-8 text-right">
-					<button
-						type="submit"
-						className="button button-primary"
-						name="_action"
-						value="add"
-					>
-						Cadastrar
-					</button>
+					<Button
+						text="Cadastrar"
+						isAdding={isAdding}
+						primary
+						name="action"
+						value="create"
+					/>
 				</div>
 			</Form>
 		</div>

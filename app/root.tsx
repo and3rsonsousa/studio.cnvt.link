@@ -20,14 +20,14 @@ export const links: LinksFunction = () => {
 			href: styles,
 		},
 		{
-			rel: "favicon",
+			rel: "icon",
 			href: "./favicon.png",
 		},
 	];
 };
 
 export const meta: MetaFunction = () => {
-	return { title: "STUDIO" };
+	return { title: "STUDIO > ᴄαɴɪᴠeᴛe" };
 };
 
 export default function App() {

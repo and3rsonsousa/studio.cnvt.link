@@ -1,17 +1,22 @@
 import { ReactChild } from "react";
 
+type ItemType = {
+	id: number;
+	name: string;
+	value?: string | number;
+	extra?: unknown;
+};
+
 export interface RadioGroupProps {
 	label: string;
 	name: string;
-	items: Array<{ id: number; name: string; value?: string | number }>;
+	items: Array<ItemType>;
 	selected?: string | number;
 	columns?: number;
-	component?: (item: {
-		id: number;
-		name: string;
-		value?: string | number;
-	}) => ReactChild;
+	component?: (item: ItemType) => ReactChild;
 }
+
+// Corrigir o funcionamento do `component`
 
 export const RadioGroup = ({
 	label,

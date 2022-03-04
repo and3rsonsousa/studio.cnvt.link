@@ -13,7 +13,7 @@ export const CheckboxGroup = ({
 	selected = [],
 	columns = 2,
 }: CheckboxGroupProps) => {
-	console.log(items);
+	// console.log(items, selected);
 
 	return (
 		<fieldset className="field-group">
@@ -29,17 +29,24 @@ export const CheckboxGroup = ({
 							type="checkbox"
 							name={name}
 							value={item.value ?? item.id}
-							// defaultChecked={
-							// 	selected
-							// 		? selected.filter((id) =>
-							// 				Array.isArray(item.user_id)
-							// 					? item.user_id.filter(
-							// 							(user) => user === id
-							// 					  ).length > 0
-							// 					: id === item.user_id
-							// 		  ).length > 0
-							// 		: false
-							// }
+							defaultChecked={
+								selected
+									? selected.filter(
+											(value) => {
+												return (
+													String(
+														item.value ?? item.id
+													) === String(value)
+												);
+											}
+											// Array.isArray(item)
+											// 	? item.user_id.filter(
+											// 			(user) => user === id
+											// 	  ).length > 0
+											// 	: id === item.user_id
+									  ).length > 0
+									: false
+							}
 						/>
 						<span>{item.name}</span>
 					</label>

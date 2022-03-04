@@ -1,7 +1,15 @@
-import { ActionFunction, LoaderFunction, Outlet, useLoaderData } from "remix";
+import {
+	ActionFunction,
+	LoaderFunction,
+	Outlet,
+	useFetcher,
+	useLoaderData,
+	useTransition,
+} from "remix";
 import { supabase } from "~/lib/supabase";
 import { AccountType } from "~/types";
 import ListItem from "~/components/ListItem";
+import { useEffect } from "react";
 
 export const loader: LoaderFunction = async () => {
 	let { data: accounts, error } = await supabase
@@ -18,11 +26,6 @@ export const action: ActionFunction = async ({ request }) => {
 	const formData = await request.formData();
 
 	if (!formData.get("id")) throw new Error("Campo id vazio");
-
-	let home = await supabase
-		.from("home")
-		.delete()
-		.match({ account_id: formData.get("id") as string });
 
 	let { data, error } = await supabase
 		.from("accounts")

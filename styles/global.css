@@ -158,6 +158,10 @@
 	[type="radio"] {
 		@apply rounded-full;
 	}
+
+	.badge {
+		@apply rounded-full bg-gray-100 px-3 py-1 text-center text-xs font-bold uppercase tracking-wide text-gray-700 transition;
+	}
 }
 
 .error-block {
@@ -187,4 +191,68 @@
 
 .sidebar .link span {
 	@apply w-full overflow-hidden text-ellipsis whitespace-nowrap;
+}
+
+.bg-account {
+	@apply bg-account-500 text-account-100 hover:bg-account-700;
+}
+.bg-planning {
+	@apply bg-planning-500 text-planning-100 hover:bg-planning-700;
+}
+.bg-copy {
+	@apply bg-copy-500 text-copy-100 hover:bg-copy-700;
+}
+.bg-creative {
+	@apply bg-creative-500 text-creative-100 hover:bg-creative-700;
+}
+.bg-financial {
+	@apply bg-financial-500 text-financial-100 hover:bg-financial-700;
+}
+.bg-idea {
+	@apply bg-idea-500 text-idea-100 hover:bg-idea-700;
+}
+.bg-do {
+	@apply bg-do-500 text-do-100 hover:bg-do-700;
+}
+.bg-doing {
+	@apply bg-doing-500 text-doing-100 hover:bg-doing-700;
+}
+.bg-review {
+	@apply bg-review-500 text-review-100 hover:bg-review-700;
+}
+.bg-done {
+	@apply bg-done-500 text-done-100 hover:bg-done-700;
+}
+.bg-accomplished {
+	@apply bg-accomplished-500 text-accomplished-100 hover:bg-accomplished-700;
+}
+.bg-post {
+	@apply bg-post-500 text-post-100 hover:bg-post-700;
+}
+.bg-stories {
+	@apply bg-stories-500 text-stories-100 hover:bg-stories-700;
+}
+.bg-reels {
+	@apply bg-reels-500 text-reels-100 hover:bg-reels-700;
+}
+.bg-meeting {
+	@apply bg-meeting-500 text-meeting-100 hover:bg-meeting-700;
+}
+.bg-copy {
+	@apply bg-copy-500 text-copy-100 hover:bg-copy-700;
+}
+.bg-video {
+	@apply bg-video-500 text-video-100 hover:bg-video-700;
+}
+.bg-shooting {
+	@apply bg-shooting-500 text-shooting-100 hover:bg-shooting-700;
+}
+.bg-press {
+	@apply bg-press-500 text-press-100 hover:bg-press-700;
+}
+.bg-task {
+	@apply bg-task-500 text-task-100 hover:bg-task-700;
+}
+.bg-tiktok {
+	@apply bg-tiktok-500 text-tiktok-100 hover:bg-tiktok-700;
 }

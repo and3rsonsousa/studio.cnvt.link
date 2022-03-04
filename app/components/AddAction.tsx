@@ -1,9 +1,9 @@
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BiExpand, BiCollapse } from "react-icons/bi";
-import { Form } from "remix";
-import { Input, RadioGroup, SelectField } from "~/components/Forms";
+import { Form, useTransition } from "remix";
+import { Button, Input, RadioGroup, SelectField } from "~/components/Forms";
 import { popup } from "~/lib/animations";
 import { flows, steps, tags } from "~/lib/data";
 import { AccountType, ICampaign, ProfileType } from "~/types";
@@ -18,11 +18,25 @@ type AddActionsProps = {
 	};
 };
 
-export default function ({
+export default function AddAction({
 	data: { accounts, profiles, userId, actionData, campaigns },
 }: AddActionsProps) {
 	let [largeForm, setLargeForm] = useState(false);
 	let today = dayjs();
+
+	let transition = useTransition();
+	let state = transition.state;
+	let isAdding =
+		transition.submission &&
+		transition.submission.formData.get("action") === "new-action";
+	let formRef = useRef<null | HTMLFormElement>(null);
+
+	useEffect(() => {
+		if (isAdding) {
+			formRef.current?.reset();
+		}
+	}, [state]);
+
 	return (
 		<motion.div
 			key="new_action"
@@ -30,7 +44,7 @@ export default function ({
 			initial={popup.initial}
 			animate={popup.animate}
 			exit={popup.exit}
-			className={`fixed right-4 bottom-24 max-h-[80vh] ${
+			className={`fixed right-4 bottom-24 max-h-[70vh] ${
 				largeForm ? "md:top-16" : "md:top-auto"
 			} z-40 flex w-72 origin-bottom-right flex-col rounded-lg bg-white shadow-xl shadow-gray-500/20 ${
 				largeForm ? "md:w-[36rem]" : "md:w-96"
@@ -50,7 +64,12 @@ export default function ({
 				</button>
 			</div>
 			<div className="overflow-y-auto overflow-x-visible px-4 md:px-6 ">
-				<Form method="post" name="new_action" id="new_action">
+				<Form
+					method="post"
+					name="new_action"
+					id="new_action"
+					ref={formRef}
+				>
 					{/* Usuário que está criando */}
 					<input type="hidden" value={userId} name="created_by" />
 					<input type="hidden" value={userId} name="user_id" />
@@ -106,6 +125,7 @@ export default function ({
 								items={flows.map((flow) => ({
 									id: flow.id,
 									name: flow.name,
+									extra: flow.slug,
 								}))}
 								selected={1}
 								columns={largeForm ? 3 : 2}
@@ -162,13 +182,14 @@ export default function ({
 				</Form>
 			</div>
 			<div className="flex justify-end gap-2 border-t p-4 md:px-6 ">
-				<button
-					className="button button-primary"
+				<Button
 					form="new_action"
-					type="submit"
-				>
-					Inserir
-				</button>
+					text="Inserir"
+					primary
+					name="action"
+					value="new-action"
+					isAdding={isAdding}
+				/>
 			</div>
 		</motion.div>
 	);

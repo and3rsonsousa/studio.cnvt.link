@@ -8,17 +8,28 @@ import {
 import { supabase } from "~/lib/supabase";
 import { CheckboxGroup, Input } from "~/components/Forms";
 import { AccountType, ProfileType } from "~/types";
+import { getUserId } from "~/lib/session.server";
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ params, request }) => {
+	let userId: string = await getUserId(request);
+
 	let data = await Promise.all([
 		supabase.from("accounts").select("*").order("name"),
 		supabase.from("profiles").select().match({ id: params.id }).single(),
+		supabase
+			.from("accounts")
+			.select("*")
+			.contains("user_id", [userId])
+			.order("name"),
 	]);
 
 	let { data: accounts } = data[0];
 	let { data: profile } = data[1];
+	let { data: selected } = data[2];
 
-	return { profile, accounts };
+	let selectedAccounts = selected?.map((s) => s.id);
+
+	return { profile, accounts, selectedAccounts };
 };
 
 export const action: ActionFunction = async ({ request }) => {
@@ -106,7 +117,12 @@ export default function () {
 	let {
 		profile,
 		accounts,
-	}: { profile: ProfileType; accounts: AccountType[] } = useLoaderData();
+		selectedAccounts,
+	}: {
+		profile: ProfileType;
+		accounts: AccountType[];
+		selectedAccounts: Array<string>;
+	} = useLoaderData();
 	let actionData = useActionData();
 
 	return (
@@ -139,7 +155,7 @@ export default function () {
 							id: account.id,
 							name: account.name,
 						}))}
-						selected={[profile.user_id]}
+						selected={selectedAccounts}
 					/>
 
 					<div className="mt-8 text-right">

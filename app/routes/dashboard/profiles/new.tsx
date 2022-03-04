@@ -1,5 +1,6 @@
-import { ActionFunction, Form, useActionData } from "remix";
-import { Input } from "~/components/Forms";
+import { useEffect, useRef } from "react";
+import { ActionFunction, Form, useActionData, useTransition } from "remix";
+import { Button, Input } from "~/components/Forms";
 import { supabase } from "~/lib/supabase";
 import { ProfileType } from "~/types";
 
@@ -48,6 +49,19 @@ export const action: ActionFunction = async ({ request }) => {
 export default function () {
 	let actionData = useActionData();
 
+	let transition = useTransition();
+	let state = transition.state;
+	let isAdding =
+		transition.submission &&
+		transition.submission.formData.get("action") === "create";
+	let formRef = useRef<null | HTMLFormElement>(null);
+
+	useEffect(() => {
+		if (isAdding) {
+			formRef.current?.reset();
+		}
+	}, [state]);
+
 	return (
 		<div className="mx-auto max-w-lg lg:order-2 lg:m-0 xl:mx-0 xl:w-96">
 			<h2 className="text-gray-900">Novo Usuário</h2>
@@ -57,15 +71,19 @@ export default function () {
 				</div>
 			)}
 
-			<Form method="post">
+			<Form method="post" ref={formRef}>
 				<Input label="Nome" name="name" type="text" />
 				<Input label="E-mail" name="email" type="email" />
 				<Input label="Senha" name="password" type="password" />
 
 				<div className="mt-8 text-right">
-					<button type="submit" className="button button-primary">
-						Cadastrar
-					</button>
+					<Button
+						text="Cadastrar"
+						isAdding={isAdding}
+						primary
+						name="action"
+						value="create"
+					/>
 				</div>
 			</Form>
 		</div>

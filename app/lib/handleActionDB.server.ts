@@ -1,4 +1,3 @@
-import { handleUpdate } from "./actions.server";
 import { supabase } from "./supabase";
 
 export async function handleActionDB(request: Request) {

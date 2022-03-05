@@ -42,7 +42,7 @@ export type ActionType = {
 	user_id: string;
 	account_id: number;
 	flow_id: number;
-	status_id: number;
+	step_id: number;
 	tag_id: number;
 	campaign_id: number;
 
@@ -52,8 +52,8 @@ export type ActionType = {
 	tags?: BasicType;
 	campaigns: ICampaign;
 
-	start?: string | Dayjs;
-	end: string | Dayjs;
+	start?: string;
+	end: string;
 	validating?: true | false;
 };
 

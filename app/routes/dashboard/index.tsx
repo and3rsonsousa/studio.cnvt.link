@@ -9,7 +9,9 @@ import {
 	useActionData,
 	useLoaderData,
 } from "remix";
+import Action from "~/components/Action";
 import AddAction from "~/components/AddAction";
+import { isFuture, isLate } from "~/lib/functions";
 
 import { handleActionDB } from "~/lib/handleActionDB.server";
 import { getUserId } from "~/lib/session.server";
@@ -34,11 +36,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 		accounts
 			?.map((account: AccountType) => {
 				account.actions?.map((action) => {
-					actions.push({
-						...action,
-						start: action.start ?? dayjs(action.start),
-						end: dayjs(action.end),
-					});
+					actions.push(action);
 				});
 				account_ids.push(account.id);
 				return account.user_id;
@@ -59,7 +57,9 @@ export const loader: LoaderFunction = async ({ request }) => {
 		.order("name");
 
 	//Order the actions by 'end' date
-	actions = actions.sort((a, b) => dayjs(a.end).diff(b.end));
+	actions = actions.sort((a, b) =>
+		dayjs(a.start ? a.start : a.end).diff(b.start ? b.start : b.end)
+	);
 
 	return { profiles, accounts, actions, userId, campaigns };
 };
@@ -69,38 +69,48 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function DashboardIndex() {
+	// let { profile } = useOutletContext<{ profile: ProfileType }>();
 	let data = useLoaderData();
 	let actionData = useActionData();
-	// let { profile } = useOutletContext<{ profile: ProfileType }>();
 	let [showAddActionForm, set_showAddActionForm] = useState(false);
 	let { profiles, accounts, actions, userId, campaigns } = data;
+	let lateActions: ActionType[] = [],
+		todayActions: ActionType[] = [],
+		futureActions: ActionType[] = [];
+
+	actions.map((action: ActionType) => {
+		if (isLate(action.start ? action.start : action.end)) {
+			lateActions.push(action);
+		} else if (isFuture(action.start ? action.start : action.end)) {
+			futureActions.push(action);
+		} else {
+			todayActions.push(action);
+		}
+	});
 
 	return (
 		<>
 			<div className="page">
 				<Heading title="Em atraso" />
 
-				<pre>{JSON.stringify(data, null, 2)}</pre>
-				<p>
-					Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-					Harum, omnis nostrum! Blanditiis quibusdam dolorum nemo at
-					harum ratione ipsum incidunt. Magnam ipsum itaque ad nisi
-					unde ea ratione deserunt sit!
-				</p>
+				<div className="mb-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6">
+					{lateActions.map((action: ActionType) => (
+						<Action key={action.id} action={action} />
+					))}
+				</div>
 				<Heading title="Hoje" />
-				<p>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit.
-					Assumenda sed adipisci veritatis velit, et facere blanditiis
-					inventore maiores minus harum natus minima possimus vero
-					dignissimos architecto totam doloremque alias error.
-				</p>
+				<div className="mb-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6">
+					{todayActions.map((action: ActionType) => (
+						<Action key={action.id} action={action} />
+					))}
+				</div>
+
 				<Heading title="Próximas" />
-				<p>
-					Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-					Eaque, tenetur, aspernatur consequuntur minima sequi ipsam
-					sit dicta doloremque tempore eos iusto ad ducimus debitis
-					nisi vitae nobis inventore. Quaerat, id?
-				</p>
+				<div className="mb-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6">
+					{futureActions.map((action: ActionType) => (
+						<Action key={action.id} action={action} />
+					))}
+				</div>
 				<div className="fixed bottom-8 right-8">
 					<button
 						onClick={() =>

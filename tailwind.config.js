@@ -56,10 +56,10 @@ module.exports = {
 			task: colors.lime,
 			tiktok: colors.pink,
 		},
-	},
-	extend: {
-		screens: {
-			"3xl": "2000px",
+		extend: {
+			screens: {
+				"3xl": "2000px",
+			},
 		},
 	},
 

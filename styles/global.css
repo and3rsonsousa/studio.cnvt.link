@@ -162,6 +162,10 @@
 	.badge {
 		@apply rounded-full bg-gray-100 px-3 py-1 text-center text-xs font-bold uppercase tracking-wide text-gray-700 transition;
 	}
+
+	.badge-small {
+		@apply text-xx px-2 py-0.5;
+	}
 }
 
 .error-block {
@@ -255,4 +259,68 @@
 }
 .bg-tiktok {
 	@apply bg-tiktok-500 text-tiktok-100 hover:bg-tiktok-700;
+}
+
+.bg-account-light {
+	@apply bg-account-100 text-account-600 hover:bg-account-200;
+}
+.bg-planning-light {
+	@apply bg-planning-100 text-planning-600 hover:bg-planning-200;
+}
+.bg-copy-light {
+	@apply bg-copy-100 text-copy-600 hover:bg-copy-200;
+}
+.bg-creative-light {
+	@apply bg-creative-100 text-creative-600 hover:bg-creative-200;
+}
+.bg-financial-light {
+	@apply bg-financial-100 text-financial-600 hover:bg-financial-200;
+}
+.bg-idea-light {
+	@apply bg-idea-100 text-idea-600 hover:bg-idea-200;
+}
+.bg-do-light {
+	@apply bg-do-100 text-do-600 hover:bg-do-200;
+}
+.bg-doing-light {
+	@apply bg-doing-100 text-doing-600 hover:bg-doing-200;
+}
+.bg-review-light {
+	@apply bg-review-100 text-review-600 hover:bg-review-200;
+}
+.bg-done-light {
+	@apply bg-done-100 text-done-600 hover:bg-done-200;
+}
+.bg-accomplished-light {
+	@apply bg-accomplished-100 text-accomplished-600 hover:bg-accomplished-200;
+}
+.bg-post-light {
+	@apply bg-post-100 text-post-600 hover:bg-post-200;
+}
+.bg-stories-light {
+	@apply bg-stories-100 text-stories-600 hover:bg-stories-200;
+}
+.bg-reels-light {
+	@apply bg-reels-100 text-reels-600 hover:bg-reels-200;
+}
+.bg-meeting-light {
+	@apply bg-meeting-100 text-meeting-600 hover:bg-meeting-200;
+}
+.bg-copy-light {
+	@apply bg-copy-100 text-copy-600 hover:bg-copy-200;
+}
+.bg-video-light {
+	@apply bg-video-100 text-video-600 hover:bg-video-200;
+}
+.bg-shooting-light {
+	@apply bg-shooting-100 text-shooting-600 hover:bg-shooting-200;
+}
+.bg-press-light {
+	@apply bg-press-100 text-press-600 hover:bg-press-200;
+}
+.bg-task-light {
+	@apply bg-task-100 text-task-600 hover:bg-task-200;
+}
+.bg-tiktok-light {
+	@apply bg-tiktok-100 text-tiktok-600 hover:bg-tiktok-200;
 }

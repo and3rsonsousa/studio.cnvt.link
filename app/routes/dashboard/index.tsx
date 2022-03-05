@@ -91,26 +91,47 @@ export default function DashboardIndex() {
 	return (
 		<>
 			<div className="page">
-				<Heading title="Em atraso" />
-
-				<div className="mb-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6">
-					{lateActions.map((action: ActionType) => (
-						<Action key={action.id} action={action} />
-					))}
-				</div>
+				{lateActions.length > 0 && (
+					<>
+						<Heading title="Em atraso" />
+						<div className="mb-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-6">
+							{lateActions
+								.slice(0, 6)
+								.map((action: ActionType) => (
+									<Action key={action.id} action={action} />
+								))}
+						</div>
+					</>
+				)}
 				<Heading title="Hoje" />
-				<div className="mb-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6">
-					{todayActions.map((action: ActionType) => (
-						<Action key={action.id} action={action} />
-					))}
+				<div className="mb-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-6">
+					{todayActions.length > 0 ? (
+						todayActions.map((action: ActionType) => (
+							<Action key={action.id} action={action} />
+						))
+					) : (
+						<div className="text-gray-400">
+							Nenhuma Ação para hoje. Toque aqui para{" "}
+							<a
+								href="#"
+								className="font-bold text-brand-600 underline"
+								onClick={() => set_showAddActionForm(true)}
+							>
+								criar.
+							</a>
+						</div>
+					)}
 				</div>
-
-				<Heading title="Próximas" />
-				<div className="mb-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6">
-					{futureActions.map((action: ActionType) => (
-						<Action key={action.id} action={action} />
-					))}
-				</div>
+				{futureActions.length > 0 && (
+					<>
+						<Heading title="Próximas" />
+						<div className="mb-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-6">
+							{futureActions.map((action: ActionType) => (
+								<Action key={action.id} action={action} />
+							))}
+						</div>
+					</>
+				)}
 				<div className="fixed bottom-8 right-8">
 					<button
 						onClick={() =>

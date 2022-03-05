@@ -8,6 +8,7 @@ import "dayjs/locale/pt-br"; // import locale
 import { isLate } from "~/lib/functions";
 import { flows, steps, tags } from "~/lib/data";
 import { HiDotsHorizontal } from "react-icons/hi";
+import { useState } from "react";
 dayjs.locale("pt-br");
 
 export type ActionProps = {
@@ -19,6 +20,8 @@ export default function Action({ action }: ActionProps) {
 	let flow = flows[action.flow_id - 1];
 	let step = steps[action.step_id - 1];
 	let tag = tags[action.tag_id - 1];
+
+	let [timeInfo, set_timeInfo] = useState(true);
 
 	return (
 		<div
@@ -44,10 +47,86 @@ export default function Action({ action }: ActionProps) {
           - Em quanto tempo Deve Começar/quanto tempo de atraso
           - Em quanto tempo deve terminar/Quanto tepo de Atraso 
         */}
-				<div className="my-2 flex flex-wrap gap-1 text-xs">
-					{action.start ? (
+				<div
+					className="mb-2 flex flex-wrap gap-1 text-xs"
+					title="teste de título aqui"
+					onClick={() => set_timeInfo(!timeInfo)}
+				>
+					{timeInfo ? (
+						action.start ? (
+							<div
+								className={`${
+									isLate(action.start) ? "text-error-500" : ""
+								}`}
+							>
+								{dayjs(action.start).fromNow(true) +
+									(isLate(action.start) ? " em atraso" : "")}
+							</div>
+						) : (
+							<div
+								className={`${
+									isLate(action.end) ? "text-error-500" : ""
+								}`}
+							>
+								{dayjs(action.end).fromNow() +
+									(isLate(action.end) ? " em atraso" : "")}
+							</div>
+						)
+					) : (
 						<>
-							<div className="order-1 whitespace-nowrap">
+							{action.start ? (
+								<>
+									<div className="order-1  whitespace-nowrap">
+										{dayjs(action.start).format("D") +
+											(dayjs(action.start).format(
+												"MMMM YYYY"
+											) !==
+											dayjs(action.end).format(
+												"MMMM YYYY"
+											)
+												? dayjs(action.start).format(
+														" [de] MMMM"
+												  )
+												: "") +
+											(dayjs(action.start).year() !==
+											dayjs(action.end).year()
+												? dayjs(action.start).format(
+														"[ de] YYYY"
+												  )
+												: "") +
+											" a"}
+									</div>
+
+									<div className="order-3  whitespace-nowrap text-gray-400">
+										(
+										{dayjs(action.start).to(
+											action.end,
+											true
+										)}
+										)
+									</div>
+								</>
+							) : null}
+							<div className="order-2  whitespace-nowrap">
+								{dayjs(action.end).format("D [de] MMMM") +
+									(dayjs(action.end).year() !==
+										dayjs().year() ||
+									(action.start &&
+										dayjs(action.start).year() !==
+											dayjs(action.end).year())
+										? dayjs(action.end).format(
+												"[ de] YYYY [às] H[:]mm"
+										  )
+										: dayjs(action.end).format(
+												" [às] H[:]mm"
+										  ))}
+							</div>
+						</>
+					)}
+
+					{/* {action.start ? (
+						<>
+							<div className="order-1  whitespace-nowrap">
 								{dayjs(action.start).format("D") +
 									(dayjs(action.start).format("MMMM YYYY") !==
 									dayjs(action.end).format("MMMM YYYY")
@@ -64,7 +143,7 @@ export default function Action({ action }: ActionProps) {
 									" a"}
 							</div>
 
-							<div className="order-3 whitespace-nowrap text-gray-400">
+							<div className="order-3  whitespace-nowrap text-gray-400">
 								({dayjs(action.start).to(action.end, true)})
 							</div>
 
@@ -73,7 +152,6 @@ export default function Action({ action }: ActionProps) {
 									isLate(action.start) ? "text-error-500" : ""
 								}`}
 							>
-								{/* {action.start ? " e " : ""} */}
 								{dayjs(action.start).fromNow(true) +
 									(isLate(action.start) ? " em atraso" : "")}
 							</div>
@@ -85,12 +163,11 @@ export default function Action({ action }: ActionProps) {
 							}`}
 						>
 							{"- "}
-							{/* {action.start ? " e " : ""} */}
 							{dayjs(action.end).fromNow() +
 								(isLate(action.end) ? " em atraso" : "")}
 						</div>
 					)}
-					<div className="order-2 whitespace-nowrap">
+					<div className="order-2  whitespace-nowrap">
 						{dayjs(action.end).format("D [de] MMMM") +
 							(dayjs(action.end).year() !== dayjs().year() ||
 							(action.start &&
@@ -100,7 +177,7 @@ export default function Action({ action }: ActionProps) {
 										"[ de] YYYY [às] H[:]mm"
 								  )
 								: dayjs(action.end).format(" [às] H[:]mm"))}
-					</div>
+					</div> */}
 				</div>
 				{/* 
         Flow

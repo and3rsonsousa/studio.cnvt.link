@@ -1,16 +1,18 @@
-import dayjs from "dayjs";
-import { useState } from "react";
-import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
+import dayjs, { Dayjs } from "dayjs";
+import { useEffect, useState } from "react";
+import { HiOutlineChevronLeft, HiOutlineChevronRight, HiPlus, HiPlusCircle } from "react-icons/hi";
 import Action from "~/components/Action";
 import { ActionType } from "~/types";
+
+type DayType = { day: Dayjs; actions: Array<ActionType> };
 
 export function MonthView({ actions }: { actions: ActionType[] }) {
 	let today = dayjs();
 	let [month, set_month] = useState(today);
-	let firstDay = today.startOf("M").startOf("w");
-	let lastDay = today.endOf("M").endOf("w");
+	let firstDay = month.startOf("M").startOf("w");
+	let lastDay = month.endOf("M").endOf("w");
 	let currentDay = firstDay;
-	let monthDays = [];
+	let monthDays: Array<DayType> = [];
 
 	while (currentDay.format("YYYY/MM/DD") !== lastDay.add(1, "d").format("YYYY/MM/DD")) {
 		monthDays.push({
@@ -28,50 +30,22 @@ export function MonthView({ actions }: { actions: ActionType[] }) {
 				<div className="flex items-center gap-4">
 					{/* Nome do mês */}
 					<h5 className="m-0 text-gray-700">{month.format("MMMM")}</h5>
-					<div className="flex">
+					<div className="button-group">
 						{/* Mês anterior */}
-						<button className="button button-small button-white rounded-r-none">
+						<button
+							className="button button-small button-white"
+							onClick={() => set_month(month.subtract(1, "month"))}
+						>
 							<HiOutlineChevronLeft className="text-lg" />
 						</button>
 						{/* Próximo mês */}
-						<button className="button button-small button-white rounded-l-none">
+						<button
+							className="button button-small button-white"
+							onClick={() => set_month(month.add(1, "month"))}
+						>
 							<HiOutlineChevronRight className="text-lg" />
 						</button>
 					</div>
-				</div>
-				<div className="button-group button-group-small">
-					{/* Mês */}
-					<button className="button button-small button-white  tracking-wide">
-						<span>
-							<span>M</span>
-							<span className="hidden md:inline-block">ês</span>
-						</span>
-						{/* <BsGrid3X2 /> */}
-					</button>
-					{/* Semana */}
-					<button className="button button-small button-white  tracking-wide">
-						<span>
-							<span>S</span>
-							<span className="hidden md:inline-block">emana</span>
-						</span>
-						{/* <MdOutlineViewWeek /> */}
-					</button>
-					{/* Hoje */}
-					<button className="button button-small button-white  tracking-wide">
-						<span>
-							<span>H</span>
-							<span className="hidden md:inline-block">oje</span>
-						</span>
-						{/* <MdOutlineViewDay /> */}
-					</button>
-					{/* Ano */}
-					<button className="button button-small button-white  tracking-wide">
-						<span>
-							<span>A</span>
-							<span className="hidden md:inline-block">no</span>
-						</span>
-						{/* <HiOutlineCalendar /> */}
-					</button>
 				</div>
 			</header>
 			<div className="grid grid-cols-7 py-4 text-xs font-bold text-gray-700">
@@ -85,18 +59,42 @@ export function MonthView({ actions }: { actions: ActionType[] }) {
 			</div>
 			<section className="grid grid-cols-7">
 				{monthDays.map((day, index) => (
-					<div className={`border-t p-2 ${(index + 1) % 7 !== 0 ? "border-r" : ""}`}>
-						<div className={`mb-2  text-sm  ${day.day.month() !== month.month() ? " text-gray-300" : ""}`}>
-							{day.day.date()}
-						</div>
-						<div className="space-y-2">
-							{day.actions.map((action) => (
-								<Action key={action.id} action={action} small={true} />
-							))}
-						</div>
-					</div>
+					<Day day={day} index={index} month={month} />
 				))}
 			</section>
 		</>
+	);
+}
+
+function Day({ day, index, month }: { day: DayType; index: number; month: Dayjs }) {
+	let [showMore, set_showMore] = useState(false);
+	return (
+		<div className={`group border-t p-2 ${(index + 1) % 7 !== 0 ? "border-r" : ""}`}>
+			<div className={`mb-2  text-sm  ${day.day.month() !== month.month() ? " text-gray-300" : ""}`}>
+				{day.day.date()}
+			</div>
+			<div className="space-y-2">
+				{/* 
+        Guardar para BACKUP
+        {day.actions.map((action) => (
+					<Action key={action.id} action={action} small={true} />
+				))} */}
+				{day.actions.slice(0, 3).map((action) => (
+					<Action key={action.id} action={action} small={true} />
+				))}
+				{showMore &&
+					day.actions.slice(3).map((action) => <Action key={action.id} action={action} small={true} />)}
+				<div className="pointer-events-none flex -translate-y-4 flex-col items-center justify-center opacity-0 transition duration-300 group-hover:pointer-events-auto  group-hover:translate-y-0 group-hover:opacity-100 md:flex-row">
+					{day.actions.length > 3 && (
+						<button className="button button-ghost text-xx p-1" onClick={() => set_showMore(!showMore)}>
+							{showMore ? "Exibir Menos" : "Exibir todas"}
+						</button>
+					)}
+					<button className="button button-ghost p-1">
+						<HiPlusCircle className="text-lg" />
+					</button>
+				</div>
+			</div>
+		</div>
 	);
 }

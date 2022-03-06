@@ -31,7 +31,7 @@ export default function () {
 		<div className="flex min-h-screen bg-gray-100">
 			<SideBar links={links} profile={profile} />
 
-			<article className="flex-1 overflow-x-hidden px-4 py-6 lg:p-8">
+			<article className="flex-1 overflow-x-hidden">
 				<Outlet context={{ profile, accounts }} />
 			</article>
 		</div>

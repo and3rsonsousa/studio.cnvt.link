@@ -42,3 +42,24 @@ export let menu = {
 		},
 	},
 };
+
+export let slideH = {
+	initial: {
+		opacity: 0,
+		x: 100,
+	},
+	animate: {
+		opacity: 1,
+		x: 0,
+		transition: {
+			ease: "easeOut",
+		},
+	},
+	exit: {
+		opacity: 0,
+		x: -100,
+		transition: {
+			ease: "easeOut",
+		},
+	},
+};

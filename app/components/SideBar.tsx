@@ -13,36 +13,21 @@ type SideBarType = {
 
 export default function SideBar({ links, profile }: SideBarType) {
 	return (
-		<aside className="sidebar  bg-gray-900 py-8 lg:w-52 ">
+		<aside className="sidebar relative z-20 bg-gray-900 py-8 lg:w-52 ">
 			<div className="space-y-6 px-2 lg:px-4">
-				<Link
-					to="/dashboard"
-					className="focus-50 block rounded-lg p-2 lg:p-4"
-				>
-					<img
-						src="/logo-small.svg"
-						alt="STUDIO"
-						className="mx-auto w-12 lg:hidden"
-					/>
-					<img
-						src="/logo.svg"
-						alt="STUDIO"
-						className="hidden w-24 lg:block"
-					/>
+				<Link to="/dashboard" className="focus-50 block rounded-lg p-2 lg:p-4">
+					<img src="/logo-small.svg" alt="STUDIO" className="mx-auto w-12 lg:hidden" />
+					<img src="/logo.svg" alt="STUDIO" className="hidden w-24 lg:block" />
 				</Link>
 				<div>
-					<h6 className="hidden px-4 font-bold text-gray-600 lg:block">
-						Clientes
-					</h6>
+					<h6 className="hidden px-4 font-bold text-gray-600 lg:block">Clientes</h6>
 					<div>
 						{links.map((link, index) => (
 							<Link to={link.url} className="link" key={index}>
 								<span className="block text-center font-bold uppercase lg:hidden">
 									{link.name.substring(0, 3)}
 								</span>
-								<span className="hidden lg:block">
-									{link.name}
-								</span>
+								<span className="hidden lg:block">{link.name}</span>
 							</Link>
 						))}
 					</div>
@@ -69,9 +54,7 @@ export default function SideBar({ links, profile }: SideBarType) {
 			</div>
 			{profile.role === 1 ? (
 				<div className="mt-8 space-y-6 border-t border-gray-800 px-2 pt-4 lg:px-4">
-					<h6 className="hidden px-4 pt-4 font-bold text-gray-600 lg:block">
-						ADM
-					</h6>
+					<h6 className="hidden px-4 pt-4 font-bold text-gray-600 lg:block">ADM</h6>
 					<div>
 						<Link to="/dashboard/profiles/" className="link">
 							<span className="hidden lg:block">Usuários</span>

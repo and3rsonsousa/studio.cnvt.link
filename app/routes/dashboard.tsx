@@ -10,11 +10,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 	let data = await Promise.all([
 		supabase.from("profiles").select("*").eq("user_id", userId).single(),
-		supabase
-			.from("accounts")
-			.select("*")
-			.contains("user_id", [userId])
-			.order("name"),
+		supabase.from("accounts").select("*").contains("user_id", [userId]).order("name"),
 	]);
 
 	let { data: profile } = data[0];
@@ -26,8 +22,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function () {
-	let { profile, accounts } =
-		useLoaderData<{ profile: ProfileType; accounts: AccountType[] }>();
+	let { profile, accounts } = useLoaderData<{ profile: ProfileType; accounts: AccountType[] }>();
 	let links: LinkType[] = accounts.map((account) => ({
 		name: account.name,
 		url: `/dashboard/account/${account.slug}`,
@@ -36,7 +31,7 @@ export default function () {
 		<div className="flex min-h-screen bg-gray-100">
 			<SideBar links={links} profile={profile} />
 
-			<article className="flex-1 px-4 py-6 lg:p-8">
+			<article className="flex-1 overflow-x-hidden px-4 py-6 lg:p-8">
 				<Outlet context={{ profile, accounts }} />
 			</article>
 		</div>

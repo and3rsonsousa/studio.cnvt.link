@@ -38,7 +38,7 @@ module.exports = {
 			creative: colors.green,
 			financial: colors.lime,
 
-			idea: colors.yellow,
+			idea: colors.amber,
 			do: colors.orange,
 			doing: colors.red,
 			review: colors.pink,
@@ -46,7 +46,7 @@ module.exports = {
 			accomplished: colors.indigo,
 
 			post: colors.purple,
-			stories: colors.rose,
+			stories: colors.pink,
 			reels: colors.amber,
 			meeting: colors.yellow,
 			copy: colors.emerald,
@@ -54,7 +54,7 @@ module.exports = {
 			shooting: colors.blue,
 			press: colors.indigo,
 			task: colors.lime,
-			tiktok: colors.pink,
+			tiktok: colors.rose,
 		},
 		extend: {
 			screens: {

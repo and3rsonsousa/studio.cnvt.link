@@ -50,7 +50,7 @@
 
 @layer components {
 	.button {
-		@apply inline-flex rounded-full bg-gray-200 px-6 py-3 font-bold text-gray-600 transition duration-300 hover:bg-gray-300 hover:text-gray-900 focus:text-gray-900 focus:outline-none focus:ring-4 focus:ring-brand-600/30 active:bg-gray-100 active:duration-75;
+		@apply inline-flex transform-gpu cursor-pointer items-center gap-2 rounded-full bg-gray-200 px-6 py-3 font-bold text-gray-600 transition duration-300 hover:bg-gray-300 hover:text-gray-900 focus:text-gray-900 focus:outline-none focus:ring-4  focus:ring-brand-600/30 active:scale-90 active:bg-gray-100 active:duration-75;
 	}
 
 	.button-primary {
@@ -59,6 +59,10 @@
 
 	.button-ghost {
 		@apply bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent active:text-gray-300;
+	}
+
+	.button-ghost.button-primary {
+		@apply hover:text-brand-600 focus:text-brand-600  active:text-brand-400;
 	}
 
 	.button-white {
@@ -73,7 +77,11 @@
 	}
 
 	.button-icon {
-		@apply grid h-12 w-12 place-content-center p-0 text-2xl font-normal text-gray-400;
+		@apply grid h-12 w-12 place-content-center rounded-xl p-0 text-2xl font-normal text-gray-400;
+	}
+
+	.button-icon.button-primary:not(.button-ghost) {
+		@apply text-white;
 	}
 
 	.button-icon.button-small {

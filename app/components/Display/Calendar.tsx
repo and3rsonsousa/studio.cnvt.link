@@ -1,56 +1,30 @@
 import dayjs from "dayjs";
 import { useState } from "react";
+import { BsGrid, BsGrid3X2 } from "react-icons/bs";
+import { HiOutlineCalendar, HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
+import { MdOutlineViewDay, MdOutlineViewWeek } from "react-icons/md";
 import { ActionType } from "~/types";
 import Action from "../Action";
+import DayView from "./Calendar/DayView";
+import { MonthView } from "./Calendar/MonthView";
+import WeekView from "./Calendar/WeekView";
+import YearView from "./Calendar/YearView";
+import { Heading } from "./Display";
 
 type CalendarProps = {
 	actions: ActionType[];
 };
 
 export default function Calendar({ actions }: CalendarProps) {
-	let today = dayjs();
-	let [month, set_month] = useState(today);
-	let firstDay = today.startOf("M").startOf("w");
-	let lastDay = today.endOf("M").endOf("w");
-	let currentDay = firstDay;
-	let monthDays = [];
-
-	while (currentDay.format("YYYY/MM/DD") !== lastDay.add(1, "d").format("YYYY/MM/DD")) {
-		monthDays.push({
-			day: currentDay,
-			actions: actions.filter(
-				(action) => dayjs(action.end).format("YYYY/MM/DD") === currentDay.format("YYYY/MM/DD")
-			),
-		});
-		currentDay = currentDay.add(1, "d");
-	}
+	let [view, set_view] = useState(1);
 
 	return (
 		<div>
-			<h3>Calendário</h3>
-			<header className="grid grid-cols-7 py-4 text-xs font-bold text-gray-700">
-				<div>DOM</div>
-				<div>SEG</div>
-				<div>TER</div>
-				<div>QUA</div>
-				<div>QUI</div>
-				<div>SEX</div>
-				<div>SÁB</div>
-			</header>
-			<section className="grid grid-cols-7">
-				{monthDays.map((day, index) => (
-					<div className={`border-t p-2 ${(index + 1) % 7 !== 0 ? "border-r" : ""}`}>
-						<div className={`mb-2  text-sm  ${day.day.month() !== month.month() ? " text-gray-300" : ""}`}>
-							{day.day.date()}
-						</div>
-						<div className="space-y-2">
-							{day.actions.map((action) => (
-								<Action key={action.id} action={action} small={true} />
-							))}
-						</div>
-					</div>
-				))}
-			</section>
+			<Heading title="Calendário" />
+			{view === 1 && <MonthView actions={actions} />}
+			{view === 2 && <WeekView actions={actions} />}
+			{view === 3 && <DayView actions={actions} />}
+			{view === 4 && <YearView actions={actions} />}
 		</div>
 	);
 }

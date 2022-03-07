@@ -105,50 +105,21 @@ export function Day({
 							day.actions
 								.slice(3)
 								.map((action) => <Action key={action.id} action={action} size={size} />)}
-						<div className="pointer-events-none flex -translate-y-4 flex-col items-center justify-center opacity-0 transition duration-300 group-hover:pointer-events-auto  group-hover:translate-y-0 group-hover:opacity-100 md:flex-row">
+						<div className="pointer-events-none flex flex-col items-center justify-center group-hover:pointer-events-auto md:flex-row">
 							{day.actions.length > 3 && (
 								<button
-									className="button button-ghost text-xx p-1"
+									className="button button-ghost text-xx translate-x-3 p-1 opacity-25 transition duration-300 group-hover:translate-x-0 group-hover:opacity-100"
 									onClick={() => set_showMore(!showMore)}
 								>
 									{showMore ? "Exibir Menos" : "Exibir todas"}
 								</button>
 							)}
-							<button className="button button-ghost p-1">
+							<button className="button button-ghost p-1 opacity-0 group-hover:opacity-100">
 								<HiPlusCircle className="text-lg" />
 							</button>
 						</div>
 					</>
 				)}
-				{/* 
-        Guardar para BACKUP
-        {day.actions.map((action) => (
-					<Action key={action.id} action={action} small={true} />
-				))} */}
-				{/* { 
-					dayName ? 
-						day.actions.map((action) => <Action key={action.id} action={action} size={size} /> : null */}
-				{/* <>
-	{			 day.actions.slice(0, 3).map((action) => (
-					 <Action key={action.id} action={action} size={size} />
-				 ))} day.actions.map((action) => (
-					<Action key={action.id} action={action} small={true} />
-				))}
-				{ showMore &&
-					day.actions.slice(3).map((action) => <Action key={action.id} action={action} size={"x"} />) }
-
-				<div className="pointer-events-none flex -translate-y-4 flex-col items-center justify-center opacity-0 transition duration-300 group-hover:pointer-events-auto  group-hover:translate-y-0 group-hover:opacity-100 md:flex-row">
-					{day.actions.length > 3 && (
-						<button className="button button-ghost text-xx p-1" onClick={() => set_showMore(!showMore)}>
-							{showMore ? "Exibir Menos" : "Exibir todas"}
-						</button>
-					)}
-					<button className="button button-ghost p-1">
-						<HiPlusCircle className="text-lg" />
-					</button>
-				</div>
-				</> */}
-				{/* } */}
 			</div>
 		</div>
 	);

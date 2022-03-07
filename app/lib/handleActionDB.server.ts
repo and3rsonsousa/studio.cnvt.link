@@ -16,13 +16,12 @@ export async function handleActionDB(request: Request) {
 		return updated;
 	} else if (action === "delete") {
 		let { id } = Object.fromEntries(formData);
-		let deleted = await supabase
-			.from("actions")
-			.delete()
-			.eq("id", String(id));
+		let deleted = await supabase.from("actions").delete().eq("id", String(id));
 		return deleted;
 	} else if (action === "new-action") {
 		let { action, ...values } = Object.fromEntries(formData);
+
+		console.log(values);
 
 		if (values.name === "" || values.name === undefined) {
 			return {

@@ -127,9 +127,9 @@ export default function AddAction({ data: { accounts, profiles, userId, actionDa
 					)}
 
 					<div className={`${largeForm ? "grid gap-4 md:grid-cols-2" : ""}`}>
-						<div className={largeForm ? "" : "hidden"}>
+						{largeForm && (
 							<Input label="Data de Início" name="start" type="date" value={today.format("YYYY-MM-DD")} />
-						</div>
+						)}
 
 						<motion.div layout>
 							<Input

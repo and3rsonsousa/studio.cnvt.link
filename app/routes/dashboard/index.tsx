@@ -53,7 +53,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export const action: ActionFunction = async ({ request }) => {
-	return handleActionDB(request);
+	return await handleActionDB(request);
 };
 
 export default function DashboardIndex() {

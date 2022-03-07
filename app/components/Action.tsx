@@ -2,8 +2,8 @@ import dayjs from "dayjs";
 import "dayjs/locale/pt-br"; // import locale
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useState } from "react";
-import { HiDotsHorizontal } from "react-icons/hi";
-import { useFetcher } from "remix";
+import { HiChevronDoubleRight, HiDotsHorizontal } from "react-icons/hi";
+import { Link, useFetcher } from "remix";
 import { flows, steps, tags } from "~/lib/data";
 import { isLate } from "~/lib/functions";
 import { ActionType } from "~/types";
@@ -19,9 +19,6 @@ export type ActionProps = {
 
 export default function Action({ action, size = "n" }: ActionProps) {
 	let fetcher = useFetcher();
-	// let flow = flows[action.flow_id - 1];
-	// let step = steps[action.step_id - 1];
-	// let tag = tags[action.tag_id - 1];
 
 	let [timeInfo, set_timeInfo] = useState(true);
 
@@ -38,16 +35,19 @@ export default function Action({ action, size = "n" }: ActionProps) {
 				} text-sm ring-brand-600/20 transition focus-within:border-brand-600 focus-within:ring-4 focus-within:duration-500 `}
 			>
 				{/* Name of the Action */}
-				<div>
+				<div className="flex">
 					<input
 						type="text"
 						name="name"
 						className={`w-full ${
 							size === "x" ? "" : "text-lg"
-						} font-semibold tracking-tight text-gray-900 transition focus:outline-none`}
+						} w-full font-semibold tracking-tight text-gray-900 transition focus:outline-none`}
 						defaultValue={action.name}
 						autoComplete="off"
 					/>
+					<Link to={`/dashboard/action/${action.id}`} className="button button-ghost button-small -mr-2 px-2">
+						<HiChevronDoubleRight />
+					</Link>
 				</div>
 				{/* 
         Datas

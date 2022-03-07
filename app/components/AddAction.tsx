@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { BiExpand, BiCollapse } from "react-icons/bi";
 import { Form, useTransition } from "remix";
@@ -18,17 +18,13 @@ type AddActionsProps = {
 	};
 };
 
-export default function AddAction({
-	data: { accounts, profiles, userId, actionData, campaigns },
-}: AddActionsProps) {
+export default function AddAction({ data: { accounts, profiles, userId, actionData, campaigns } }: AddActionsProps) {
 	let [largeForm, setLargeForm] = useState(false);
 	let today = dayjs();
 
 	let transition = useTransition();
 	let state = transition.state;
-	let isAdding =
-		transition.submission &&
-		transition.submission.formData.get("action") === "new-action";
+	let isAdding = transition.submission && transition.submission.formData.get("action") === "new-action";
 	let formRef = useRef<null | HTMLFormElement>(null);
 
 	useEffect(() => {
@@ -44,9 +40,7 @@ export default function AddAction({
 			initial={popup.initial}
 			animate={popup.animate}
 			exit={popup.exit}
-			className={`fixed right-4 bottom-24 max-h-[70vh] ${
-				largeForm ? "md:top-16" : "md:top-auto"
-			} z-40 flex w-72 origin-bottom-right flex-col rounded-lg bg-white shadow-xl shadow-gray-500/20 ${
+			className={`fixed right-4 bottom-24 z-40  flex max-h-[70vh] w-72 origin-bottom-right flex-col rounded-lg bg-white shadow-2xl shadow-gray-500/50 ring-1 ring-black/5 ${
 				largeForm ? "md:w-[36rem]" : "md:w-96"
 			}`}
 		>
@@ -56,42 +50,21 @@ export default function AddAction({
 					className="text-gray-300 transition hover:text-gray-500 active:text-gray-700"
 					onClick={() => setLargeForm(() => !largeForm)}
 				>
-					{largeForm ? (
-						<BiCollapse className="text-xl" />
-					) : (
-						<BiExpand className="text-xl" />
-					)}
+					{largeForm ? <BiCollapse className="text-xl" /> : <BiExpand className="text-xl" />}
 				</button>
 			</div>
 			<div className="overflow-y-auto overflow-x-visible px-4 md:px-6 ">
-				<Form
-					method="post"
-					name="new_action"
-					id="new_action"
-					ref={formRef}
-				>
+				<Form method="post" name="new_action" id="new_action" ref={formRef}>
 					{/* Usuário que está criando */}
 					<input type="hidden" value={userId} name="created_by" />
 					<input type="hidden" value={userId} name="user_id" />
-					{actionData?.error ? (
-						<div className="error-banner mt-8">
-							{actionData.error.message}
-						</div>
-					) : null}
+					{actionData?.error ? <div className="error-banner mt-8">{actionData.error.message}</div> : null}
 					<Input label="Título" name="name" type="text" />
 					{largeForm && (
 						<>
-							<SelectField
-								label="campaign_id"
-								values={campaigns}
-								name="Campanha"
-							/>
+							<SelectField label="campaign_id" values={campaigns} name="Campanha" />
 
-							<Input
-								label="Descrição"
-								name="description"
-								type="textarea"
-							/>
+							<Input label="Descrição" name="description" type="textarea" />
 						</>
 					)}
 
@@ -153,18 +126,9 @@ export default function AddAction({
 						</>
 					)}
 
-					<div
-						className={`${
-							largeForm ? "grid gap-4 md:grid-cols-2" : ""
-						}`}
-					>
+					<div className={`${largeForm ? "grid gap-4 md:grid-cols-2" : ""}`}>
 						<div className={largeForm ? "" : "hidden"}>
-							<Input
-								label="Data de Início"
-								name="start"
-								type="date"
-								value={today.format("YYYY-MM-DD")}
-							/>
+							<Input label="Data de Início" name="start" type="date" value={today.format("YYYY-MM-DD")} />
 						</div>
 
 						<motion.div layout>
@@ -172,9 +136,7 @@ export default function AddAction({
 								label="Data"
 								name="end"
 								type="datetime-local"
-								value={today
-									.add(1, "hour")
-									.format("YYYY-MM-DD[T]HH:mm")}
+								value={today.add(1, "hour").format("YYYY-MM-DD[T]HH:mm")}
 							/>
 						</motion.div>
 					</div>
@@ -182,14 +144,7 @@ export default function AddAction({
 				</Form>
 			</div>
 			<div className="flex justify-end gap-2 border-t p-4 md:px-6 ">
-				<Button
-					form="new_action"
-					text="Inserir"
-					primary
-					name="action"
-					value="new-action"
-					isAdding={isAdding}
-				/>
+				<Button form="new_action" text="Inserir" primary name="action" value="new-action" isAdding={isAdding} />
 			</div>
 		</motion.div>
 	);

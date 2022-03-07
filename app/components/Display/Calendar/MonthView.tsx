@@ -1,10 +1,10 @@
 import dayjs, { Dayjs } from "dayjs";
-import { useEffect, useState } from "react";
-import { HiOutlineChevronLeft, HiOutlineChevronRight, HiPlus, HiPlusCircle } from "react-icons/hi";
+import { useState } from "react";
+import { HiOutlineChevronLeft, HiOutlineChevronRight, HiPlusCircle } from "react-icons/hi";
 import Action from "~/components/Action";
 import { ActionType } from "~/types";
 
-type DayType = { day: Dayjs; actions: Array<ActionType> };
+export type DayType = { day: Dayjs; actions: Array<ActionType> };
 
 export function MonthView({ actions }: { actions: ActionType[] }) {
 	let today = dayjs();
@@ -25,65 +25,118 @@ export function MonthView({ actions }: { actions: ActionType[] }) {
 	}
 
 	return (
-		<>
-			<header className="flex justify-between border-b pb-4">
-				<div className="flex items-center gap-4">
-					{/* Nome do mês */}
-					<h5 className="m-0 text-gray-700">{month.format("MMMM")}</h5>
-					<div className="button-group">
-						{/* Mês anterior */}
-						<button
-							className="button button-small button-white"
-							onClick={() => set_month(month.subtract(1, "month"))}
-						>
-							<HiOutlineChevronLeft className="text-lg" />
-						</button>
-						{/* Próximo mês */}
-						<button
-							className="button button-small button-white"
-							onClick={() => set_month(month.add(1, "month"))}
-						>
-							<HiOutlineChevronRight className="text-lg" />
-						</button>
-					</div>
-				</div>
-			</header>
-			<div className="grid grid-cols-7 py-4 text-xs font-bold text-gray-700">
-				<div>DOM</div>
-				<div>SEG</div>
-				<div>TER</div>
-				<div>QUA</div>
-				<div>QUI</div>
-				<div>SEX</div>
-				<div>SÁB</div>
-			</div>
+		<div className="rounded-xl border bg-white shadow shadow-gray-500/20">
+			<ViewHeader
+				title={`${month.format("MMMM")}
+					${month.year() !== today.year() ? month.format(" [de] YYYY") : ""}`}
+				prev={() => set_month(month.subtract(1, "month"))}
+				next={() => set_month(month.add(1, "month"))}
+			/>
+			<WeekHeader />
+
 			<section className="grid grid-cols-7">
 				{monthDays.map((day, index) => (
-					<Day day={day} index={index} month={month} />
+					<Day day={day} index={index} month={month} key={index} today={today} size="x" />
 				))}
 			</section>
-		</>
+		</div>
 	);
 }
 
-function Day({ day, index, month }: { day: DayType; index: number; month: Dayjs }) {
+export function Day({
+	day,
+	index,
+	month,
+	today,
+	size,
+	dayName,
+}: {
+	day: DayType;
+	index: number;
+	month: Dayjs;
+	today: Dayjs;
+	size: "x" | "s" | "n";
+	dayName?: boolean;
+}) {
 	let [showMore, set_showMore] = useState(false);
 	return (
-		<div className={`group border-t p-2 ${(index + 1) % 7 !== 0 ? "border-r" : ""}`}>
-			<div className={`mb-2  text-sm  ${day.day.month() !== month.month() ? " text-gray-300" : ""}`}>
-				{day.day.date()}
-			</div>
+		<div
+			className={`group ${
+				!dayName ? ((index + 1) % 7 !== 0 ? "border-r border-t p-2" : "border-t p-2") : "p-1"
+			} `}
+		>
+			{/* Número do dia */}
+			{dayName ? (
+				<div className={`mb-4`}>
+					<div className="flex items-center gap-1 lg:flex-wrap lg:gap-0">
+						<div
+							className={`text-xs font-bold lg:text-base ${
+								day.day.format("YYYY/MM/DD") === today.format("YYYY/MM/DD")
+									? " text-brand-600"
+									: "text-gray-700"
+							} first-letter:uppercase lg:w-full`}
+						>
+							{day.day.format("dddd, ")}
+						</div>
+						<div className="text-xs">{day.day.format("D [de] MMMM")}</div>
+					</div>
+				</div>
+			) : (
+				<div className={`text-xs ${day.day.month() !== month.month() ? " text-gray-300" : ""}`}>
+					{day.day.format("YYYY/MM/DD") === today.format("YYYY/MM/DD") ? (
+						<div className={` grid h-6 w-6 place-content-center rounded-full bg-brand-500 text-white`}>
+							{day.day.format("D")}
+						</div>
+					) : (
+						<div>{day.day.format("D")}</div>
+					)}
+				</div>
+			)}
+
 			<div className="space-y-2">
+				{dayName ? (
+					day.actions.map((action) => <Action key={action.id} action={action} size={size} />)
+				) : (
+					<>
+						{day.actions.slice(0, 3).map((action) => (
+							<Action key={action.id} action={action} size={size} />
+						))}
+						{showMore &&
+							day.actions
+								.slice(3)
+								.map((action) => <Action key={action.id} action={action} size={size} />)}
+						<div className="pointer-events-none flex -translate-y-4 flex-col items-center justify-center opacity-0 transition duration-300 group-hover:pointer-events-auto  group-hover:translate-y-0 group-hover:opacity-100 md:flex-row">
+							{day.actions.length > 3 && (
+								<button
+									className="button button-ghost text-xx p-1"
+									onClick={() => set_showMore(!showMore)}
+								>
+									{showMore ? "Exibir Menos" : "Exibir todas"}
+								</button>
+							)}
+							<button className="button button-ghost p-1">
+								<HiPlusCircle className="text-lg" />
+							</button>
+						</div>
+					</>
+				)}
 				{/* 
         Guardar para BACKUP
         {day.actions.map((action) => (
 					<Action key={action.id} action={action} small={true} />
 				))} */}
-				{day.actions.slice(0, 3).map((action) => (
+				{/* { 
+					dayName ? 
+						day.actions.map((action) => <Action key={action.id} action={action} size={size} /> : null */}
+				{/* <>
+	{			 day.actions.slice(0, 3).map((action) => (
+					 <Action key={action.id} action={action} size={size} />
+				 ))} day.actions.map((action) => (
 					<Action key={action.id} action={action} small={true} />
 				))}
-				{showMore &&
-					day.actions.slice(3).map((action) => <Action key={action.id} action={action} small={true} />)}
+				{ showMore &&
+					day.actions.slice(3).map((action) => <Action key={action.id} action={action} size={"x"} />) }
+
 				<div className="pointer-events-none flex -translate-y-4 flex-col items-center justify-center opacity-0 transition duration-300 group-hover:pointer-events-auto  group-hover:translate-y-0 group-hover:opacity-100 md:flex-row">
 					{day.actions.length > 3 && (
 						<button className="button button-ghost text-xx p-1" onClick={() => set_showMore(!showMore)}>
@@ -94,7 +147,44 @@ function Day({ day, index, month }: { day: DayType; index: number; month: Dayjs 
 						<HiPlusCircle className="text-lg" />
 					</button>
 				</div>
+				</> */}
+				{/* } */}
 			</div>
 		</div>
+	);
+}
+
+export function WeekHeader() {
+	return (
+		<div className="grid grid-cols-7 text-xs font-bold text-gray-700">
+			<div className="p-2 lg:px-4">DOM</div>
+			<div className="p-2 lg:px-4">SEG</div>
+			<div className="p-2 lg:px-4">TER</div>
+			<div className="p-2 lg:px-4">QUA</div>
+			<div className="p-2 lg:px-4">QUI</div>
+			<div className="p-2 lg:px-4">SEX</div>
+			<div className="p-2 lg:px-4">SÁB</div>
+		</div>
+	);
+}
+
+export function ViewHeader({ title, prev, next }: { title: string; prev: any; next: any }) {
+	return (
+		<header className="border-b p-2 lg:p-4">
+			<div className="flex items-center justify-between gap-4">
+				{/* Nome do mês */}
+				<h4 className="m-0 text-gray-700 first-letter:uppercase">{title}</h4>
+				<div className="flex">
+					{/* Mês anterior */}
+					<button className="button button-small button-ghost" onClick={() => prev()}>
+						<HiOutlineChevronLeft className="text-lg" />
+					</button>
+					{/* Próximo mês */}
+					<button className="button button-small button-ghost" onClick={() => next()}>
+						<HiOutlineChevronRight className="text-lg" />
+					</button>
+				</div>
+			</div>
+		</header>
 	);
 }

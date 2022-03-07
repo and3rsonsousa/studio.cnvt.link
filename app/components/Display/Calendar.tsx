@@ -1,12 +1,7 @@
-import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { BsGrid, BsGrid3X2 } from "react-icons/bs";
-import { HiOutlineCalendar, HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
-import { MdOutlineViewDay, MdOutlineViewWeek } from "react-icons/md";
 import { slideV } from "~/lib/animations";
 import { ActionType } from "~/types";
-import Action from "../Action";
 import DayView from "./Calendar/DayView";
 import { MonthView } from "./Calendar/MonthView";
 import WeekView from "./Calendar/WeekView";
@@ -22,7 +17,7 @@ export default function Calendar({ actions }: CalendarProps) {
 	let views = [
 		{
 			id: 1,
-			name: "Calendário",
+			name: "Mês",
 		},
 		{
 			id: 2,
@@ -32,10 +27,10 @@ export default function Calendar({ actions }: CalendarProps) {
 			id: 3,
 			name: "Dia",
 		},
-		{
-			id: 4,
-			name: "Ano",
-		},
+		// {
+		// 	id: 4,
+		// 	name: "Ano",
+		// },
 	];
 
 	return (
@@ -46,8 +41,11 @@ export default function Calendar({ actions }: CalendarProps) {
 					<div className="button-group button-group-small">
 						{views.map((single) => (
 							<button
-								className="button button-small button-white tracking-wide"
+								className={`button button-small tracking-wide ${
+									view === single.id ? "button-primary" : "button-white"
+								}`}
 								onClick={() => set_view(single.id)}
+								key={single.id}
 							>
 								<span>
 									<span>{single.name.slice(0, 1)}</span>

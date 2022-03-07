@@ -4,6 +4,7 @@ import { isFuture, isLate } from "~/lib/functions";
 import { ActionType } from "~/types";
 import Action from "../Action";
 import { Heading } from "./Display";
+import GridActions from "./GridActions";
 
 type DisplayProps = {
 	actions: ActionType[];
@@ -56,15 +57,15 @@ export default function Cronologic({ actions, set_showAddActionForm }: DisplayPr
 						}
 					/>
 
-					<div className="mb-16 grid gap-4 sm:grid-cols-2 xl:grid-cols-3 3xl:grid-cols-6">
+					<GridActions>
 						{lateActions.slice(0, 6).map((action: ActionType) => (
-							<Action key={action.id} action={action} />
+							<Action key={action.id} action={action} size="n" />
 						))}
 						{showMoreLateActions &&
 							lateActions
 								.slice(6)
-								.map((action: ActionType) => <Action key={action.id} action={action} />)}
-					</div>
+								.map((action: ActionType) => <Action size="n" key={action.id} action={action} />)}
+					</GridActions>
 				</>
 			)}
 			<Heading
@@ -75,9 +76,9 @@ export default function Cronologic({ actions, set_showAddActionForm }: DisplayPr
 						: undefined
 				}
 			/>
-			<div className="mb-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-6">
+			<GridActions>
 				{todayActions.length > 0 ? (
-					todayActions.map((action: ActionType) => <Action key={action.id} action={action} />)
+					todayActions.map((action: ActionType) => <Action size="n" key={action.id} action={action} />)
 				) : (
 					<div className="col-span-2 text-gray-400">
 						Nenhuma Ação para hoje. Toque aqui para{" "}
@@ -90,7 +91,7 @@ export default function Cronologic({ actions, set_showAddActionForm }: DisplayPr
 						</a>
 					</div>
 				)}
-			</div>
+			</GridActions>
 			{futureActions.length > 0 && (
 				<>
 					<Heading
@@ -103,11 +104,11 @@ export default function Cronologic({ actions, set_showAddActionForm }: DisplayPr
 								: undefined
 						}
 					/>
-					<div className="mb-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-6">
+					<GridActions>
 						{futureActions.map((action: ActionType) => (
-							<Action key={action.id} action={action} />
+							<Action key={action.id} action={action} size="n" />
 						))}
-					</div>
+					</GridActions>
 				</>
 			)}
 		</>

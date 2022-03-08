@@ -25,7 +25,7 @@ export default function () {
 	let { profile, accounts } = useLoaderData<{ profile: ProfileType; accounts: AccountType[] }>();
 	let links: LinkType[] = accounts.map((account) => ({
 		name: account.name,
-		url: `/dashboard/account/${account.slug}`,
+		url: `/dashboard/${account.slug}`,
 	}));
 	return (
 		<div className="flex min-h-screen bg-gray-100">

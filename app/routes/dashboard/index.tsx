@@ -4,7 +4,7 @@ import { useState } from "react";
 import { HiPlus } from "react-icons/hi";
 import { ActionFunction, LoaderFunction, useActionData, useLoaderData } from "remix";
 import AddAction from "~/components/AddAction";
-import Display from "~/components/Display/Display";
+import Display from "~/components/Display";
 import { handleActionDB } from "~/lib/handleActionDB.server";
 import { getUserId } from "~/lib/session.server";
 import { supabase } from "~/lib/supabase";
@@ -28,7 +28,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 		accounts
 			?.map((account: AccountType) => {
 				account.actions?.map((action) => {
-					actions.push(action);
+					actions.push({ ...action, account });
 				});
 				account_ids.push(account.id);
 				return account.user_id;

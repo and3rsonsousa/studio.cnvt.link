@@ -2,11 +2,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Dispatch, ReactChild, SetStateAction, useState } from "react";
 import { fade, slideH } from "~/lib/animations";
 import { ActionType } from "~/types";
-import Calendar from "./Calendar";
-import Cronologic from "./Cronologic";
-import Grid from "./Grid";
-import Header from "./Header";
-import List from "./List";
+import Calendar from "./Display/Calendar";
+import Cronologic from "./Display/Cronologic";
+import Grid from "./Display/Grid";
+import Header from "./Display/Header";
+import List from "./Display/List";
 
 type DisplayProps = {
 	actions: ActionType[];

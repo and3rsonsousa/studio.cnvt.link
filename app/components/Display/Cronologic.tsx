@@ -3,7 +3,7 @@ import { HiOutlineMinusCircle, HiOutlinePlusCircle } from "react-icons/hi";
 import { isFuture, isLate } from "~/lib/functions";
 import { ActionType } from "~/types";
 import Action from "../Action";
-import { Heading } from "./Display";
+import { Heading } from "../Display";
 import GridActions from "./GridActions";
 
 type DisplayProps = {

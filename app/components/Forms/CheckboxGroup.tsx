@@ -6,23 +6,13 @@ export interface CheckboxGroupProps {
 	columns?: number;
 }
 
-export const CheckboxGroup = ({
-	label,
-	name,
-	items,
-	selected = [],
-	columns = 2,
-}: CheckboxGroupProps) => {
+export const CheckboxGroup = ({ label, name, items, selected = [], columns = 2 }: CheckboxGroupProps) => {
 	// console.log(items, selected);
 
 	return (
 		<fieldset className="field-group">
 			<span>{label}</span>
-			<div
-				className={`${
-					columns === 2 ? "grid-cols-2" : "grid-cols-3"
-				} space-y-2 md:grid md:gap-4 md:space-y-0`}
-			>
+			<div className={`${columns === 2 ? "grid-cols-2" : "grid-cols-3"} space-y-2 md:grid md:gap-4 md:space-y-0`}>
 				{items.map((item) => (
 					<label key={item.id}>
 						<input
@@ -33,11 +23,7 @@ export const CheckboxGroup = ({
 								selected
 									? selected.filter(
 											(value) => {
-												return (
-													String(
-														item.value ?? item.id
-													) === String(value)
-												);
+												return String(item.value ?? item.id) === String(value);
 											}
 											// Array.isArray(item)
 											// 	? item.user_id.filter(

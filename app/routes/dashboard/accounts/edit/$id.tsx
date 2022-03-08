@@ -1,25 +1,19 @@
-import {
-	ActionFunction,
-	Form,
-	LoaderFunction,
-	redirect,
-	useActionData,
-	useLoaderData,
-} from "remix";
-import { supabase } from "~/lib/supabase";
+import { ActionFunction, Form, LoaderFunction, redirect, useActionData, useLoaderData } from "remix";
 import { CheckboxGroup, Input } from "~/components/Forms";
+import { supabase } from "~/lib/supabase";
 import { AccountType, ProfileType } from "~/types";
-import profile from "../../profile";
 
 export const loader: LoaderFunction = async ({ params }) => {
-	let { data: account, error } = await supabase
-		.from("accounts")
-		.select()
-		.match({ id: params.id })
-		.single();
-	if (error) throw new Error(error.message);
+	let data = await Promise.all([
+		supabase.from("accounts").select().match({ id: params.id }).single(),
+		supabase.from("profiles").select(),
+	]);
 
-	let { data: profiles } = await supabase.from("profiles").select();
+	let { data: account, error: error1 } = data[0];
+	let { data: profiles, error: error2 } = data[1];
+
+	if (error1) throw new Error(error1.message);
+	if (error2) throw new Error(error2.message);
 
 	return { account, profiles };
 };
@@ -59,10 +53,7 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function () {
-	let {
-		account,
-		profiles,
-	}: { account: AccountType; profiles: ProfileType[] } = useLoaderData();
+	let { account, profiles }: { account: AccountType; profiles: ProfileType[] } = useLoaderData();
 	let actionData = useActionData();
 
 	return (
@@ -76,18 +67,8 @@ export default function () {
 						</div>
 					)}
 					<Form method="post">
-						<Input
-							label="Nome"
-							type="text"
-							name="name"
-							value={account.name}
-						/>
-						<Input
-							label="Slug"
-							type="text"
-							name="slug"
-							value={account.slug}
-						/>
+						<Input label="Nome" type="text" name="name" value={account.name} />
+						<Input label="Slug" type="text" name="slug" value={account.slug} />
 						<CheckboxGroup
 							label="Usuários"
 							name="user_id"
@@ -100,10 +81,7 @@ export default function () {
 						/>
 						<div className="mt-8 text-right">
 							<input name="id" value={account.id} type="hidden" />
-							<button
-								type="submit"
-								className="button button-primary"
-							>
+							<button type="submit" className="button button-primary">
 								Atualizar
 							</button>
 						</div>

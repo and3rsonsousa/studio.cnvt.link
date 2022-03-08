@@ -9,7 +9,7 @@ export default function Index() {
 						<img src="/logo.svg" alt="STUDIO" className="w-52" />
 					</div>
 					<div className="mt-8 text-center">
-						<Link to="/login" className="button button-white">
+						<Link to="/login" className="button button-primary">
 							Entrar
 						</Link>
 					</div>

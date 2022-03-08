@@ -21,8 +21,6 @@ export async function handleActionDB(request: Request) {
 	} else if (action === "new-action") {
 		let { action, ...values } = Object.fromEntries(formData);
 
-		console.log(values);
-
 		if (values.name === "" || values.name === undefined) {
 			return {
 				error: { message: "Insira um título na sua ação." },

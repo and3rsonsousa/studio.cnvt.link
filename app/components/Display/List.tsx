@@ -4,7 +4,7 @@ import { HiOutlinePencil, HiOutlineX } from "react-icons/hi";
 import { Link, useActionData, useFetcher, useTransition } from "remix";
 import { fade } from "~/lib/animations";
 import { ActionType } from "~/types";
-import { Heading } from "./Display";
+import { Heading } from "../Display";
 
 type ListProps = {
 	actions: ActionType[];

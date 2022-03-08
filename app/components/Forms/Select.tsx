@@ -16,7 +16,7 @@ export const SelectField = ({ label, name, values, selected }: SelectProps) => (
 			<select name={label}>
 				<option></option>
 				{values.map((item) => (
-					<option value={item.id} key={item.id}>
+					<option value={item.id} key={item.id} selected={item.id === selected}>
 						{item.name}
 					</option>
 				))}

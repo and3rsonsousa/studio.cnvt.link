@@ -6,7 +6,7 @@ import DayView from "./Calendar/DayView";
 import { MonthView } from "./Calendar/MonthView";
 import WeekView from "./Calendar/WeekView";
 import YearView from "./Calendar/YearView";
-import { Heading } from "./Display";
+import { Heading } from "../Display";
 
 type CalendarProps = {
 	actions: ActionType[];
@@ -34,7 +34,7 @@ export default function Calendar({ actions }: CalendarProps) {
 	];
 
 	return (
-		<div>
+		<>
 			<Heading
 				title={views.filter((single) => single.id === view)[0].name}
 				rightComponent={
@@ -78,6 +78,6 @@ export default function Calendar({ actions }: CalendarProps) {
 					</motion.div>
 				)}
 			</AnimatePresence>
-		</div>
+		</>
 	);
 }

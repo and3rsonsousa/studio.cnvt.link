@@ -18,8 +18,6 @@ export type ActionProps = {
 };
 
 export default function Action({ action, size = "n" }: ActionProps) {
-	let fetcher = useFetcher();
-
 	let [timeInfo, set_timeInfo] = useState(true);
 
 	return (
@@ -45,7 +43,10 @@ export default function Action({ action, size = "n" }: ActionProps) {
 						defaultValue={action.name}
 						autoComplete="off"
 					/>
-					<Link to={`/dashboard/action/${action.id}`} className="button button-ghost button-small -mr-2 px-2">
+					<Link
+						to={`/dashboard/${action.account?.slug}/${action.id}`}
+						className="button button-ghost button-small -mr-2 px-2"
+					>
 						<HiChevronDoubleRight />
 					</Link>
 				</div>

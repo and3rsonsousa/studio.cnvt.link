@@ -46,7 +46,7 @@ export type ActionType = {
 	tag_id: number;
 	campaign_id: number;
 
-	account?: AccountType;
+	account: AccountType;
 	flows?: BasicType;
 	status?: BasicType;
 	tags?: BasicType;

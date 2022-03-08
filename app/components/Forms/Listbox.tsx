@@ -30,9 +30,9 @@ export let listboxButtonSmallClasses = (slug: string, start?: boolean, end?: boo
 export let listboxOptionsClasses = (start?: boolean, end?: boolean, columns?: 2 | 3) => {
 	let columns_classes = [, , " grid grid-cols-2 w-[19rem]", " grid grid-cols-3 w-[28rem]"];
 
-	return `z-50 origin-top absolute rounded-xl bg-white py-2 text-xs shadow-2xl shadow-gray-500/30 outline-none ${"left-0"} ${
-		columns ? columns_classes[columns] : ""
-	}`;
+	return `z-50 origin-top absolute rounded-xl bg-white py-2 text-xs shadow-2xl shadow-gray-500/30 outline-none ${
+		end ? "-left-16" : "-left-4"
+	} ${columns ? columns_classes[columns] : ""}`;
 };
 
 export let listboxOptionClasses = (active: boolean, selected: boolean) =>

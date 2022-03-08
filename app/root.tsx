@@ -12,7 +12,7 @@ export const links: LinksFunction = () => {
 		},
 		{
 			rel: "icon",
-			href: "./favicon.png",
+			href: "/favicon.png",
 		},
 	];
 };

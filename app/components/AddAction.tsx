@@ -1,14 +1,13 @@
-import dayjs from "dayjs";
-import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import { BiExpand, BiCollapse } from "react-icons/bi";
-import { Form, useTransition } from "remix";
-import { Button, Input, RadioGroup, SelectField } from "~/components/Forms";
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { BiCollapse, BiExpand } from "react-icons/bi";
+import { useTransition } from "remix";
+import { Button } from "~/components/Forms";
 import { popup } from "~/lib/animations";
-import { flows, steps, tags } from "~/lib/data";
 import { AccountType, ICampaign, ProfileType } from "~/types";
+import ActionForm from "./Forms/ActionForm";
 
-type AddActionsProps = {
+export type AddActionsProps = {
 	data: {
 		accounts: AccountType[];
 		profiles: ProfileType[];
@@ -16,22 +15,15 @@ type AddActionsProps = {
 		actionData: any;
 		campaigns: ICampaign[];
 	};
+	full?: boolean;
 };
 
 export default function AddAction({ data: { accounts, profiles, userId, actionData, campaigns } }: AddActionsProps) {
 	let [largeForm, setLargeForm] = useState(false);
-	let today = dayjs();
 
 	let transition = useTransition();
 	let state = transition.state;
 	let isAdding = transition.submission && transition.submission.formData.get("action") === "new-action";
-	let formRef = useRef<null | HTMLFormElement>(null);
-
-	useEffect(() => {
-		if (isAdding) {
-			formRef.current?.reset();
-		}
-	}, [state]);
 
 	return (
 		<motion.div
@@ -54,94 +46,18 @@ export default function AddAction({ data: { accounts, profiles, userId, actionDa
 				</button>
 			</div>
 			<div className="overflow-y-auto overflow-x-visible px-4 md:px-6 ">
-				<Form method="post" name="new_action" id="new_action" ref={formRef}>
-					{/* Usuário que está criando */}
-					<input type="hidden" value={userId} name="created_by" />
-					<input type="hidden" value={userId} name="user_id" />
-					{actionData?.error ? <div className="error-banner mt-8">{actionData.error.message}</div> : null}
-					<Input label="Título" name="name" type="text" />
-					{largeForm && (
-						<>
-							<SelectField label="campaign_id" values={campaigns} name="Campanha" />
-
-							<Input label="Descrição" name="description" type="textarea" />
-						</>
-					)}
-
-					<motion.div layout>
-						<RadioGroup
-							label="Cliente"
-							name="account_id"
-							items={accounts.map((account) => ({
-								id: account.id,
-								name: account.name,
-							}))}
-							columns={largeForm ? 3 : 2}
-						/>
-					</motion.div>
-					{largeForm && (
-						<>
-							<RadioGroup
-								label="Responsável"
-								name="user_id"
-								items={profiles.map((profile) => ({
-									id: profile.id,
-									name: profile.name,
-									value: profile.user_id,
-								}))}
-								selected={userId}
-								columns={largeForm ? 3 : 2}
-							/>
-							<RadioGroup
-								label="Fluxo"
-								name="flow_id"
-								items={flows.map((flow) => ({
-									id: flow.id,
-									name: flow.name,
-									extra: flow.slug,
-								}))}
-								selected={1}
-								columns={largeForm ? 3 : 2}
-							/>
-							<RadioGroup
-								label="Status"
-								name="step_id"
-								items={steps.map((step) => ({
-									id: step.id,
-									name: step.name,
-								}))}
-								selected={1}
-								columns={largeForm ? 3 : 2}
-							/>
-							<RadioGroup
-								label="Tags"
-								name="tag_id"
-								items={tags.map((tag) => ({
-									id: tag.id,
-									name: tag.name,
-								}))}
-								selected={1}
-								columns={largeForm ? 3 : 2}
-							/>
-						</>
-					)}
-
-					<div className={`${largeForm ? "grid gap-4 md:grid-cols-2" : ""}`}>
-						{largeForm && (
-							<Input label="Data de Início" name="start" type="date" value={today.format("YYYY-MM-DD")} />
-						)}
-
-						<motion.div layout>
-							<Input
-								label="Data"
-								name="end"
-								type="datetime-local"
-								value={today.add(1, "hour").format("YYYY-MM-DD[T]HH:mm")}
-							/>
-						</motion.div>
-					</div>
-					<br />
-				</Form>
+				<ActionForm
+					data={{
+						accounts,
+						profiles,
+						userId,
+						actionData,
+						campaigns,
+					}}
+					full={largeForm}
+					state={state}
+					isAdding={isAdding}
+				/>
 			</div>
 			<div className="flex justify-end gap-2 border-t p-4 md:px-6 ">
 				<Button form="new_action" text="Inserir" primary name="action" value="new-action" isAdding={isAdding} />

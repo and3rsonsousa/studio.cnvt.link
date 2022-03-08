@@ -60,7 +60,7 @@ export default function DashboardIndex() {
 	// let { profile } = useOutletContext<{ profile: ProfileType }>();
 	let data = useLoaderData();
 	let actionData = useActionData();
-	let [showAddActionForm, set_showAddActionForm] = useState(false);
+	let [showAddActionForm, set_showAddActionForm] = useState(true);
 	let { profiles, accounts, actions, userId, campaigns } = data;
 
 	return (

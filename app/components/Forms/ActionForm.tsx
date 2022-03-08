@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import { Form } from "remix";
 import { flows, steps, tags } from "~/lib/data";
 import { ActionType } from "~/types";
-import { Input, RadioGroup, SelectField } from ".";
+import { Input, RadioGroup, SelectField, AutoComplete } from ".";
 import { AddActionsProps } from "../AddAction";
 
 export default function ({
@@ -45,7 +45,13 @@ export default function ({
 				</>
 			)}
 
-			<RadioGroup
+			<AutoComplete
+				label="Cliente"
+				name="account_id"
+				items={accounts.map((account) => ({ id: account.id, name: account.name }))}
+			/>
+
+			{/* <RadioGroup
 				label="Cliente"
 				name="account_id"
 				items={accounts.map((account) => ({
@@ -54,7 +60,7 @@ export default function ({
 				}))}
 				columns={full ? 3 : 2}
 				selected={values ? values.account_id : undefined}
-			/>
+			/> */}
 
 			{full ? (
 				<>

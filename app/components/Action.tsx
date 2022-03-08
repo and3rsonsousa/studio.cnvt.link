@@ -3,7 +3,7 @@ import "dayjs/locale/pt-br"; // import locale
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useState } from "react";
 import { HiChevronDoubleRight, HiDotsHorizontal } from "react-icons/hi";
-import { Link, useFetcher } from "remix";
+import { Link } from "remix";
 import { flows, steps, tags } from "~/lib/data";
 import { isLate } from "~/lib/functions";
 import { ActionType } from "~/types";
@@ -16,6 +16,9 @@ export type ActionProps = {
 	action: ActionType;
 	size: "x" | "s" | "n";
 };
+
+// TODO Incluir Responsável caso seja outra pessoa
+// TODO Incluir Cliente
 
 export default function Action({ action, size = "n" }: ActionProps) {
 	let [timeInfo, set_timeInfo] = useState(true);

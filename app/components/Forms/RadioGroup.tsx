@@ -7,33 +7,22 @@ type ItemType = {
 	extra?: unknown;
 };
 
-export interface RadioGroupProps {
+export type RadioGroupProps = {
 	label: string;
 	name: string;
 	items: Array<ItemType>;
 	selected?: string | number;
 	columns?: number;
 	component?: (item: ItemType) => ReactChild;
-}
+};
 
 // Corrigir o funcionamento do `component`
 
-export const RadioGroup = ({
-	label,
-	name,
-	items,
-	selected,
-	columns = 2,
-	component,
-}: RadioGroupProps) => {
+export const RadioGroup = ({ label, name, items, selected, columns = 2, component }: RadioGroupProps) => {
 	return (
 		<fieldset className="field-group">
 			<span>{label}</span>
-			<div
-				className={`${
-					columns === 2 ? "grid-cols-2" : "grid-cols-3"
-				} space-y-2 md:grid md:gap-4 md:space-y-0`}
-			>
+			<div className={`${columns === 2 ? "grid-cols-2" : "grid-cols-3"} space-y-2 md:grid md:gap-4 md:space-y-0`}>
 				{items.map((item) =>
 					component ? (
 						component(item)
@@ -43,15 +32,9 @@ export const RadioGroup = ({
 								type="radio"
 								name={name}
 								value={item.value ?? item.id}
-								defaultChecked={
-									item.value
-										? selected === item.value
-										: selected === item.id
-								}
+								defaultChecked={item.value ? selected === item.value : selected === item.id}
 							/>
-							<span
-								className={`w-full overflow-hidden text-ellipsis whitespace-nowrap`}
-							>
+							<span className={`w-full overflow-hidden text-ellipsis whitespace-nowrap`}>
 								{item.name}
 							</span>
 						</label>

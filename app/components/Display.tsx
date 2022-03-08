@@ -14,7 +14,7 @@ type DisplayProps = {
 };
 
 export default function Display({ actions, set_showAddActionForm }: DisplayProps) {
-	let [display, set_display] = useState<number>(2);
+	let [display, set_display] = useState<number>(1);
 
 	return (
 		<div>

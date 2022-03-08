@@ -1,11 +1,10 @@
-import { Form, useTransition } from "remix";
-import { Input, RadioGroup, SelectField } from ".";
-import { flows, steps, tags } from "~/lib/data";
-import { AddActionsProps } from "../AddAction";
 import dayjs from "dayjs";
 import { useEffect, useRef } from "react";
+import { Form } from "remix";
+import { flows, steps, tags } from "~/lib/data";
 import { ActionType } from "~/types";
-import { action } from "~/routes/login";
+import { Input, RadioGroup, SelectField } from ".";
+import { AddActionsProps } from "../AddAction";
 
 export default function ({
 	data: { userId, accounts, campaigns, actionData, profiles },
@@ -29,7 +28,7 @@ export default function ({
 		<Form method="post" name="new_action" id="new_action" ref={formRef}>
 			{/* Usuário que está criando */}
 			{!values ? <input type="hidden" value={userId} name="created_by" /> : null}
-			{/* <input type="hidden" value={userId} name="user_id" /> */}
+
 			{values && <input type="hidden" value={values.id} name="id" />}
 			{actionData?.error ? <div className="error-banner mt-8">{actionData.error.message}</div> : null}
 			<Input label="Título" name="name" type="text" value={values ? values.name : ""} />
@@ -57,7 +56,7 @@ export default function ({
 				selected={values ? values.account_id : undefined}
 			/>
 
-			{full && (
+			{full ? (
 				<>
 					<RadioGroup
 						label="Responsável"
@@ -102,6 +101,8 @@ export default function ({
 						columns={full ? 3 : 2}
 					/>
 				</>
+			) : (
+				<input type="hidden" value={userId} name="user_id" />
 			)}
 
 			<div className={`${full ? "grid gap-4 md:grid-cols-2" : ""}`}>

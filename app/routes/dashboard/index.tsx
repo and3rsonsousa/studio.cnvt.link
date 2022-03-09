@@ -18,6 +18,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 		.from("accounts")
 		.select("*, actions(*)")
 		.contains("user_id", [userId])
+
 		.order("name");
 
 	// Set 'actions' array and returns/flats the user_id's in accounts array
@@ -42,6 +43,11 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 	//Order the actions by 'end' date
 	actions = actions.sort((a, b) => dayjs(a.start ? a.start : a.end).diff(b.start ? b.start : b.end));
+
+	actions = actions.map((action) => ({
+		...action,
+		campaign: campaigns?.filter((campaign) => campaign.id === action.campaign_id)[0],
+	}));
 
 	return {
 		profiles,

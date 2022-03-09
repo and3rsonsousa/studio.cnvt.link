@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/pt-br"; // import locale
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useState } from "react";
-import { HiChevronDoubleRight, HiDotsHorizontal } from "react-icons/hi";
+import { HiChevronDoubleRight, HiDotsHorizontal, HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
 import { Link } from "remix";
 import { flows, steps, tags } from "~/lib/data";
 import { isLate } from "~/lib/functions";
@@ -18,7 +18,6 @@ export type ActionProps = {
 };
 
 // TODO Incluir Responsável caso seja outra pessoa
-// TODO Incluir Cliente
 // TODO: Ação de deletar
 // TODO: Ação de selecionar vários
 
@@ -37,14 +36,32 @@ export default function Action({ action, size = "n" }: ActionProps) {
 					size !== "n" ? "rounded-lg p-2 py-1 " : "min-w-fit rounded-xl px-4 py-3 "
 				} text-sm ring-brand-600/20 transition focus-within:border-brand-600 focus-within:ring-4 focus-within:duration-500 `}
 			>
-				{/* Cliente */}
-				<div className="flex gap-4">
+				{/* Cliente e Campanha */}
+
+				<div className={`items-center gap-1 ${size === "x" ? "hidden md:flex" : "flex"}`}>
 					<Link
 						to={`/dashboard/${action.account.slug}`}
-						className="text-xxx overflow-hidden text-ellipsis whitespace-nowrap font-medium uppercase leading-none tracking-wide text-gray-400 hover:text-brand-600"
+						className="text-xxx font-medium uppercase leading-none tracking-wide text-gray-400 transition hover:text-gray-700"
 					>
-						{action.account.name}
+						{size === "n" && !action.campaign_id ? (
+							<span className="overflow-hidden text-ellipsis whitespace-nowrap">
+								{action.account.name}
+							</span>
+						) : (
+							action.account.name.slice(0, 3)
+						)}
 					</Link>
+					{action.campaign && (
+						<>
+							<HiOutlineChevronRight className="text-xx" />
+							<Link
+								className="text-xxx overflow-hidden text-ellipsis whitespace-nowrap font-medium uppercase leading-none tracking-wide text-gray-400 transition hover:text-gray-700"
+								to={`dashboard/${action.account.slug}/campaign/${action.campaign.slug}`}
+							>
+								{action.campaign.name}
+							</Link>
+						</>
+					)}
 				</div>
 
 				{/* Name of the Action */}
@@ -82,11 +99,19 @@ export default function Action({ action, size = "n" }: ActionProps) {
 						>
 							{timeInfo ? (
 								action.start ? (
-									<div className={`${isLate(action.start) ? "text-error-500" : ""}`}>
+									<div
+										className={`${
+											isLate(action.start) ? "text-error-500 transition hover:text-error-700" : ""
+										}`}
+									>
 										{dayjs(action.start).fromNow(true) + (isLate(action.start) ? " em atraso" : "")}
 									</div>
 								) : (
-									<div className={`${isLate(action.end) ? "text-error-500" : ""}`}>
+									<div
+										className={`${
+											isLate(action.end) ? "text-error-500 transition hover:text-error-700" : ""
+										}`}
+									>
 										{dayjs(action.end).fromNow() + (isLate(action.end) ? " em atraso" : "")}
 									</div>
 								)
@@ -106,7 +131,7 @@ export default function Action({ action, size = "n" }: ActionProps) {
 													" a"}
 											</div>
 
-											<div className="order-3  whitespace-nowrap text-gray-400">
+											<div className="order-3  whitespace-nowrap text-gray-400 transition hover:text-gray-700">
 												({dayjs(action.start).to(action.end, true)})
 											</div>
 										</>

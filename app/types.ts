@@ -22,7 +22,7 @@ export type AccountType = {
 	actions?: ActionType[];
 };
 
-export type ICampaign = {
+export type CampaignType = {
 	id: number;
 	name: string;
 	slug: string;
@@ -50,7 +50,7 @@ export type ActionType = {
 	flows?: BasicType;
 	status?: BasicType;
 	tags?: BasicType;
-	campaigns: ICampaign;
+	campaign: CampaignType;
 
 	start?: string;
 	end: string;

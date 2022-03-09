@@ -72,7 +72,7 @@ export function Day({
 						<div
 							className={`text-xs font-bold lg:text-base ${
 								day.day.format("YYYY/MM/DD") === today.format("YYYY/MM/DD")
-									? " text-brand-600"
+									? "text-brand-600"
 									: "text-gray-700"
 							} first-letter:uppercase lg:w-full`}
 						>
@@ -84,7 +84,7 @@ export function Day({
 			) : (
 				<div className={`text-xs ${day.day.month() !== month.month() ? " text-gray-300" : ""}`}>
 					{day.day.format("YYYY/MM/DD") === today.format("YYYY/MM/DD") ? (
-						<div className={` grid h-6 w-6 place-content-center rounded-full bg-brand-500 text-white`}>
+						<div className={` -m-1 grid h-6 w-6 place-content-center rounded-full bg-brand-500 text-white`}>
 							{day.day.format("D")}
 						</div>
 					) : (
@@ -108,7 +108,7 @@ export function Day({
 						<div className="pointer-events-none flex flex-col items-center justify-center group-hover:pointer-events-auto md:flex-row">
 							{day.actions.length > 3 && (
 								<button
-									className="button button-ghost text-xx translate-x-3 p-1 opacity-25 transition duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+									className="button button-ghost text-xx p-1 opacity-25 transition duration-300 group-hover:translate-x-0 group-hover:opacity-100 md:translate-x-3"
 									onClick={() => set_showMore(!showMore)}
 								>
 									{showMore ? "Exibir Menos" : "Exibir todas"}

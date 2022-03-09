@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useTransition } from "remix";
 import { Button } from "~/components/Forms";
 import { popup } from "~/lib/animations";
-import { AccountType, ICampaign, ProfileType } from "~/types";
+import { AccountType, CampaignType, ProfileType } from "~/types";
 import ActionForm from "./Forms/ActionForm";
 
 export type AddActionsProps = {
@@ -12,7 +12,7 @@ export type AddActionsProps = {
 		profiles: ProfileType[];
 		userId: string;
 		actionData: any;
-		campaigns: ICampaign[];
+		campaigns: CampaignType[];
 	};
 	full?: boolean;
 };

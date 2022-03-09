@@ -1,7 +1,8 @@
 import { Combobox } from "@headlessui/react";
 import { Fragment, useState } from "react";
-import { listboxOptionClasses, listboxOptionsClasses } from ".";
+import { HiOutlineSelector } from "react-icons/hi";
 import removeAccent from "remove-accents";
+import { listboxOptionClasses, listboxOptionsClasses } from ".";
 
 export type ItemType = {
 	id: number;
@@ -20,6 +21,7 @@ export function AutoComplete({ label, name, items, selected, placeholder }: Auto
 	let [selectedItem, set_selectedItem] = useState(
 		selected ? items.filter((item) => item.id === selected)[0] : undefined
 	);
+
 	let [query, set_query] = useState("");
 
 	let filteredItems =
@@ -43,6 +45,9 @@ export function AutoComplete({ label, name, items, selected, placeholder }: Auto
 						displayValue={(item: ItemType) => item.name}
 						autoComplete="off"
 					/>
+					<Combobox.Button className="button button-ghost button-icon">
+						<HiOutlineSelector className="text-xl" />
+					</Combobox.Button>
 				</div>
 				<Combobox.Options className={listboxOptionsClasses()}>
 					{filteredItems.length === 0 && query !== "" ? (

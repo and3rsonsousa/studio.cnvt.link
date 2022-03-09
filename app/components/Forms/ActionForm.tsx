@@ -15,8 +15,7 @@ export default function ({
 }: AddActionsProps & { state: string; isAdding?: boolean; values?: ActionType }) {
 	let today = dayjs();
 	let formRef = useRef<null | HTMLFormElement>(null);
-
-	// console.log(campaigns);
+	let isEditing = !!values;
 
 	useEffect(() => {
 		if (isAdding) {
@@ -27,17 +26,23 @@ export default function ({
 	return (
 		<Form method="post" name="new_action" id="new_action" ref={formRef}>
 			{/* Usuário que está criando */}
-			{!values ? <input type="hidden" value={userId} name="created_by" /> : null}
+			{!isEditing ? <input type="hidden" value={userId} name="created_by" /> : null}
 
-			{values && <input type="hidden" value={values.id} name="id" />}
+			{isEditing && <input type="hidden" value={values?.id} name="id" />}
 			{actionData?.error ? <div className="error-banner mt-8">{actionData.error.message}</div> : null}
 			<Input label="Título" name="name" type="text" value={values ? values.name : ""} />
 			{full && (
 				<>
-					<SelectField
+					{/* <SelectField
 						label="campaign_id"
 						values={campaigns}
 						name="Campanha"
+						selected={values ? values.campaign_id : undefined}
+					/> */}
+					<AutoComplete
+						label="Campanha"
+						name="campaign_id"
+						items={campaigns}
 						selected={values ? values.campaign_id : undefined}
 					/>
 
@@ -49,18 +54,8 @@ export default function ({
 				label="Cliente"
 				name="account_id"
 				items={accounts.map((account) => ({ id: account.id, name: account.name }))}
-			/>
-
-			{/* <RadioGroup
-				label="Cliente"
-				name="account_id"
-				items={accounts.map((account) => ({
-					id: account.id,
-					name: account.name,
-				}))}
-				columns={full ? 3 : 2}
 				selected={values ? values.account_id : undefined}
-			/> */}
+			/>
 
 			{full ? (
 				<>
@@ -117,8 +112,8 @@ export default function ({
 						label="Data de Início"
 						name="start"
 						type="date"
-						value={today.format("YYYY-MM-DD")}
-						disable={true}
+						value={values?.start ? dayjs(values?.start).format("YYYY-MM-DD") : today.format("YYYY-MM-DD")}
+						disable={!values?.start}
 					/>
 				)}
 
@@ -126,7 +121,7 @@ export default function ({
 					label="Data"
 					name="end"
 					type="datetime-local"
-					value={today.add(1, "hour").format("YYYY-MM-DD[T]HH:mm")}
+					value={values?.end ?? today.add(1, "hour").format("YYYY-MM-DD[T]HH:mm")}
 				/>
 			</div>
 			<br />

@@ -24,7 +24,6 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 	let { data: accounts, error: error3 } = data[2];
 	let { data: campaigns, error: error4 } = data[3];
 
-	console.log(action);
 	if (error1) throw new Error(error1.message);
 	if (error2) throw new Error(error2.message);
 	if (error3) throw new Error(error3.message);

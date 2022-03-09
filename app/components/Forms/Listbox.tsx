@@ -28,7 +28,7 @@ export let listboxButtonSmallClasses = (slug: string, start?: boolean, end?: boo
 	`h-2 w-4 transition bg-${slug}  ${start ? "rounded-l-full pl-3" : ""} ${end ? "rounded-r-full pr-3" : ""}`;
 
 export let listboxOptionsClasses = (small?: boolean, end?: boolean, columns?: 2 | 3) => {
-	return `z-50 origin-top absolute min-w-full rounded-xl bg-white p-2 shadow-2xl shadow-gray-500/30 outline-none ring-1 ring-black/5 max-h-72 overflow-y-auto ${
+	return `z-50 origin-top absolute min-w-full rounded-xl bg-white p-2 shadow-2xl shadow-gray-500/30 outline-none ring-1 ring-black/5 max-h-52 overflow-auto ${
 		small ? "text-xs" : "text-sm"
 	}`;
 };

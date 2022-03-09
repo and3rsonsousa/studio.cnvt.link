@@ -4,7 +4,7 @@ import { Link } from "remix";
 export default function Index() {
 	return (
 		<div className="min-h-screen bg-gray-100">
-			<div className="grid place-content-center  bg-gradient-to-br from-brave via-brand-600 to-pacific">
+			<div className="grid h-[70vh] place-content-center  bg-gradient-to-br from-brave via-brand-600 to-pacific">
 				<div className="space-y-16 px-8 py-24 text-center">
 					<div>
 						<img src="/logo-white.svg" alt="STUDIO" className="mx-auto w-52" />

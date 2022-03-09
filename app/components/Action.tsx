@@ -19,6 +19,8 @@ export type ActionProps = {
 
 // TODO Incluir Responsável caso seja outra pessoa
 // TODO Incluir Cliente
+// TODO: Ação de deletar
+// TODO: Ação de selecionar vários
 
 export default function Action({ action, size = "n" }: ActionProps) {
 	let [timeInfo, set_timeInfo] = useState(true);

@@ -20,6 +20,9 @@ export const loader: LoaderFunction = async ({ params }) => {
 	return account;
 };
 
+// TODO: Mover as ações laterais para a pagina $id.tsx
+// TODO: Inclur opção de Criação de Campanha direto na página
+
 export default function Slug() {
 	let account: AccountType = useLoaderData();
 	return (

@@ -6,20 +6,19 @@ if (!sessionSecret) {
 	throw new Error("SESSION_SECRET must be set");
 }
 
-const { getSession, commitSession, destroySession } =
-	createCookieSessionStorage({
-		// a Cookie from `createCookie` or the CookieOptions to create one
-		cookie: {
-			name: "__studio__cookie__",
+const { getSession, commitSession, destroySession } = createCookieSessionStorage({
+	// a Cookie from `createCookie` or the CookieOptions to create one
+	cookie: {
+		name: "__studio__cookie__",
 
-			httpOnly: true,
-			maxAge: 60 * 60 * 24,
-			path: "/",
-			sameSite: "lax",
-			secrets: [sessionSecret],
-			secure: false,
-		},
-	});
+		httpOnly: true,
+		maxAge: 60 * 60 * 24 * 3,
+		path: "/",
+		sameSite: "lax",
+		secrets: [sessionSecret],
+		secure: false,
+	},
+});
 
 export { getSession, commitSession, destroySession };
 

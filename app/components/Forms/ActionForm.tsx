@@ -15,7 +15,7 @@ export default function ({
 }: AddActionsProps & { state: string; isAdding?: boolean; values?: ActionType }) {
 	let today = dayjs();
 	let formRef = useRef<null | HTMLFormElement>(null);
-	let isEditing = !!values;
+	let isEditing = !!values?.id;
 
 	useEffect(() => {
 		if (isAdding) {

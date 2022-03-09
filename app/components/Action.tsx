@@ -37,6 +37,16 @@ export default function Action({ action, size = "n" }: ActionProps) {
 					size !== "n" ? "rounded-lg p-2 py-1 " : "min-w-fit rounded-xl px-4 py-3 "
 				} text-sm ring-brand-600/20 transition focus-within:border-brand-600 focus-within:ring-4 focus-within:duration-500 `}
 			>
+				{/* Cliente */}
+				<div className="flex gap-4">
+					<Link
+						to={`/dashboard/${action.account.slug}`}
+						className="text-xxx overflow-hidden text-ellipsis whitespace-nowrap font-medium uppercase leading-none tracking-wide text-gray-400 hover:text-brand-600"
+					>
+						{action.account.name}
+					</Link>
+				</div>
+
 				{/* Name of the Action */}
 				<div className="flex">
 					<input

@@ -34,11 +34,11 @@
 @layer utilities {
 	.text-xx {
 		font-size: 0.625rem;
-		line-height: 1rem;
+		line-height: 0.75rem;
 	}
 	.text-xxx {
 		font-size: 0.5rem;
-		line-height: 0.75rem;
+		line-height: 0.625rem;
 	}
 	.focus-30 {
 		@apply focus:outline-none focus:ring-4 focus:ring-brand-600/30;

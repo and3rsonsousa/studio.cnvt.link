@@ -33,12 +33,6 @@ export default function ({
 			<Input label="Título" name="name" type="text" value={values ? values.name : ""} />
 			{full && (
 				<>
-					{/* <SelectField
-						label="campaign_id"
-						values={campaigns}
-						name="Campanha"
-						selected={values ? values.campaign_id : undefined}
-					/> */}
 					<AutoComplete
 						label="Campanha"
 						name="campaign_id"

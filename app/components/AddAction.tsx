@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { BiCollapse, BiExpand } from "react-icons/bi";
 import { useTransition } from "remix";
 import { Button } from "~/components/Forms";
 import { popup } from "~/lib/animations";
@@ -38,12 +37,6 @@ export default function AddAction({ data: { accounts, profiles, userId, actionDa
 		>
 			<div className="flex justify-between border-b p-4 text-gray-700 md:px-6 ">
 				<h4 className="mb-0">Nova Ação</h4>
-				<button
-					className="text-gray-300 transition hover:text-gray-500 active:text-gray-700"
-					onClick={() => setLargeForm(() => !largeForm)}
-				>
-					{largeForm ? <BiCollapse className="text-xl" /> : <BiExpand className="text-xl" />}
-				</button>
 			</div>
 			<div className="overflow-y-auto overflow-x-visible px-4 md:px-6 ">
 				<ActionForm
@@ -59,7 +52,10 @@ export default function AddAction({ data: { accounts, profiles, userId, actionDa
 					isAdding={isAdding}
 				/>
 			</div>
-			<div className="flex justify-end gap-2 border-t p-4 md:px-6 ">
+			<div className="flex items-center justify-between gap-2 border-t p-4 md:px-6 ">
+				<button className="button button-small button-ghost" onClick={() => setLargeForm(() => !largeForm)}>
+					{largeForm ? "Comprimir" : "Expandir"}
+				</button>
 				<Button form="new_action" text="Inserir" primary name="action" value="new-action" isAdding={isAdding} />
 			</div>
 		</motion.div>

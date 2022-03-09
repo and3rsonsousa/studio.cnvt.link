@@ -123,7 +123,7 @@
 	/* Forms */
 
 	.field {
-		@apply mt-2 block w-full transition focus-within:text-gray-900;
+		@apply relative mt-2 block w-full transition focus-within:text-gray-900;
 	}
 
 	.field-group {

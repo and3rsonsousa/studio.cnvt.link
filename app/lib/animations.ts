@@ -21,21 +21,21 @@ export let popup = {
 
 export let menu = {
 	initial: {
-		scale: 0.8,
+		scale: 0.9,
 		opacity: 0,
 	},
 	animate: {
 		scale: 1,
 		opacity: 1,
 		transition: {
-			ease: "backOut",
+			ease: "easeOut",
 		},
 	},
 	exit: {
-		scale: 0.8,
+		scale: 0.9,
 		opacity: 0,
 		transition: {
-			ease: "backOut",
+			ease: "easeOut",
 		},
 	},
 };

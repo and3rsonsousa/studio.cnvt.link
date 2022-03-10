@@ -5,3 +5,4 @@ node_modules
 /public/build
 app/app.css
 .env
+.node-version

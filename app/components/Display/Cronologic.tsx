@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { HiOutlineMinusCircle, HiOutlinePlusCircle } from "react-icons/hi";
-import { isFuture, isLate } from "~/lib/functions";
+import { isFuture, isLate, isToday } from "~/lib/functions";
 import { ActionType } from "~/types";
 import Action from "../Action";
 import { Heading } from "../Display";
@@ -19,9 +19,10 @@ export default function Cronologic({ actions, set_showAddActionForm }: DisplayPr
 		futureActions: ActionType[] = [];
 
 	actions.map((action: ActionType) => {
-		if (isLate(action.start ? action.start : action.end)) {
+		let date = action.start ? action.start : action.end;
+		if (isLate(date) && !isToday(date)) {
 			lateActions.push(action);
-		} else if (isFuture(action.start ? action.start : action.end)) {
+		} else if (isFuture(date)) {
 			futureActions.push(action);
 		} else {
 			todayActions.push(action);

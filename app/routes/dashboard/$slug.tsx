@@ -1,5 +1,7 @@
 import { LoaderFunction, Outlet, useLoaderData } from "remix";
 import Action from "~/components/Action";
+import Display from "~/components/Display";
+import Header from "~/components/Display/Header";
 import { supabase } from "~/lib/supabase";
 import { AccountType, ActionType } from "~/types";
 
@@ -17,7 +19,7 @@ export const loader: LoaderFunction = async ({ params }) => {
 		account: { ...account, action: null },
 	}));
 
-	return account;
+	return { account, params };
 };
 
 // TODO: Mover as ações laterais para a pagina $id.tsx
@@ -27,13 +29,12 @@ export default function Slug() {
 	let account: AccountType = useLoaderData();
 	return (
 		<div>
-			<div className="relative z-10 flex items-center justify-between border-b  bg-gray-50 px-4 py-6 lg:p-8">
-				<h2 className="m-0 flex gap-2 text-gray-700">{account.name}</h2>
-			</div>
+			<Display actions={[]} set_showAddActionForm={() => {}} />
+
 			<div className="lg:flex">
 				<Outlet />
 
-				<div className="px-4 py-6 lg:w-80 lg:py-8 lg:pl-0 lg:pr-8">
+				{/* <div className="px-4 py-6 lg:w-80 lg:py-8 lg:pl-0 lg:pr-8">
 					<h4 className="text-gray-700">Informações</h4>
 					<div className="mb-4 border-b pb-4">
 						{account.actions!.length > 0
@@ -45,9 +46,9 @@ export default function Slug() {
 					<h4 className="text-gray-700">Outras Ações</h4>
 					<div className="grid gap-2 md:grid-cols-2 lg:grid-cols-1">
 						{account.actions &&
-							account.actions.map((action, index) => <Action size="n" action={action} key={index} />)}
+							account.actions.map((action, index) => <Action action={action} key={index} />)}
 					</div>
-				</div>
+				</div> */}
 			</div>
 		</div>
 	);

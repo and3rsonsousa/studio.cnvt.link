@@ -8,7 +8,7 @@ type HeaderProps = {
 
 export default function Header({ display, set_display }: HeaderProps) {
 	return (
-		<div className="relative z-10 flex items-center justify-between border-b  bg-gray-50 px-4 py-6 lg:p-8">
+		<div className="relative z-10 flex items-center justify-between border-b  bg-white px-4 py-6 lg:p-8">
 			<div className="flex gap-2">
 				{[
 					{ id: 1, icon: <HiOutlineClock /> },

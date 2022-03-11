@@ -1,10 +1,10 @@
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 
-export function isLate(date: string) {
-	return dayjs(date).isBefore(dayjs());
+export function isLate(date: string, step?: number) {
+	return dayjs(date).isBefore(dayjs()) && step !== 6;
 }
 
-export function isToday(date: string) {
+export function isToday(date: string | Dayjs) {
 	return dayjs(date).format("YYYY-MM-DD") === dayjs().format("YYYY-MM-DD");
 }
 

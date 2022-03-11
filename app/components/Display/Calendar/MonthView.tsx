@@ -1,7 +1,8 @@
 import dayjs, { Dayjs } from "dayjs";
 import { useState } from "react";
 import { HiOutlineChevronLeft, HiOutlineChevronRight, HiPlusCircle } from "react-icons/hi";
-import Action from "~/components/Action";
+import { Link } from "remix";
+import { isLate, isToday } from "~/lib/functions";
 import { ActionType } from "~/types";
 
 export type DayType = { day: Dayjs; actions: Array<ActionType> };
@@ -25,7 +26,7 @@ export function MonthView({ actions }: { actions: ActionType[] }) {
 	}
 
 	return (
-		<div className="rounded-xl border bg-white shadow shadow-gray-500/20">
+		<div className="rounded-xl bg-white shadow shadow-gray-500/20 ring-1 ring-black/5">
 			<ViewHeader
 				title={`${month.format("MMMM")}
 					${month.year() !== today.year() ? month.format(" [de] YYYY") : ""}`}
@@ -61,29 +62,25 @@ export function Day({
 	let [showMore, set_showMore] = useState(false);
 	return (
 		<div
-			className={`group ${
-				!dayName ? ((index + 1) % 7 !== 0 ? "border-r border-t p-2" : "border-t p-2") : "p-1"
-			} `}
+			className={`group ${!dayName ? ((index + 1) % 7 !== 0 ? "border-r border-t" : "border-t") : "pb-8"} ${
+				day.day.month() !== month.month() ? "  bg-gray-100 text-gray-400" : ""
+			}`}
 		>
 			{/* Número do dia */}
 			{dayName ? (
-				<div className={`mb-4`}>
-					<div className="flex items-center gap-1 lg:flex-wrap lg:gap-0">
-						<div
-							className={`text-xs font-bold lg:text-base ${
-								day.day.format("YYYY/MM/DD") === today.format("YYYY/MM/DD")
-									? "text-brand-600"
-									: "text-gray-700"
-							} first-letter:uppercase lg:w-full`}
-						>
-							{day.day.format("dddd, ")}
-						</div>
-						<div className="text-xs">{day.day.format("D [de] MMMM")}</div>
+				<div className="mb-4 flex items-center gap-1 border-b p-2 lg:flex-wrap lg:gap-0">
+					<div
+						className={`text-xs font-semibold lg:text-sm ${
+							isToday(day.day) ? "text-brand-600" : "text-gray-700"
+						} first-letter:uppercase lg:w-full`}
+					>
+						{day.day.format("dddd, ")}
 					</div>
+					<div className="text-xs">{day.day.format("D [de] MMMM")}</div>
 				</div>
 			) : (
-				<div className={`text-xs ${day.day.month() !== month.month() ? " text-gray-300" : ""}`}>
-					{day.day.format("YYYY/MM/DD") === today.format("YYYY/MM/DD") ? (
+				<div className={`text-xx mb-2 p-2`}>
+					{isToday(day.day) ? (
 						<div className={` -m-1 grid h-6 w-6 place-content-center rounded-full bg-brand-500 text-white`}>
 							{day.day.format("D")}
 						</div>
@@ -93,18 +90,16 @@ export function Day({
 				</div>
 			)}
 
-			<div className="space-y-2">
+			<div className="space-y-2 p-1 lg:p-2">
 				{dayName ? (
-					day.actions.map((action) => <Action key={action.id} action={action} size={size} />)
+					day.actions.map((action) => <ActionLink key={action.id} action={action} />)
 				) : (
 					<>
 						{day.actions.slice(0, 3).map((action) => (
-							<Action key={action.id} action={action} size={size} />
+							<ActionLink key={action.id} action={action} />
 						))}
 						{showMore &&
-							day.actions
-								.slice(3)
-								.map((action) => <Action key={action.id} action={action} size={size} />)}
+							day.actions.slice(3).map((action) => <ActionLink key={action.id} action={action} />)}
 						<div className="pointer-events-none flex flex-col items-center justify-center group-hover:pointer-events-auto md:flex-row">
 							{day.actions.length > 3 && (
 								<button
@@ -127,7 +122,7 @@ export function Day({
 
 export function WeekHeader() {
 	return (
-		<div className="grid grid-cols-7 text-xs font-bold text-gray-700">
+		<div className="text-xx grid grid-cols-7 text-center font-bold text-gray-700">
 			<div className="p-2 lg:px-4">DOM</div>
 			<div className="p-2 lg:px-4">SEG</div>
 			<div className="p-2 lg:px-4">TER</div>
@@ -157,5 +152,19 @@ export function ViewHeader({ title, prev, next }: { title: string; prev: any; ne
 				</div>
 			</div>
 		</header>
+	);
+}
+
+function ActionLink({ action }: { action: ActionType }) {
+	return (
+		<Link
+			to={`/dashboard/${action.account?.slug}/${action.id}`}
+			className="text-xx flex items-center gap-1 font-semibold tracking-tight text-gray-700 lg:text-xs"
+		>
+			{isLate(action.start ?? action.end) && (
+				<span className="block h-1 w-1 shrink-0 animate-pulse rounded-full bg-error-500"></span>
+			)}
+			<span className="overflow-hidden text-ellipsis whitespace-nowrap">{action.name}</span>
+		</Link>
 	);
 }

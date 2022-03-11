@@ -34,7 +34,7 @@ export default function WeekView({ actions }: { actions: ActionType[] }) {
 				prev={() => set_week(week.subtract(1, "week"))}
 			/>
 
-			<div className="grid p-1 lg:grid-cols-7 lg:p-3">
+			<div className="grid lg:grid-cols-7">
 				{weekDays.map((day, index) => (
 					<Day day={day} index={index} dayName={true} size="s" key={index} month={week} today={today} />
 				))}

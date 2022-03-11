@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/pt-br"; // import locale
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useState } from "react";
-import { HiChevronDoubleRight, HiDotsHorizontal, HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
+import { HiChevronDoubleRight, HiDotsHorizontal, HiOutlineChevronRight } from "react-icons/hi";
 import { Link } from "remix";
 import { flows, steps, tags } from "~/lib/data";
 import { isLate } from "~/lib/functions";
@@ -14,36 +14,28 @@ dayjs.locale("pt-br");
 
 export type ActionProps = {
 	action: ActionType;
-	size: "x" | "s" | "n";
 };
 
 // TODO Incluir Responsável caso seja outra pessoa
 // TODO: Ação de deletar
 // TODO: Ação de selecionar vários
 
-export default function Action({ action, size = "n" }: ActionProps) {
+export default function Action({ action }: ActionProps) {
 	let [timeInfo, set_timeInfo] = useState(true);
 
 	return (
 		<>
 			<div
-				className={`h-4 rounded-xl border bg-brand-600 shadow shadow-gray-500/30 ${
-					size === "x" ? "lg:hidden" : "hidden"
-				}`}
-			></div>
-			<div
-				className={`${size === "x" ? "hidden" : ""} self-start border bg-white lg:block ${
-					size !== "n" ? "rounded-lg p-2 py-1 " : "min-w-fit rounded-xl px-4 py-3 "
-				} text-sm ring-brand-600/20 transition focus-within:border-brand-600 focus-within:ring-4 focus-within:duration-500 `}
+				className={`min-w-fit self-start rounded-xl border bg-white px-4 py-3 text-sm ring-brand-600/20 transition focus-within:border-brand-600 focus-within:ring-4 focus-within:duration-500 lg:block `}
 			>
 				{/* Cliente e Campanha */}
 
-				<div className={`items-center gap-1 ${size === "x" ? "hidden md:flex" : "flex"}`}>
+				<div className={`flex items-center gap-1`}>
 					<Link
 						to={`/dashboard/${action.account.slug}`}
 						className="text-xxx font-medium uppercase leading-none tracking-wide text-gray-400 transition hover:text-gray-700"
 					>
-						{size === "n" && !action.campaign_id ? (
+						{!action.campaign_id ? (
 							<span className="overflow-hidden text-ellipsis whitespace-nowrap">
 								{action.account.name}
 							</span>
@@ -69,9 +61,7 @@ export default function Action({ action, size = "n" }: ActionProps) {
 					<input
 						type="text"
 						name="name"
-						className={`w-full ${
-							size === "x" ? "" : "text-lg"
-						} w-full font-semibold tracking-tight text-gray-900 transition focus:outline-none`}
+						className={`w-full text-lg font-semibold tracking-tight text-gray-900 transition focus:outline-none`}
 						defaultValue={action.name}
 						autoComplete="off"
 					/>
@@ -91,63 +81,63 @@ export default function Action({ action, size = "n" }: ActionProps) {
           - Em quanto tempo Deve Começar/quanto tempo de atraso
           - Em quanto tempo deve terminar/Quanto tepo de Atraso 
         */}
-				{size === "n" && (
-					<div className="flex">
-						<div
-							className="mb-2 flex cursor-pointer flex-wrap gap-1 text-xs"
-							onClick={() => set_timeInfo(!timeInfo)}
-						>
-							{timeInfo ? (
-								action.start ? (
-									<div
-										className={`${
-											isLate(action.start) ? "text-error-500 transition hover:text-error-700" : ""
-										}`}
-									>
-										{dayjs(action.start).fromNow(true) + (isLate(action.start) ? " em atraso" : "")}
-									</div>
-								) : (
-									<div
-										className={`${
-											isLate(action.end) ? "text-error-500 transition hover:text-error-700" : ""
-										}`}
-									>
-										{dayjs(action.end).fromNow() + (isLate(action.end) ? " em atraso" : "")}
-									</div>
-								)
-							) : (
-								<>
-									{action.start ? (
-										<>
-											<div className="order-1  whitespace-nowrap">
-												{dayjs(action.start).format("D") +
-													(dayjs(action.start).format("MMMM YYYY") !==
-													dayjs(action.end).format("MMMM YYYY")
-														? dayjs(action.start).format(" [de] MMMM")
-														: "") +
-													(dayjs(action.start).year() !== dayjs(action.end).year()
-														? dayjs(action.start).format("[ de] YYYY")
-														: "") +
-													" a"}
-											</div>
 
-											<div className="order-3  whitespace-nowrap text-gray-400 transition hover:text-gray-700">
-												({dayjs(action.start).to(action.end, true)})
-											</div>
-										</>
-									) : null}
-									<div className="order-2  whitespace-nowrap">
-										{dayjs(action.end).format("D [de] MMMM") +
-											(dayjs(action.end).year() !== dayjs().year() ||
-											(action.start && dayjs(action.start).year() !== dayjs(action.end).year())
-												? dayjs(action.end).format("[ de] YYYY [às] H[:]mm")
-												: dayjs(action.end).format(" [às] H[:]mm"))}
-									</div>
-								</>
-							)}
-						</div>
+				<div className="flex">
+					<div
+						className="mb-2 flex cursor-pointer flex-wrap gap-1 text-xs"
+						onClick={() => set_timeInfo(!timeInfo)}
+					>
+						{timeInfo ? (
+							action.start ? (
+								<div
+									className={`${
+										isLate(action.start) ? "text-error-500 transition hover:text-error-700" : ""
+									}`}
+								>
+									{dayjs(action.start).fromNow(true) + (isLate(action.start) ? " em atraso" : "")}
+								</div>
+							) : (
+								<div
+									className={`${
+										isLate(action.end) ? "text-error-500 transition hover:text-error-700" : ""
+									}`}
+								>
+									{dayjs(action.end).fromNow() + (isLate(action.end) ? " em atraso" : "")}
+								</div>
+							)
+						) : (
+							<>
+								{action.start ? (
+									<>
+										<div className="order-1  whitespace-nowrap">
+											{dayjs(action.start).format("D") +
+												(dayjs(action.start).format("MMMM YYYY") !==
+												dayjs(action.end).format("MMMM YYYY")
+													? dayjs(action.start).format(" [de] MMMM")
+													: "") +
+												(dayjs(action.start).year() !== dayjs(action.end).year()
+													? dayjs(action.start).format("[ de] YYYY")
+													: "") +
+												" a"}
+										</div>
+
+										<div className="order-3  whitespace-nowrap text-gray-400 transition hover:text-gray-700">
+											({dayjs(action.start).to(action.end, true)})
+										</div>
+									</>
+								) : null}
+								<div className="order-2  whitespace-nowrap">
+									{dayjs(action.end).format("D [de] MMMM") +
+										(dayjs(action.end).year() !== dayjs().year() ||
+										(action.start && dayjs(action.start).year() !== dayjs(action.end).year())
+											? dayjs(action.end).format("[ de] YYYY [às] H[:]mm")
+											: dayjs(action.end).format(" [às] H[:]mm"))}
+								</div>
+							</>
+						)}
 					</div>
-				)}
+				</div>
+
 				{/* 
         Flow - Step - Tag 
         */}
@@ -160,7 +150,6 @@ export default function Action({ action, size = "n" }: ActionProps) {
 							start={true}
 							name="flow_id"
 							table="actions"
-							small={size !== "n"}
 						/>
 						<ListBox
 							item_id={action.id}
@@ -168,7 +157,6 @@ export default function Action({ action, size = "n" }: ActionProps) {
 							selected={steps.filter((step) => step.id === action.step_id)[0]}
 							name="step_id"
 							table="actions"
-							small={size !== "n"}
 						/>
 						<ListBox
 							item_id={action.id}
@@ -178,7 +166,6 @@ export default function Action({ action, size = "n" }: ActionProps) {
 							columns={2}
 							name="tag_id"
 							table="actions"
-							small={size !== "n"}
 						/>
 					</div>
 					{/* Ações */}

@@ -1,10 +1,4 @@
-import {
-	ActionFunction,
-	Form,
-	LoaderFunction,
-	redirect,
-	useActionData,
-} from "remix";
+import { ActionFunction, Form, LoaderFunction, redirect, useActionData } from "remix";
 import { supabase } from "~/lib/supabase";
 import { commitSession, getSession } from "~/lib/session.server";
 import { HiOutlineLockClosed } from "react-icons/hi";
@@ -44,7 +38,7 @@ export default function () {
 	let [passowrdVisible, showPassword] = useState(false);
 	return (
 		<div className="grid h-screen w-full place-content-center bg-gray-100">
-			<div className="brick w-80 space-y-8">
+			<div className="section w-80 space-y-8">
 				<div>
 					<img src="/logo.svg" alt="STUDIO" className="w-32" />
 				</div>
@@ -58,11 +52,7 @@ export default function () {
 					<label className="field">
 						<span>Email</span>
 						<div className="input">
-							<input
-								type="email"
-								name="email"
-								placeholder="Seu email"
-							/>
+							<input type="email" name="email" placeholder="Seu email" className="input-field" />
 						</div>
 					</label>
 					<label className="field">
@@ -72,7 +62,7 @@ export default function () {
 								type={passowrdVisible ? "text" : "password"}
 								name="password"
 								placeholder="Sua senha"
-								className="rounded-r-none"
+								className="input-field rounded-r-none"
 							/>
 							<button
 								type="button"

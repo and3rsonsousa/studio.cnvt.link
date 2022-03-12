@@ -1,8 +1,10 @@
 import { ActionFunction, LoaderFunction, useActionData, useLoaderData, useTransition } from "remix";
+import { AccountName } from "~/components/Display/Header";
 import ActionForm from "~/components/Forms/ActionForm";
 import { handleActionDB } from "~/lib/handleActionDB.server";
 import { getUserId } from "~/lib/session.server";
 import { supabase } from "~/lib/supabase";
+import { AccountType } from "~/types";
 
 export const action: ActionFunction = async ({ request }) => {
 	return await handleActionDB(request);

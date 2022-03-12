@@ -1,5 +1,12 @@
 import { HiOutlineChevronDoubleDown } from "react-icons/hi";
-import { Link } from "remix";
+import { Link, LoaderFunction, redirect } from "remix";
+import { getUserId } from "~/lib/session.server";
+
+export const loader: LoaderFunction = async ({ request }) => {
+	let userId: string = await getUserId(request);
+	if (userId) return redirect("/dashboard");
+	return { userId };
+};
 
 export default function Index() {
 	return (

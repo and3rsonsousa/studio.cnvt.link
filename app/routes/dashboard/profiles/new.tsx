@@ -51,9 +51,7 @@ export default function () {
 
 	let transition = useTransition();
 	let state = transition.state;
-	let isAdding =
-		transition.submission &&
-		transition.submission.formData.get("action") === "create";
+	let isAdding = transition.submission && transition.submission.formData.get("action") === "create";
 	let formRef = useRef<null | HTMLFormElement>(null);
 
 	useEffect(() => {
@@ -63,7 +61,7 @@ export default function () {
 	}, [state]);
 
 	return (
-		<div className="mx-auto max-w-lg lg:order-2 lg:m-0 xl:mx-0 xl:w-96">
+		<div className="section">
 			<h2 className="text-gray-900">Novo Usuário</h2>
 			{actionData?.auth?.error && (
 				<div className="error-banner-micro flex items-center gap-4">
@@ -77,13 +75,7 @@ export default function () {
 				<Input label="Senha" name="password" type="password" />
 
 				<div className="mt-8 text-right">
-					<Button
-						text="Cadastrar"
-						isAdding={isAdding}
-						primary
-						name="action"
-						value="create"
-					/>
+					<Button text="Cadastrar" isAdding={isAdding} primary name="action" value="create" />
 				</div>
 			</Form>
 		</div>

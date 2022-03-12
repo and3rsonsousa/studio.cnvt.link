@@ -2,8 +2,14 @@ import dayjs from "dayjs";
 import "dayjs/locale/pt-br"; // import locale
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useState } from "react";
-import { HiChevronDoubleRight, HiDotsHorizontal, HiOutlineChevronRight } from "react-icons/hi";
-import { Link } from "remix";
+import {
+	HiDotsHorizontal,
+	HiOutlineCalendar,
+	HiOutlineChevronRight,
+	HiOutlinePencil,
+	HiOutlineX,
+} from "react-icons/hi";
+import { Form, Link, useSubmit, useTransition } from "remix";
 import { flows, steps, tags } from "~/lib/data";
 import { isLate } from "~/lib/functions";
 import { ActionType } from "~/types";
@@ -20,13 +26,21 @@ export type ActionProps = {
 // TODO: Ação de deletar
 // TODO: Ação de selecionar vários
 
+// TODO: update Start Date
+// TODO: update End Date
+
 export default function Action({ action }: ActionProps) {
 	let [timeInfo, setTimeInfo] = useState(true);
+	let submit = useSubmit();
+	let transition = useTransition();
+	let isMutating = transition.submission?.formData.get("id") === String(action.id);
 
 	return (
 		<>
 			<div
-				className={`min-w-fit self-start rounded-xl border border-transparent bg-white px-4 py-3 text-sm shadow shadow-gray-500/20 ring-1 ring-black/[.02] transition focus-within:border-brand-600 focus-within:ring-4 focus-within:ring-brand-600/20 focus-within:duration-500 lg:block`}
+				className={`group min-w-fit self-start rounded-xl border border-transparent bg-white px-4 py-3 text-sm shadow shadow-gray-500/20 ring-1 ring-black/[.02] transition focus-within:border-brand-600 focus-within:ring-4 focus-within:ring-brand-600/20 focus-within:duration-500 lg:block ${
+					isMutating ? "scale-95 opacity-50 duration-300" : ""
+				}`}
 			>
 				{/* Cliente e Campanha */}
 
@@ -57,19 +71,29 @@ export default function Action({ action }: ActionProps) {
 				</div>
 
 				{/* Name of the Action */}
-				<div className="flex">
-					<input
-						type="text"
-						name="name"
-						className={`w-full text-lg font-semibold tracking-tight text-gray-900 transition focus:outline-none`}
-						defaultValue={action.name}
-						autoComplete="off"
-					/>
+				<div className="flex gap-1">
+					<Form className="w-full" method="post" name="action_form" id={`action_form_${action.id}`}>
+						{/* <input type="hidden" name="action" value="update" /> */}
+						<input type="hidden" name="id" value={action.id} />
+						<input type="hidden" name="flow_id" value={action.flow_id} />
+						<input type="hidden" name="step_id" value={action.step_id} />
+						<input type="hidden" name="tag_id" value={action.tag_id} />
+						<input
+							type="text"
+							name="name"
+							className={`w-full text-lg font-semibold tracking-tight text-gray-900 transition focus:outline-none`}
+							defaultValue={action.name}
+							autoComplete="off"
+							onBlur={(event) => {
+								if (action.name !== event.currentTarget.value.trim()) submit(event.currentTarget.form);
+							}}
+						/>
+					</Form>
 					<Link
 						to={`/dashboard/${action.account?.slug}/${action.id}`}
-						className="button button-ghost button-small -mr-2 px-2"
+						className="button button-ghost button-small -mr-2 px-2 text-gray-300 opacity-0 group-hover:opacity-100"
 					>
-						<HiChevronDoubleRight />
+						<HiOutlinePencil />
 					</Link>
 				</div>
 				{/* 
@@ -82,27 +106,30 @@ export default function Action({ action }: ActionProps) {
           - Em quanto tempo deve terminar/Quanto tepo de Atraso 
         */}
 
-				<div className="flex">
-					<div
-						className="mb-2 flex cursor-pointer flex-wrap gap-1 text-xs"
-						onClick={() => setTimeInfo(!timeInfo)}
-					>
+				<div className="flex  items-center gap-2">
+					<div className="flex cursor-pointer flex-wrap gap-1 text-xs" onClick={() => setTimeInfo(!timeInfo)}>
 						{timeInfo ? (
 							action.start ? (
 								<div
 									className={`${
-										isLate(action.start) ? "text-error-500 transition hover:text-error-700" : ""
+										isLate(action.start, action.step_id)
+											? "text-error-500 transition hover:text-error-700"
+											: ""
 									}`}
 								>
-									{dayjs(action.start).fromNow(true) + (isLate(action.start) ? " em atraso" : "")}
+									{dayjs(action.start).fromNow() +
+										(isLate(action.start, action.step_id) ? " em atraso" : "")}
 								</div>
 							) : (
 								<div
 									className={`${
-										isLate(action.end) ? "text-error-500 transition hover:text-error-700" : ""
+										isLate(action.end, action.step_id)
+											? "text-error-500 transition hover:text-error-700"
+											: ""
 									}`}
 								>
-									{dayjs(action.end).fromNow() + (isLate(action.end) ? " em atraso" : "")}
+									{dayjs(action.end).fromNow() +
+										(isLate(action.end, action.step_id) ? " em atraso" : "")}
 								</div>
 							)
 						) : (
@@ -136,6 +163,9 @@ export default function Action({ action }: ActionProps) {
 							</>
 						)}
 					</div>
+					<button className="button button-ghost p-1 text-gray-300 opacity-0 group-hover:opacity-100">
+						<HiOutlineCalendar />
+					</button>
 				</div>
 
 				{/* 
@@ -170,9 +200,16 @@ export default function Action({ action }: ActionProps) {
 					</div>
 					{/* Ações */}
 					<div>
-						<div className="">
-							<HiDotsHorizontal className="text-lg" />
-						</div>
+						<button
+							type="submit"
+							form={`action_form_${action.id}`}
+							name="action"
+							value="delete"
+							className="button-ghost button p-0 text-xl text-gray-300 opacity-0 group-hover:opacity-100"
+						>
+							<HiOutlineX />
+							{/* <HiDotsHorizontal className="text-lg" /> */}
+						</button>
 					</div>
 				</div>
 			</div>
@@ -190,7 +227,7 @@ export function ActionLink({ action }: { action: ActionType }) {
 				{!action.start ? dayjs(action.end).format("HH[h]mm") : null}
 			</span>
 			<span className="relative flex items-center gap-1">
-				{isLate(action.start ?? action.end) && (
+				{isLate(action.start ?? action.end, action.step_id) && (
 					<span className="block h-1 w-1 shrink-0 animate-pulse rounded-full bg-error-500"></span>
 				)}
 				<span className="overflow-hidden text-ellipsis whitespace-nowrap">{action.name}</span>

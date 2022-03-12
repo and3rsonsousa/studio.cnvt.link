@@ -57,37 +57,33 @@ export default function () {
 	let actionData = useActionData();
 
 	return (
-		<div className="lg:order-2">
-			<div className="min-h-screen bg-gray-100">
-				<div className="mx-auto max-w-md">
-					<h2 className="text-gray-900">Editar Conta</h2>
-					{actionData?.account?.error && (
-						<div className="error-banner-micro flex items-center gap-4">
-							<div>{actionData.account.error.message}</div>
-						</div>
-					)}
-					<Form method="post">
-						<Input label="Nome" type="text" name="name" value={account.name} />
-						<Input label="Slug" type="text" name="slug" value={account.slug} />
-						<CheckboxGroup
-							label="Usuários"
-							name="user_id"
-							items={profiles.map((profile) => ({
-								id: profile.id,
-								name: profile.name,
-								value: profile.user_id,
-							}))}
-							selected={account.user_id}
-						/>
-						<div className="mt-8 text-right">
-							<input name="id" value={account.id} type="hidden" />
-							<button type="submit" className="button button-primary">
-								Atualizar
-							</button>
-						</div>
-					</Form>
+		<div className="section">
+			<h2 className="text-gray-900">Editar Conta</h2>
+			{actionData?.account?.error && (
+				<div className="error-banner-micro flex items-center gap-4">
+					<div>{actionData.account.error.message}</div>
 				</div>
-			</div>
+			)}
+			<Form method="post">
+				<Input label="Nome" type="text" name="name" value={account.name} />
+				<Input label="Slug" type="text" name="slug" value={account.slug} />
+				<CheckboxGroup
+					label="Usuários"
+					name="user_id"
+					items={profiles.map((profile) => ({
+						id: profile.id,
+						name: profile.name,
+						value: profile.user_id,
+					}))}
+					selected={account.user_id}
+				/>
+				<div className="mt-8 text-right">
+					<input name="id" value={account.id} type="hidden" />
+					<button type="submit" className="button button-primary">
+						Atualizar
+					</button>
+				</div>
+			</Form>
 		</div>
 	);
 }

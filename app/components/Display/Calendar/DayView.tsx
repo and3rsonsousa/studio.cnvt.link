@@ -15,7 +15,7 @@ export default function DayView({ actions }: { actions: ActionType[] }) {
 	};
 
 	return (
-		<div className="rounded-xl border bg-white shadow shadow-gray-500/20">
+		<div className="section-sm">
 			<ViewHeader
 				title={Today.day.format(`D [de] MMMM ${day.year() !== today.year() ? " [de] YYYY" : ""}`)}
 				prev={() => setDay(day.subtract(1, "day"))}

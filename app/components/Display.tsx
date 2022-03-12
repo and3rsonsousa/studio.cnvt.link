@@ -10,10 +10,9 @@ import List from "./Display/List";
 
 type DisplayProps = {
 	actions: ActionType[];
-	setShowAddActionForm: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function Display({ actions, setShowAddActionForm }: DisplayProps) {
+export default function Display({ actions }: DisplayProps) {
 	let [display, setDisplay] = useState<number>(1);
 
 	return (
@@ -31,7 +30,7 @@ export default function Display({ actions, setShowAddActionForm }: DisplayProps)
 							animate={slideH.animate}
 							exit={slideH.exit}
 						>
-							<Cronologic actions={actions} setShowAddActionForm={setShowAddActionForm} />
+							<Cronologic actions={actions} />
 						</motion.div>
 					)}
 

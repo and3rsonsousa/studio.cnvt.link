@@ -8,19 +8,21 @@ import GridActions from "./GridActions";
 
 type DisplayProps = {
 	actions: ActionType[];
-	setShowAddActionForm: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function Cronologic({ actions, setShowAddActionForm }: DisplayProps) {
+export default function Cronologic({ actions }: DisplayProps) {
 	let [showMoreLateActions, setShowMoreLateActions] = useState(false);
 
 	let lateActions: ActionType[] = [],
 		todayActions: ActionType[] = [],
-		futureActions: ActionType[] = [];
+		futureActions: ActionType[] = [],
+		accomplishedActions: ActionType[] = [];
 
 	actions.map((action: ActionType) => {
 		let date = action.start ? action.start : action.end;
-		if (isLate(date) && !isToday(date)) {
+		if (action.step_id === 6) {
+			accomplishedActions.push(action);
+		} else if (isLate(date) && !isToday(date)) {
 			lateActions.push(action);
 		} else if (isFuture(date)) {
 			futureActions.push(action);
@@ -35,7 +37,7 @@ export default function Cronologic({ actions, setShowAddActionForm }: DisplayPro
 				<>
 					<Heading
 						title="Em atraso"
-						subTitle={`${lateActions.length} ${lateActions.length === 1 ? "ação" : "ações"} em atraso`}
+						subTitle={`${lateActions.length} ${lateActions.length === 1 ? "ação" : "ações"}`}
 						rightComponent={
 							lateActions.length > 6 ? (
 								<button
@@ -81,16 +83,7 @@ export default function Cronologic({ actions, setShowAddActionForm }: DisplayPro
 				{todayActions.length > 0 ? (
 					todayActions.map((action: ActionType) => <Action key={action.id} action={action} />)
 				) : (
-					<div className="col-span-2 text-gray-400">
-						Nenhuma Ação para hoje. Toque aqui para{" "}
-						<a
-							href="#"
-							className="font-bold text-brand-600 underline"
-							onClick={() => setShowAddActionForm(true)}
-						>
-							criar.
-						</a>
-					</div>
+					<div className="col-span-2 text-gray-400">Nenhuma Ação para hoje.</div>
 				)}
 			</GridActions>
 			{futureActions.length > 0 && (
@@ -107,6 +100,25 @@ export default function Cronologic({ actions, setShowAddActionForm }: DisplayPro
 					/>
 					<GridActions>
 						{futureActions.map((action: ActionType) => (
+							<Action key={action.id} action={action} />
+						))}
+					</GridActions>
+				</>
+			)}
+			{accomplishedActions.length > 0 && (
+				<>
+					<Heading
+						title="Concluídas"
+						subTitle={
+							futureActions.length > 0
+								? `${futureActions.length} ${
+										futureActions.length === 1 ? "ação" : "ações"
+								  } para os próximos dias`
+								: undefined
+						}
+					/>
+					<GridActions>
+						{accomplishedActions.map((action: ActionType) => (
 							<Action key={action.id} action={action} />
 						))}
 					</GridActions>

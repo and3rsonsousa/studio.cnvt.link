@@ -22,7 +22,7 @@ export default function WeekView({ actions }: { actions: ActionType[] }) {
 	}
 
 	return (
-		<div className="rounded-xl border bg-white shadow shadow-gray-500/20">
+		<div className="section-sm">
 			<ViewHeader
 				title={`${firstDay.format(
 					`D ${firstDay.month() !== lastDay.month() ? " [de] MMMM " : ""} ${

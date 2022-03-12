@@ -1,16 +1,13 @@
 import { ActionFunction, Form, LoaderFunction, useActionData, useLoaderData } from "remix";
-import { supabase } from "~/lib/supabase";
 import { CheckboxGroup, Input } from "~/components/Forms";
+import { supabase } from "~/lib/supabase";
 import { AccountType, ProfileType } from "~/types";
-import { getUserId } from "~/lib/session.server";
 
 export const loader: LoaderFunction = async ({ params, request }) => {
-	// let userId: string = await getUserId(request);
 	let { data: profile } = await supabase.from("profiles").select().match({ id: params.id }).single();
 
 	let data = await Promise.all([
 		supabase.from("accounts").select("*").order("name"),
-		// supabase.from("accounts").select("*").contains("user_id", [userId]).order("name"),
 		supabase.from("accounts").select("*").contains("user_id", [profile.user_id]).order("name"),
 	]);
 
@@ -99,36 +96,34 @@ export default function () {
 	let actionData = useActionData();
 
 	return (
-		<div className="lg:order-2">
-			<div className="mx-auto max-w-lg lg:w-96">
-				<h2 className="text-gray-900">Editar Usuário</h2>
-				{actionData?.data?.error && (
-					<div className="error-banner-micro flex items-center gap-4">
-						<div>{actionData.account.error.message}</div>
-					</div>
-				)}
-				<Form method="post">
-					<input name="id" value={profile.id} type="hidden" />
-					<input type="hidden" name="user_id" defaultValue={profile.user_id} />
-					<Input label="Nome" type="text" name="name" value={profile.name} />
+		<div className="section">
+			<h2 className="text-gray-900">Editar Usuário</h2>
+			{actionData?.data?.error && (
+				<div className="error-banner-micro flex items-center gap-4">
+					<div>{actionData.account.error.message}</div>
+				</div>
+			)}
+			<Form method="post">
+				<input name="id" value={profile.id} type="hidden" />
+				<input type="hidden" name="user_id" defaultValue={profile.user_id} />
+				<Input label="Nome" type="text" name="name" value={profile.name} />
 
-					<CheckboxGroup
-						label="Clientes"
-						name="accounts"
-						items={accounts.map((account) => ({
-							id: account.id,
-							name: account.name,
-						}))}
-						selected={selectedAccounts}
-					/>
+				<CheckboxGroup
+					label="Clientes"
+					name="accounts"
+					items={accounts.map((account) => ({
+						id: account.id,
+						name: account.name,
+					}))}
+					selected={selectedAccounts}
+				/>
 
-					<div className="mt-8 text-right">
-						<button type="submit" className="button button-primary">
-							Atualizar
-						</button>
-					</div>
-				</Form>
-			</div>
+				<div className="mt-8 text-right">
+					<button type="submit" className="button button-primary">
+						Atualizar
+					</button>
+				</div>
+			</Form>
 		</div>
 	);
 }

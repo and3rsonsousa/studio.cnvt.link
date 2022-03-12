@@ -25,9 +25,9 @@ export const Input = ({ label, type, name, value, disable }: InputProps) => {
 			</span>
 			<div className="input">
 				{type === "textarea" ? (
-					<textarea name={name} rows={3} disabled={isDisable}></textarea>
+					<textarea name={name} rows={3} disabled={isDisable} className="input-field"></textarea>
 				) : (
-					<input type={type} name={name} defaultValue={value} disabled={isDisable} />
+					<input type={type} name={name} defaultValue={value} disabled={isDisable} className="input-field" />
 				)}
 			</div>
 		</label>

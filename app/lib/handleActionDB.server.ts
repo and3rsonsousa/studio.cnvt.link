@@ -5,8 +5,10 @@ export async function handleActionDB(request: Request) {
 
 	let { action } = Object.fromEntries(formData);
 
+	console.log(action, formData);
+
 	if (action === "update") {
-		let { id, action, ...values } = Object.fromEntries(formData);
+		let { id, action, table, ...values } = Object.fromEntries(formData);
 
 		let updated = await supabase
 			.from("actions")

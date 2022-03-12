@@ -63,7 +63,6 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function DashboardIndex() {
-	// let { profile } = useOutletContext<{ profile: ProfileType }>();
 	let data = useLoaderData();
 	let actionData = useActionData();
 	let [showAddActionForm, setShowAddActionForm] = useState(false);
@@ -72,7 +71,7 @@ export default function DashboardIndex() {
 	return (
 		<>
 			<div className="page">
-				<Display actions={actions} setShowAddActionForm={setShowAddActionForm} />
+				<Display actions={actions} />
 				<div className="fixed bottom-8 right-8">
 					<button
 						onClick={() => setShowAddActionForm(() => !showAddActionForm)}

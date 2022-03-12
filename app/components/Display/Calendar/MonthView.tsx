@@ -28,7 +28,7 @@ export function MonthView({ actions }: { actions: ActionType[] }) {
 	}
 
 	return (
-		<div className="rounded-xl bg-white shadow shadow-gray-500/20 ring-1 ring-black/5">
+		<div className="section-sm p-0">
 			<ViewHeader
 				title={`${month.format("MMMM")}
 					${month.year() !== today.year() ? month.format(" [de] YYYY") : ""}`}

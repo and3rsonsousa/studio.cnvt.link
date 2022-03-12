@@ -54,13 +54,23 @@ export const ListBox = ({
 
 	return (
 		<div className="relative">
-			<Listbox value={option} onChange={setOption} horizontal={!!columns}>
+			<Listbox
+				value={option}
+				onChange={(value) => {
+					if (option.id !== value.id) {
+						setOption(value);
+					}
+					return false;
+				}}
+				horizontal={!!columns}
+			>
 				{({ open }) => (
 					<>
 						<Form id={`form_${name}_${item_id}`} method="post">
 							<input type="hidden" name="id" defaultValue={item_id} />
 							<input type="hidden" name={name} defaultValue={option.id} />
 							<input type="hidden" name="table" defaultValue={table} />
+							<input type="hidden" name="action" value="update" />
 						</Form>
 						{small ? (
 							<Listbox.Button
@@ -99,7 +109,7 @@ export const ListBox = ({
 														className="flex w-full items-center justify-between"
 														type="submit"
 														form={`form_${name}_${item_id}`}
-														name="_action"
+														name="action"
 														value={"update"}
 													>
 														{value.name}

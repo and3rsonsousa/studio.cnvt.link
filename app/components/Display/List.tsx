@@ -15,7 +15,7 @@ export default function List({ actions }: ListProps) {
 	return (
 		<div>
 			<Heading title="Lista" />
-			<div className="rounded-xl border bg-white shadow shadow-gray-500/20">
+			<div className="section-sm">
 				<div className="grid grid-cols-3 items-center p-2 py-4 text-xs font-bold uppercase tracking-wide lg:px-4">
 					<div className="col-span-2">Nome</div>
 					<div className="text-right">Ações</div>

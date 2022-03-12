@@ -13,7 +13,7 @@ type SideBarType = {
 
 export default function SideBar({ links, profile }: SideBarType) {
 	return (
-		<aside className="sidebar relative z-20 bg-gray-900 py-8 lg:w-52 ">
+		<aside className="sidebar relative z-20 bg-gray-900 py-4 lg:w-52 ">
 			<div className="space-y-6 px-2 lg:px-4">
 				<Link to="/dashboard" className="focus-50 block rounded-lg p-2 lg:p-4">
 					<img src="/logo-small.svg" alt="STUDIO" className="mx-auto w-12 lg:hidden" />

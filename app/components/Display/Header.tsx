@@ -11,9 +11,18 @@ type HeaderProps = {
 export default function Header({ display, setDisplay }: HeaderProps) {
 	let loaderData = useLoaderData();
 
+	// TODO: Implementar filtro
+	// Filtrar por
+	//	-	Flow
+	//	-	Step
+	//	-	Tag
+	//	-	User
+	//	-	Account
+
 	return (
-		<div className="relative z-10 flex items-center justify-between gap-4 border-b bg-white p-4 lg:px-8">
-			<div className="flex ">
+		<div className="z-10 flex flex-wrap items-center justify-between gap-4 border-b bg-white p-4 sm:flex-nowrap lg:px-8">
+			{loaderData?.account && <AccountName account={loaderData.account} />}
+			<div className="flex sm:gap-2">
 				{[
 					{ id: 1, icon: <HiOutlineClock /> },
 					{ id: 2, icon: <HiOutlineCalendar /> },
@@ -31,9 +40,7 @@ export default function Header({ display, setDisplay }: HeaderProps) {
 					) : null;
 				})}
 			</div>
-			{loaderData?.account && <AccountName account={loaderData.account} />}
 
-			{/* Implementar filtros */}
 			<div>
 				<button className="button button-icon button-ghost">
 					<HiOutlineFilter />
@@ -45,9 +52,11 @@ export default function Header({ display, setDisplay }: HeaderProps) {
 
 export function AccountName({ account }: { account: AccountType }) {
 	return (
-		<div className="text-center">
-			<h2 className="m-0 overflow-hidden text-ellipsis whitespace-nowrap text-gray-900">{account.name}</h2>
-			<div className=" text-xs font-medium text-gray-400">@{account.slug}</div>
+		<div className="min-w-0">
+			<h2 className="m-0 overflow-hidden text-ellipsis whitespace-nowrap font-semibold tracking-tighter text-gray-700">
+				{account.name}
+			</h2>
+			{/* <div className=" text-xs font-medium text-gray-400">@{account.slug}</div> */}
 		</div>
 	);
 }

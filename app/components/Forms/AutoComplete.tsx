@@ -18,11 +18,11 @@ export type AutoCompleteType = {
 };
 
 export function AutoComplete({ label, name, items, selected, placeholder }: AutoCompleteType) {
-	let [selectedItem, set_selectedItem] = useState(
+	let [selectedItem, setSelectedItem] = useState(
 		selected ? items.filter((item) => item.id === selected)[0] : undefined
 	);
 
-	let [query, set_query] = useState("");
+	let [query, setQuery] = useState("");
 
 	let filteredItems =
 		query === ""
@@ -34,13 +34,13 @@ export function AutoComplete({ label, name, items, selected, placeholder }: Auto
 	return (
 		<div>
 			<input type="hidden" name={name} value={selectedItem?.id} />
-			<Combobox as="label" className="field" value={selectedItem} onChange={set_selectedItem}>
+			<Combobox as="label" className="field" value={selectedItem} onChange={setSelectedItem}>
 				<span>{label}</span>
 				<div className="input">
 					<Combobox.Input
 						placeholder={placeholder ?? "Comece a digitar para ver as opções"}
 						onChange={(event) => {
-							set_query(event.target.value);
+							setQuery(event.target.value);
 						}}
 						displayValue={(item: ItemType) => item.name}
 						autoComplete="off"

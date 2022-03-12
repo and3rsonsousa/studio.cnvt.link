@@ -13,7 +13,7 @@ type CalendarProps = {
 };
 
 export default function Calendar({ actions }: CalendarProps) {
-	let [view, set_view] = useState(2);
+	let [view, setView] = useState(2);
 	let views = [
 		{
 			id: 1,
@@ -44,7 +44,7 @@ export default function Calendar({ actions }: CalendarProps) {
 								className={`button button-small tracking-wide ${
 									view === single.id ? "button-primary" : "button-white"
 								}`}
-								onClick={() => set_view(single.id)}
+								onClick={() => setView(single.id)}
 								key={single.id}
 							>
 								<span>

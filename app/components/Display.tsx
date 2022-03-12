@@ -10,16 +10,16 @@ import List from "./Display/List";
 
 type DisplayProps = {
 	actions: ActionType[];
-	set_showAddActionForm: Dispatch<SetStateAction<boolean>>;
+	setShowAddActionForm: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function Display({ actions, set_showAddActionForm }: DisplayProps) {
-	let [display, set_display] = useState<number>(2);
+export default function Display({ actions, setShowAddActionForm }: DisplayProps) {
+	let [display, setDisplay] = useState<number>(1);
 
 	return (
 		<div>
 			{/* Header */}
-			<Header display={display} set_display={set_display} />
+			<Header display={display} setDisplay={setDisplay} />
 			<div className="px-4 py-6 lg:p-8">
 				<AnimatePresence initial={false} exitBeforeEnter>
 					{/* - Cronológico */}
@@ -31,7 +31,7 @@ export default function Display({ actions, set_showAddActionForm }: DisplayProps
 							animate={slideH.animate}
 							exit={slideH.exit}
 						>
-							<Cronologic actions={actions} set_showAddActionForm={set_showAddActionForm} />
+							<Cronologic actions={actions} setShowAddActionForm={setShowAddActionForm} />
 						</motion.div>
 					)}
 

@@ -4,12 +4,11 @@ import { HiOutlineCalendar, HiOutlineClock, HiOutlineFilter, HiOutlineViewList }
 import { useLoaderData } from "remix";
 type HeaderProps = {
 	display: number;
-	set_display: Dispatch<SetStateAction<number>>;
+	setDisplay: Dispatch<SetStateAction<number>>;
 };
 
-export default function Header({ display, set_display }: HeaderProps) {
+export default function Header({ display, setDisplay }: HeaderProps) {
 	let loaderData = useLoaderData();
-	console.log(loaderData);
 
 	return (
 		<div className="relative z-10 flex items-center justify-between border-b  bg-white px-4 py-6 lg:p-8">
@@ -24,7 +23,7 @@ export default function Header({ display, set_display }: HeaderProps) {
 						<button
 							className={`button button-icon ${display !== item.id ? "button-ghost" : ""} button-primary`}
 							key={item.id}
-							onClick={() => set_display(item.id)}
+							onClick={() => setDisplay(item.id)}
 						>
 							{item.icon}
 						</button>

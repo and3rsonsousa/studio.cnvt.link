@@ -66,16 +66,16 @@ export default function DashboardIndex() {
 	// let { profile } = useOutletContext<{ profile: ProfileType }>();
 	let data = useLoaderData();
 	let actionData = useActionData();
-	let [showAddActionForm, set_showAddActionForm] = useState(false);
+	let [showAddActionForm, setShowAddActionForm] = useState(false);
 	let { profiles, accounts, actions, userId, campaigns } = data;
 
 	return (
 		<>
 			<div className="page">
-				<Display actions={actions} set_showAddActionForm={set_showAddActionForm} />
+				<Display actions={actions} setShowAddActionForm={setShowAddActionForm} />
 				<div className="fixed bottom-8 right-8">
 					<button
-						onClick={() => set_showAddActionForm(() => !showAddActionForm)}
+						onClick={() => setShowAddActionForm(() => !showAddActionForm)}
 						className="button-primary focus:ring-interdimensional/30 grid h-12 w-12 place-content-center rounded-full transition-all duration-300 focus:ring-4 active:translate-y-0.5"
 					>
 						<HiPlus

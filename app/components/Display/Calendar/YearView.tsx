@@ -6,7 +6,7 @@ import { DayType } from "./MonthView";
 
 export default function YearView({ actions }: { actions: ActionType[] }) {
 	let today = dayjs();
-	let [year, set_year] = useState(today);
+	let [year, setYear] = useState(today);
 	let firstDay = year.startOf("y").startOf("w");
 	let lastDay = year.endOf("y").endOf("w");
 	let currentDay = firstDay;
@@ -26,8 +26,8 @@ export default function YearView({ actions }: { actions: ActionType[] }) {
 		<div className="rounded-xl border bg-white shadow shadow-gray-500/20">
 			{/* <ViewHeader
 				title={Today.day.format(`D [de] MMMM ${day.year() !== today.year() ? " [de] YYYY" : ""}`)}
-				prev={() => set_day(day.subtract(1, "day"))}
-				next={() => set_day(day.add(1, "day"))}
+				prev={() => setDay(day.subtract(1, "day"))}
+				next={() => setDay(day.add(1, "day"))}
 			/> */}
 
 			<div className="p-2 lg:p-4">

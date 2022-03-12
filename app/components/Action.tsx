@@ -21,12 +21,12 @@ export type ActionProps = {
 // TODO: Ação de selecionar vários
 
 export default function Action({ action }: ActionProps) {
-	let [timeInfo, set_timeInfo] = useState(true);
+	let [timeInfo, setTimeInfo] = useState(true);
 
 	return (
 		<>
 			<div
-				className={`min-w-fit self-start rounded-xl border bg-white px-4 py-3 text-sm ring-brand-600/20 transition focus-within:border-brand-600 focus-within:ring-4 focus-within:duration-500 lg:block `}
+				className={`min-w-fit self-start rounded-xl border border-transparent bg-white px-4 py-3 text-sm shadow shadow-gray-500/20 ring-1 ring-black/[.02] transition focus-within:border-brand-600 focus-within:ring-4 focus-within:ring-brand-600/20 focus-within:duration-500 lg:block`}
 			>
 				{/* Cliente e Campanha */}
 
@@ -85,7 +85,7 @@ export default function Action({ action }: ActionProps) {
 				<div className="flex">
 					<div
 						className="mb-2 flex cursor-pointer flex-wrap gap-1 text-xs"
-						onClick={() => set_timeInfo(!timeInfo)}
+						onClick={() => setTimeInfo(!timeInfo)}
 					>
 						{timeInfo ? (
 							action.start ? (
@@ -177,5 +177,24 @@ export default function Action({ action }: ActionProps) {
 				</div>
 			</div>
 		</>
+	);
+}
+
+export function ActionLink({ action }: { action: ActionType }) {
+	return (
+		<Link
+			to={`/dashboard/${action.account?.slug}/${action.id}`}
+			className={`text-xx justify-between gap-2 py-1 font-semibold tracking-tight text-gray-700 lg:text-xs`}
+		>
+			<span className="text-xx font-medium text-gray-400">
+				{!action.start ? dayjs(action.end).format("HH[h]mm") : null}
+			</span>
+			<span className="relative flex items-center gap-1">
+				{isLate(action.start ?? action.end) && (
+					<span className="block h-1 w-1 shrink-0 animate-pulse rounded-full bg-error-500"></span>
+				)}
+				<span className="overflow-hidden text-ellipsis whitespace-nowrap">{action.name}</span>
+			</span>
+		</Link>
 	);
 }

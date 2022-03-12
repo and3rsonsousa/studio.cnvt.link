@@ -5,7 +5,7 @@ import { Day, DayType, ViewHeader } from "./MonthView";
 
 export default function WeekView({ actions }: { actions: ActionType[] }) {
 	let today = dayjs();
-	let [week, set_week] = useState(today);
+	let [week, setWeek] = useState(today);
 	let firstDay = week.startOf("w");
 	let lastDay = week.endOf("w");
 	let currentDay = firstDay;
@@ -30,8 +30,8 @@ export default function WeekView({ actions }: { actions: ActionType[] }) {
 					}`
 				)} 
 						${lastDay.format(`[a] D [de] MMMM ${firstDay.year() !== lastDay.year() ? " [de] YYYY " : ""}`)}`}
-				next={() => set_week(week.add(1, "week"))}
-				prev={() => set_week(week.subtract(1, "week"))}
+				next={() => setWeek(week.add(1, "week"))}
+				prev={() => setWeek(week.subtract(1, "week"))}
 			/>
 
 			<div className="grid lg:grid-cols-7">

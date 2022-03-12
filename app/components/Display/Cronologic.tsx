@@ -8,11 +8,11 @@ import GridActions from "./GridActions";
 
 type DisplayProps = {
 	actions: ActionType[];
-	set_showAddActionForm: Dispatch<SetStateAction<boolean>>;
+	setShowAddActionForm: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function Cronologic({ actions, set_showAddActionForm }: DisplayProps) {
-	let [showMoreLateActions, set_showMoreLateActions] = useState(false);
+export default function Cronologic({ actions, setShowAddActionForm }: DisplayProps) {
+	let [showMoreLateActions, setShowMoreLateActions] = useState(false);
 
 	let lateActions: ActionType[] = [],
 		todayActions: ActionType[] = [],
@@ -40,7 +40,7 @@ export default function Cronologic({ actions, set_showAddActionForm }: DisplayPr
 							lateActions.length > 6 ? (
 								<button
 									className="button button-small button-ghost"
-									onClick={() => set_showMoreLateActions(!showMoreLateActions)}
+									onClick={() => setShowMoreLateActions(!showMoreLateActions)}
 								>
 									{showMoreLateActions ? (
 										<>
@@ -60,12 +60,12 @@ export default function Cronologic({ actions, set_showAddActionForm }: DisplayPr
 
 					<GridActions>
 						{lateActions.slice(0, 6).map((action: ActionType) => (
-							<Action key={action.id} action={action} size="n" />
+							<Action key={action.id} action={action} />
 						))}
 						{showMoreLateActions &&
 							lateActions
 								.slice(6)
-								.map((action: ActionType) => <Action size="n" key={action.id} action={action} />)}
+								.map((action: ActionType) => <Action key={action.id} action={action} />)}
 					</GridActions>
 				</>
 			)}
@@ -79,14 +79,14 @@ export default function Cronologic({ actions, set_showAddActionForm }: DisplayPr
 			/>
 			<GridActions>
 				{todayActions.length > 0 ? (
-					todayActions.map((action: ActionType) => <Action size="n" key={action.id} action={action} />)
+					todayActions.map((action: ActionType) => <Action key={action.id} action={action} />)
 				) : (
 					<div className="col-span-2 text-gray-400">
 						Nenhuma Ação para hoje. Toque aqui para{" "}
 						<a
 							href="#"
 							className="font-bold text-brand-600 underline"
-							onClick={() => set_showAddActionForm(true)}
+							onClick={() => setShowAddActionForm(true)}
 						>
 							criar.
 						</a>
@@ -107,7 +107,7 @@ export default function Cronologic({ actions, set_showAddActionForm }: DisplayPr
 					/>
 					<GridActions>
 						{futureActions.map((action: ActionType) => (
-							<Action key={action.id} action={action} size="n" />
+							<Action key={action.id} action={action} />
 						))}
 					</GridActions>
 				</>

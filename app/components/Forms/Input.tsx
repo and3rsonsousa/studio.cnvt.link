@@ -9,7 +9,7 @@ export interface InputProps {
 }
 
 export const Input = ({ label, type, name, value, disable }: InputProps) => {
-	let [isDisable, set_isDisable] = useState(disable);
+	let [isDisable, setIsDisable] = useState(disable);
 	return (
 		<label className="field">
 			<span>
@@ -19,7 +19,7 @@ export const Input = ({ label, type, name, value, disable }: InputProps) => {
 						type="checkbox"
 						className="inline-block"
 						checked={!isDisable}
-						onClick={() => set_isDisable(!isDisable)}
+						onClick={() => setIsDisable(!isDisable)}
 					/>
 				) : null}
 			</span>

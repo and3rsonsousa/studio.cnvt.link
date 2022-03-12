@@ -26,10 +26,10 @@ export const loader: LoaderFunction = async ({ params }) => {
 // TODO: Inclur opção de Criação de Campanha direto na página
 
 export default function Slug() {
-	let account: AccountType = useLoaderData();
+	let { account }: { account: AccountType } = useLoaderData();
 	return (
 		<div>
-			<Display actions={[]} set_showAddActionForm={() => {}} />
+			<Display actions={account.actions ?? []} setShowAddActionForm={() => {}} />
 
 			<div className="lg:flex">
 				<Outlet />

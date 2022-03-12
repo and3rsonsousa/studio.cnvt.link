@@ -7,7 +7,7 @@ import { DayType, ViewHeader } from "./MonthView";
 
 export default function DayView({ actions }: { actions: ActionType[] }) {
 	let today = dayjs();
-	let [day, set_day] = useState(today);
+	let [day, setDay] = useState(today);
 
 	let Today: DayType = {
 		day: day,
@@ -18,13 +18,13 @@ export default function DayView({ actions }: { actions: ActionType[] }) {
 		<div className="rounded-xl border bg-white shadow shadow-gray-500/20">
 			<ViewHeader
 				title={Today.day.format(`D [de] MMMM ${day.year() !== today.year() ? " [de] YYYY" : ""}`)}
-				prev={() => set_day(day.subtract(1, "day"))}
-				next={() => set_day(day.add(1, "day"))}
+				prev={() => setDay(day.subtract(1, "day"))}
+				next={() => setDay(day.add(1, "day"))}
 			/>
 			<div className="p-2 lg:p-4">
 				<GridActions>
 					{Today.actions.length > 0 ? (
-						Today.actions.map((action) => <Action action={action} key={action.id} size="n" />)
+						Today.actions.map((action) => <Action action={action} key={action.id} />)
 					) : (
 						<div>Nenhuma ação para esse dia.</div>
 					)}

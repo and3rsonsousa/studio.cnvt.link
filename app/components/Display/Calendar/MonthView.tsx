@@ -2,6 +2,8 @@ import dayjs, { Dayjs } from "dayjs";
 import { useState } from "react";
 import { HiOutlineChevronLeft, HiOutlineChevronRight, HiPlusCircle } from "react-icons/hi";
 import { Link } from "remix";
+import { ActionLink } from "~/components/Action";
+import { flows } from "~/lib/data";
 import { isLate, isToday } from "~/lib/functions";
 import { ActionType } from "~/types";
 
@@ -9,7 +11,7 @@ export type DayType = { day: Dayjs; actions: Array<ActionType> };
 
 export function MonthView({ actions }: { actions: ActionType[] }) {
 	let today = dayjs();
-	let [month, set_month] = useState(today);
+	let [month, setMonth] = useState(today);
 	let firstDay = month.startOf("M").startOf("w");
 	let lastDay = month.endOf("M").endOf("w");
 	let currentDay = firstDay;
@@ -30,8 +32,8 @@ export function MonthView({ actions }: { actions: ActionType[] }) {
 			<ViewHeader
 				title={`${month.format("MMMM")}
 					${month.year() !== today.year() ? month.format(" [de] YYYY") : ""}`}
-				prev={() => set_month(month.subtract(1, "month"))}
-				next={() => set_month(month.add(1, "month"))}
+				prev={() => setMonth(month.subtract(1, "month"))}
+				next={() => setMonth(month.add(1, "month"))}
 			/>
 			<WeekHeader />
 
@@ -59,7 +61,7 @@ export function Day({
 	size: "x" | "s" | "n";
 	dayName?: boolean;
 }) {
-	let [showMore, set_showMore] = useState(false);
+	let [showMore, setShowMore] = useState(false);
 	return (
 		<div
 			className={`group ${!dayName ? ((index + 1) % 7 !== 0 ? "border-r border-t" : "border-t") : "pb-8"} ${
@@ -104,7 +106,7 @@ export function Day({
 							{day.actions.length > 3 && (
 								<button
 									className="button button-ghost text-xx p-1 opacity-25 transition duration-300 group-hover:translate-x-0 group-hover:opacity-100 md:translate-x-3"
-									onClick={() => set_showMore(!showMore)}
+									onClick={() => setShowMore(!showMore)}
 								>
 									{showMore ? "Exibir Menos" : "Exibir todas"}
 								</button>
@@ -152,19 +154,5 @@ export function ViewHeader({ title, prev, next }: { title: string; prev: any; ne
 				</div>
 			</div>
 		</header>
-	);
-}
-
-function ActionLink({ action }: { action: ActionType }) {
-	return (
-		<Link
-			to={`/dashboard/${action.account?.slug}/${action.id}`}
-			className="text-xx flex items-center gap-1 font-semibold tracking-tight text-gray-700 lg:text-xs"
-		>
-			{isLate(action.start ?? action.end) && (
-				<span className="block h-1 w-1 shrink-0 animate-pulse rounded-full bg-error-500"></span>
-			)}
-			<span className="overflow-hidden text-ellipsis whitespace-nowrap">{action.name}</span>
-		</Link>
 	);
 }

@@ -11,8 +11,6 @@ type DisplayProps = {
 };
 
 export default function Cronologic({ actions }: DisplayProps) {
-	let [showMoreLateActions, setShowMoreLateActions] = useState(false);
-
 	let lateActions: ActionType[] = [],
 		todayActions: ActionType[] = [],
 		futureActions: ActionType[] = [],
@@ -33,97 +31,61 @@ export default function Cronologic({ actions }: DisplayProps) {
 
 	return (
 		<>
-			{lateActions.length > 0 && (
-				<>
-					<Heading
-						title="Em atraso"
-						subTitle={`${lateActions.length} ${lateActions.length === 1 ? "ação" : "ações"}`}
-						rightComponent={
-							lateActions.length > 6 ? (
-								<button
-									className="button button-small button-ghost"
-									onClick={() => setShowMoreLateActions(!showMoreLateActions)}
-								>
-									{showMoreLateActions ? (
-										<>
-											<span>Motrar menos</span>
-											<HiOutlineMinusCircle className="text-xl" />
-										</>
-									) : (
-										<>
-											<span>Mostrar Todas</span>
-											<HiOutlinePlusCircle className="text-xl" />
-										</>
-									)}
-								</button>
-							) : undefined
-						}
-					/>
+			{lateActions.length > 0 && <CronologicRow title="Em atraso" subtitle="em atraso" items={lateActions} />}
 
-					<GridActions>
-						{lateActions.slice(0, 6).map((action: ActionType) => (
-							<Action key={action.id} action={action} />
-						))}
-						{showMoreLateActions &&
-							lateActions
-								.slice(6)
-								.map((action: ActionType) => <Action key={action.id} action={action} />)}
-					</GridActions>
-				</>
+			{todayActions.length === 0 ? (
+				<div className="col-span-2 my-16 text-gray-400">Nenhuma Ação para hoje.</div>
+			) : (
+				<CronologicRow title="Hoje" subtitle="para hoje" items={todayActions} />
 			)}
-			<Heading
-				title="Hoje"
-				subTitle={
-					todayActions.length > 0
-						? `${todayActions.length} ${todayActions.length === 1 ? "ação" : "ações"} para hoje`
-						: undefined
-				}
-			/>
-			<GridActions>
-				{todayActions.length > 0 ? (
-					todayActions.map((action: ActionType) => <Action key={action.id} action={action} />)
-				) : (
-					<div className="col-span-2 text-gray-400">Nenhuma Ação para hoje.</div>
-				)}
-			</GridActions>
+
 			{futureActions.length > 0 && (
-				<>
-					<Heading
-						title="Próximas"
-						subTitle={
-							futureActions.length > 0
-								? `${futureActions.length} ${
-										futureActions.length === 1 ? "ação" : "ações"
-								  } para os próximos dias`
-								: undefined
-						}
-					/>
-					<GridActions>
-						{futureActions.map((action: ActionType) => (
-							<Action key={action.id} action={action} />
-						))}
-					</GridActions>
-				</>
+				<CronologicRow title="Próximas" subtitle="para os próximos dias" items={futureActions} />
 			)}
 			{accomplishedActions.length > 0 && (
-				<>
-					<Heading
-						title="Concluídas"
-						subTitle={
-							futureActions.length > 0
-								? `${futureActions.length} ${
-										futureActions.length === 1 ? "ação" : "ações"
-								  } para os próximos dias`
-								: undefined
-						}
-					/>
-					<GridActions>
-						{accomplishedActions.map((action: ActionType) => (
-							<Action key={action.id} action={action} />
-						))}
-					</GridActions>
-				</>
+				<CronologicRow title="Concluídas" subtitle="finalizadas" items={accomplishedActions} />
 			)}
+		</>
+	);
+}
+
+function CronologicRow({ title, subtitle, items }: { title: string; subtitle?: string; items: Array<ActionType> }) {
+	let [showMore, setShowMore] = useState(false);
+
+	return (
+		<>
+			<Heading
+				title={title}
+				subTitle={
+					items.length > 0
+						? `${items.length} ${items.length === 1 ? "ação" : "ações"} ${subtitle}`
+						: undefined
+				}
+				rightComponent={
+					items.length > 6 ? (
+						<button className="button button-small button-ghost" onClick={() => setShowMore(!showMore)}>
+							{showMore ? (
+								<>
+									<span>Motrar menos</span>
+									<HiOutlineMinusCircle className="text-xl" />
+								</>
+							) : (
+								<>
+									<span>Mostrar Todas</span>
+									<HiOutlinePlusCircle className="text-xl" />
+								</>
+							)}
+						</button>
+					) : undefined
+				}
+			/>
+
+			<GridActions>
+				{items.slice(0, 6).map((action: ActionType) => (
+					<Action key={action.id} action={action} />
+				))}
+				{showMore && items.slice(6).map((action: ActionType) => <Action key={action.id} action={action} />)}
+			</GridActions>
 		</>
 	);
 }

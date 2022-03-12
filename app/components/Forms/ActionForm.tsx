@@ -36,7 +36,11 @@ export default function ({
 					<AutoComplete
 						label="Campanha"
 						name="campaign_id"
-						items={campaigns}
+						items={
+							isEditing
+								? campaigns.filter((campaign) => campaign.account_id === values?.account_id)
+								: campaigns
+						}
 						selected={values ? values.campaign_id : undefined}
 					/>
 

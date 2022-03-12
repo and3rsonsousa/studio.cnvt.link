@@ -44,6 +44,7 @@ export function AutoComplete({ label, name, items, selected, placeholder }: Auto
 						}}
 						displayValue={(item: ItemType) => item.name}
 						autoComplete="off"
+						className="input-field"
 					/>
 					<Combobox.Button className="button button-ghost button-icon">
 						<HiOutlineSelector className="text-xl" />

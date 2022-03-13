@@ -55,7 +55,11 @@ export function AutoComplete({ label, name, items, selected, placeholder }: Auto
 					) : (
 						filteredItems.map((item) => (
 							<Combobox.Option key={item.id} value={item} as={Fragment}>
-								{({ active, selected }) => <div className={`dropdown-link`}>{item.name}</div>}
+								{({ active }) => (
+									<div className={`dropdown-link${active ? " dropdown-link-active" : ""}`}>
+										{item.name}
+									</div>
+								)}
 							</Combobox.Option>
 						))
 					)}

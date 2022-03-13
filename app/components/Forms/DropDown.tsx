@@ -15,7 +15,7 @@ export const Dropdown = ({ values, name }: DropdownProps) => {
 				{values.map((value) => (
 					<Menu.Item as={Fragment} key={value.id}>
 						{({ active }) => (
-							<button className={`dropdown-link${active ? " dropdown-link-active" : ""}`}>
+							<button className={`dropdown-link ${active ? " dropdown-link-active" : ""}`}>
 								{value.name}
 							</button>
 						)}

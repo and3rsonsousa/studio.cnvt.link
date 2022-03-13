@@ -49,14 +49,14 @@ export function AutoComplete({ label, name, items, selected, placeholder }: Auto
 						<HiOutlineSelector className="text-xl" />
 					</Combobox.Button>
 				</div>
-				<Combobox.Options className="dropdown-menu">
+				<Combobox.Options className="dropdown-menu w-full">
 					{filteredItems.length === 0 && query !== "" ? (
 						<div className="p-2 text-center text-gray-400 lg:px-4">Nenhum item corresponde à sua busca</div>
 					) : (
 						filteredItems.map((item) => (
 							<Combobox.Option key={item.id} value={item} as={Fragment}>
 								{({ active }) => (
-									<div className={`dropdown-link${active ? " dropdown-link-active" : ""}`}>
+									<div className={`dropdown-link ${active ? " dropdown-link-active" : ""}`}>
 										{item.name}
 									</div>
 								)}

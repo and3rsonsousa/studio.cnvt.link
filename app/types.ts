@@ -51,6 +51,7 @@ export type ActionType = {
 	status?: BasicType;
 	tags?: BasicType;
 	campaign: CampaignType;
+	profile: ProfileType;
 
 	start?: string;
 	end: string;

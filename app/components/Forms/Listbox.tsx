@@ -63,9 +63,7 @@ export const ListBox = ({ item_id, values, selected, name, table }: ListboxProps
 												>
 													{value.name}
 
-													{selected && (
-														<HiCheckCircle className="ml-2 text-xl text-brand-400" />
-													)}
+													{selected && <HiCheckCircle className="ml-2 text-xl text-white" />}
 												</button>
 											)}
 										</Listbox.Option>

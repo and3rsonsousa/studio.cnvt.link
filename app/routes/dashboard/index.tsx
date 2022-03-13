@@ -47,6 +47,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 	actions = actions.map((action) => ({
 		...action,
 		campaign: campaigns?.filter((campaign) => campaign.id === action.campaign_id)[0],
+		profile: profiles?.filter((profile) => profile.user_id === action.user_id)[0],
 	}));
 
 	return {

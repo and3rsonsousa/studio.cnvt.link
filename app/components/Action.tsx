@@ -208,13 +208,27 @@ export default function Action({ action }: ActionProps) {
 	);
 }
 
-export function ActionLink({ action, small }: { action: ActionType; small?: boolean }) {
+export function ActionLink({ action, small, color }: { action: ActionType; small?: boolean; color?: string }) {
+	let bg = "";
+
+	switch (color) {
+		case "Flow":
+			bg = `bg-${flows[action.flow_id - 1].slug}`;
+			break;
+		case "Step":
+			bg = `bg-${steps[action.step_id - 1].slug}`;
+			break;
+		case "Tag":
+			bg = `bg-${tags[action.tag_id - 1].slug}`;
+			break;
+	}
+
 	return (
 		<Link
 			to={`/dashboard/${action.account?.slug}/${action.id}`}
 			className={`${
 				small ? "text-xx" : ""
-			} mb-2 flex  justify-between gap-2 font-semibold tracking-tight text-gray-700 lg:text-xs`}
+			} mb-2 flex items-center justify-between gap-2 rounded-md bg-gray-100 py-1 px-2 font-semibold tracking-tight text-gray-700 lg:text-xs ${bg}`}
 		>
 			<span className="relative flex min-w-0 items-center gap-1">
 				{isLate(action.start ?? action.end, action.step_id) && (
@@ -226,7 +240,7 @@ export function ActionLink({ action, small }: { action: ActionType; small?: bool
 					{action.name}
 				</span>
 			</span>
-			<span className={`${small ? "hidden" : ""} font-medium text-gray-400 sm:block`}>
+			<span className={`${small ? "hidden" : ""} text-xx font-medium opacity-75 sm:block`}>
 				{!action.start
 					? dayjs(action.end).minute() === 0
 						? dayjs(action.end).format("HH[h]")

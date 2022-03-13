@@ -9,16 +9,14 @@ export function Day({
 	day,
 	index,
 	month,
-	// today,
-	// size,
 	dayName,
+	color,
 }: {
 	day: DayType;
 	index: number;
 	month: Dayjs;
-	today: Dayjs;
-	size: "x" | "s" | "n";
 	dayName?: boolean;
+	color: string | undefined;
 }) {
 	return (
 		<div
@@ -54,7 +52,7 @@ export function Day({
 
 			<div className={`${dayName ? "space-y-4 lg:space-y-2" : "space-y-2"}  px-2 py-4`}>
 				{day.actions.map((action) => (
-					<ActionLink key={action.id} action={action} small={!dayName} />
+					<ActionLink color={color} key={action.id} action={action} small={!dayName} />
 				))}
 			</div>
 		</div>

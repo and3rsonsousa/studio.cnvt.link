@@ -4,7 +4,7 @@ import { ActionType, DayType } from "~/types";
 import { Day } from "./Day";
 import { ViewHeader } from "./MonthView";
 
-export default function WeekView({ actions }: { actions: ActionType[] }) {
+export default function WeekView({ actions, color }: { actions: Array<ActionType>; color: string | undefined }) {
 	let today = dayjs();
 	let [week, setWeek] = useState(today);
 	let firstDay = week.startOf("w");
@@ -38,7 +38,7 @@ export default function WeekView({ actions }: { actions: ActionType[] }) {
 			<div className="grid lg:grid-cols-7">
 				{weekDays.map((day, index) => (
 					<div className={day.actions.length === 0 ? "hidden lg:block" : ""} key={index}>
-						<Day day={day} index={index} dayName={true} size="s" month={week} today={today} />
+						<Day day={day} index={index} dayName={true} month={week} color={color} />
 					</div>
 				))}
 			</div>

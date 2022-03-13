@@ -13,7 +13,7 @@ type DisplayProps = {
 };
 
 export default function Display({ actions }: DisplayProps) {
-	let [display, setDisplay] = useState<number>(1);
+	let [display, setDisplay] = useState<number>(2);
 
 	return (
 		<div>
@@ -85,11 +85,13 @@ export default function Display({ actions }: DisplayProps) {
 
 export function Heading({
 	title,
-	rightComponent,
+	middle,
+	right,
 	subTitle,
 }: {
 	title: string;
-	rightComponent?: ReactChild;
+	middle?: ReactChild;
+	right?: ReactChild;
 	subTitle?: string;
 }) {
 	return (
@@ -101,7 +103,8 @@ export function Heading({
 					<div className="text-xx font-medium uppercase tracking-wide text-gray-400">{subTitle}</div>
 				)}
 			</div>
-			<div>{rightComponent}</div>
+			{middle && <div>{middle}</div>}
+			{right && <div>{right}</div>}
 		</div>
 	);
 }

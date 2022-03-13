@@ -10,7 +10,7 @@ export type AvatarProps = {
 };
 
 const Avatar: FC<AvatarProps> = ({ avatar, size = "g", border, _className }) => {
-	let classes = `grid text-gray-700 flex-none place-items-center font-bold uppercase bg-gray-100 rounded-full ${
+	let classes = `grid text-gray-500 flex-none place-items-center font-bold uppercase bg-gray-200 rounded-full ${
 		border ? " ring-2 ring-white " : ""
 	} ${_className ? _className : ""}`;
 

@@ -18,7 +18,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 		.from("accounts")
 		.select("*, actions(*)")
 		.contains("user_id", [userId])
-
 		.order("name");
 
 	// Set 'actions' array and returns/flats the user_id's in accounts array
@@ -36,10 +35,13 @@ export const loader: LoaderFunction = async ({ request }) => {
 			})
 			.flat() || [];
 
-	//Returns profiles
-	let { data: profiles } = await supabase.from("profiles").select("*").in("user_id", user_ids).order("name");
+	let data = await Promise.all([
+		supabase.from("profiles").select("*").in("user_id", user_ids).order("name"),
+		supabase.from("campaigns").select("*").in("account_id", account_ids).order("name"),
+	]);
 
-	let { data: campaigns } = await supabase.from("campaigns").select("*").in("account_id", account_ids).order("name");
+	let { data: profiles } = data[0];
+	let { data: campaigns } = data[1];
 
 	//Order the actions by 'end' date
 	actions = actions.sort((a, b) => dayjs(a.start ? a.start : a.end).diff(b.start ? b.start : b.end));

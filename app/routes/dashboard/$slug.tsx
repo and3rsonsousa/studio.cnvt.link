@@ -2,22 +2,56 @@ import { LoaderFunction, Outlet, useLoaderData } from "remix";
 import Action from "~/components/Action";
 import Display from "~/components/Display";
 import { AccountName } from "~/components/Display/Header";
+import { getUserId } from "~/lib/session.server";
 import { supabase } from "~/lib/supabase";
 import { AccountType, ActionType } from "~/types";
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ params, request }) => {
+	// Slug do Cliente
 	let { slug } = params;
+	// Usuário logado
+	let userId = await getUserId(request);
 
-	let { data, error } = await supabase.from("accounts").select("*, actions(*)").match({ slug }).single();
+	// id e user_id das contas que o usuário logado pode acessar
+	let { data: accounts } = await supabase
+		.from("accounts")
+		.select("id, user_id")
+		.contains("user_id", [userId])
+		.order("name");
 
-	if (error) throw new Error(error.message);
+	// accounts_ids e user_id
+	let account_ids: number[] = [];
+	let user_ids =
+		accounts
+			?.map((account: AccountType) => {
+				account_ids.push(account.id);
+				return account.user_id;
+			})
+			.flat() || [];
 
-	let account = data;
+	// Retorna os Perfis, as campanhas e a conta do slug
+	let data = await Promise.all([
+		supabase.from("profiles").select("*").in("user_id", user_ids).order("name"),
+		supabase.from("campaigns").select("*").in("account_id", account_ids).order("name"),
+		supabase.from("accounts").select("*, actions(*)").match({ slug }).single(),
+	]);
+
+	let { data: profiles } = data[0];
+	let { data: campaigns } = data[1];
+	let { data: account } = data[2];
+
+	// Configura as ações da conta com os dados retornados
+	// TODO: Refatorar e unificar os código de $slug.tsx e dashboard/index.tsx
+	// Seria melhor usar GraphQL
 
 	account.actions = account.actions.map((action: ActionType) => ({
 		...action,
 		account: { ...account, action: null },
+		campaign: campaigns?.filter((campaign) => campaign.id === action.campaign_id)[0],
+		profile: profiles?.filter((profile) => profile.user_id === action.user_id)[0],
 	}));
+
+	console.log({ user_ids, profiles });
 
 	return { account, params };
 };

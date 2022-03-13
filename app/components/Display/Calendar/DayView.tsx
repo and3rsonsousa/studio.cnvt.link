@@ -5,7 +5,7 @@ import { ActionType, DayType } from "~/types";
 import GridActions from "../GridActions";
 import { ViewHeader } from "./MonthView";
 
-export default function DayView({ actions }: { actions: ActionType[] }) {
+export default function DayView({ actions }: { actions: Array<ActionType> }) {
 	let today = dayjs();
 	let [day, setDay] = useState(today);
 

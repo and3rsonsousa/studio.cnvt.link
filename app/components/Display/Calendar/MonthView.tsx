@@ -4,7 +4,7 @@ import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
 import { ActionType, DayType } from "~/types";
 import { Day } from "./Day";
 
-export function MonthView({ actions }: { actions: ActionType[] }) {
+export function MonthView({ actions, color }: { actions: ActionType[]; color: string | undefined }) {
 	let today = dayjs();
 	let [month, setMonth] = useState(today);
 	let firstDay = month.startOf("M").startOf("w");
@@ -34,7 +34,7 @@ export function MonthView({ actions }: { actions: ActionType[] }) {
 
 			<section className="grid grid-cols-7">
 				{monthDays.map((day, index) => (
-					<Day day={day} index={index} month={month} key={index} today={today} size="x" />
+					<Day color={color} day={day} index={index} month={month} key={index} />
 				))}
 			</section>
 		</div>

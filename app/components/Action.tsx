@@ -217,20 +217,30 @@ export default function Action({ action }: ActionProps) {
 	);
 }
 
-export function ActionLink({ action }: { action: ActionType }) {
+export function ActionLink({ action, small }: { action: ActionType; small?: boolean }) {
 	return (
 		<Link
 			to={`/dashboard/${action.account?.slug}/${action.id}`}
-			className={`text-xx justify-between gap-2 py-1 font-semibold tracking-tight text-gray-700 lg:text-xs`}
+			className={`${
+				small ? "text-xx" : ""
+			} mb-2 flex  justify-between gap-2 font-semibold tracking-tight text-gray-700 lg:text-xs`}
 		>
-			<span className="text-xx font-medium text-gray-400">
-				{!action.start ? dayjs(action.end).format("HH[h]mm") : null}
-			</span>
-			<span className="relative flex items-center gap-1">
+			<span className="relative flex min-w-0 items-center gap-1">
 				{isLate(action.start ?? action.end, action.step_id) && (
 					<span className="block h-1 w-1 shrink-0 animate-pulse rounded-full bg-error-500"></span>
 				)}
-				<span className="overflow-hidden text-ellipsis whitespace-nowrap">{action.name}</span>
+				<span
+					className={`overflow-hidden text-ellipsis ${small ? "whitespace-nowrap" : "lg:whitespace-nowrap"}`}
+				>
+					{action.name}
+				</span>
+			</span>
+			<span className={`${small ? "hidden" : ""} font-medium text-gray-400 sm:block`}>
+				{!action.start
+					? dayjs(action.end).minute() === 0
+						? dayjs(action.end).format("HH[h]")
+						: dayjs(action.end).format("HH[h]mm")
+					: null}
 			</span>
 		</Link>
 	);

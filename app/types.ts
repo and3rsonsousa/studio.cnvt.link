@@ -62,3 +62,5 @@ export type BasicType = {
 	name?: string | ReactChild;
 	slug?: string;
 };
+
+export type DayType = { day: Dayjs; actions: Array<ActionType> };

@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import { ActionType } from "~/types";
 import GridActions from "../GridActions";
-import { DayType } from "./MonthView";
+import { DayType } from "~/types";
 
 export default function YearView({ actions }: { actions: ActionType[] }) {
 	let today = dayjs();

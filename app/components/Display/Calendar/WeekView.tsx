@@ -1,7 +1,8 @@
 import dayjs from "dayjs";
 import { useState } from "react";
-import { ActionType } from "~/types";
-import { Day, DayType, ViewHeader } from "./MonthView";
+import { ActionType, DayType } from "~/types";
+import { Day } from "./Day";
+import { ViewHeader } from "./MonthView";
 
 export default function WeekView({ actions }: { actions: ActionType[] }) {
 	let today = dayjs();
@@ -22,7 +23,7 @@ export default function WeekView({ actions }: { actions: ActionType[] }) {
 	}
 
 	return (
-		<div className="section-sm">
+		<div className="section-sm p-0">
 			<ViewHeader
 				title={`${firstDay.format(
 					`D ${firstDay.month() !== lastDay.month() ? " [de] MMMM " : ""} ${
@@ -36,7 +37,9 @@ export default function WeekView({ actions }: { actions: ActionType[] }) {
 
 			<div className="grid lg:grid-cols-7">
 				{weekDays.map((day, index) => (
-					<Day day={day} index={index} dayName={true} size="s" key={index} month={week} today={today} />
+					<div className={day.actions.length === 0 ? "hidden lg:block" : ""} key={index}>
+						<Day day={day} index={index} dayName={true} size="s" month={week} today={today} />
+					</div>
 				))}
 			</div>
 		</div>

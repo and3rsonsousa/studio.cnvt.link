@@ -1,9 +1,9 @@
 import dayjs from "dayjs";
 import { useState } from "react";
 import Action from "~/components/Action";
-import { ActionType } from "~/types";
+import { ActionType, DayType } from "~/types";
 import GridActions from "../GridActions";
-import { DayType, ViewHeader } from "./MonthView";
+import { ViewHeader } from "./MonthView";
 
 export default function DayView({ actions }: { actions: ActionType[] }) {
 	let today = dayjs();
@@ -15,7 +15,7 @@ export default function DayView({ actions }: { actions: ActionType[] }) {
 	};
 
 	return (
-		<div className="section-sm">
+		<div className="section-sm p-0">
 			<ViewHeader
 				title={Today.day.format(`D [de] MMMM ${day.year() !== today.year() ? " [de] YYYY" : ""}`)}
 				prev={() => setDay(day.subtract(1, "day"))}

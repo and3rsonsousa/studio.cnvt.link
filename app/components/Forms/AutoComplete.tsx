@@ -9,7 +9,7 @@ export type ItemType = {
 	name: string;
 };
 
-export type AutoCompleteType = {
+export type AutoCompleteProps = {
 	label: string;
 	name: string;
 	items: Array<ItemType>;
@@ -17,7 +17,7 @@ export type AutoCompleteType = {
 	placeholder?: string;
 };
 
-export function AutoComplete({ label, name, items, selected, placeholder }: AutoCompleteType) {
+export function AutoComplete({ label, name, items, selected, placeholder }: AutoCompleteProps) {
 	let [selectedItem, setSelectedItem] = useState(
 		selected ? items.filter((item) => item.id === selected)[0] : undefined
 	);

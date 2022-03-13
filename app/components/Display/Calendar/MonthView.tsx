@@ -1,13 +1,8 @@
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { useState } from "react";
-import { HiOutlineChevronLeft, HiOutlineChevronRight, HiPlusCircle } from "react-icons/hi";
-import { Link } from "remix";
-import { ActionLink } from "~/components/Action";
-import { flows } from "~/lib/data";
-import { isLate, isToday } from "~/lib/functions";
-import { ActionType } from "~/types";
-
-export type DayType = { day: Dayjs; actions: Array<ActionType> };
+import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
+import { ActionType, DayType } from "~/types";
+import { Day } from "./Day";
 
 export function MonthView({ actions }: { actions: ActionType[] }) {
 	let today = dayjs();
@@ -28,7 +23,7 @@ export function MonthView({ actions }: { actions: ActionType[] }) {
 	}
 
 	return (
-		<div className="section-sm p-0">
+		<div className="section-sm overflow-hidden p-0">
 			<ViewHeader
 				title={`${month.format("MMMM")}
 					${month.year() !== today.year() ? month.format(" [de] YYYY") : ""}`}
@@ -46,83 +41,7 @@ export function MonthView({ actions }: { actions: ActionType[] }) {
 	);
 }
 
-export function Day({
-	day,
-	index,
-	month,
-	today,
-	size,
-	dayName,
-}: {
-	day: DayType;
-	index: number;
-	month: Dayjs;
-	today: Dayjs;
-	size: "x" | "s" | "n";
-	dayName?: boolean;
-}) {
-	let [showMore, setShowMore] = useState(false);
-	return (
-		<div
-			className={`group ${!dayName ? ((index + 1) % 7 !== 0 ? "border-r border-t" : "border-t") : "pb-8"} ${
-				day.day.month() !== month.month() ? "  bg-gray-100 text-gray-400" : ""
-			}`}
-		>
-			{/* Número do dia */}
-			{dayName ? (
-				<div className="mb-4 flex items-center gap-1 border-b p-2 lg:flex-wrap lg:gap-0">
-					<div
-						className={`text-xs font-semibold lg:text-sm ${
-							isToday(day.day) ? "text-brand-600" : "text-gray-700"
-						} first-letter:uppercase lg:w-full`}
-					>
-						{day.day.format("dddd, ")}
-					</div>
-					<div className="text-xs">{day.day.format("D [de] MMMM")}</div>
-				</div>
-			) : (
-				<div className={`text-xx mb-2 p-2`}>
-					{isToday(day.day) ? (
-						<div className={` -m-1 grid h-6 w-6 place-content-center rounded-full bg-brand-500 text-white`}>
-							{day.day.format("D")}
-						</div>
-					) : (
-						<div>{day.day.format("D")}</div>
-					)}
-				</div>
-			)}
-
-			<div className="space-y-2 p-1 lg:p-2">
-				{dayName ? (
-					day.actions.map((action) => <ActionLink key={action.id} action={action} />)
-				) : (
-					<>
-						{day.actions.slice(0, 3).map((action) => (
-							<ActionLink key={action.id} action={action} />
-						))}
-						{showMore &&
-							day.actions.slice(3).map((action) => <ActionLink key={action.id} action={action} />)}
-						<div className="pointer-events-none flex flex-col items-center justify-center group-hover:pointer-events-auto md:flex-row">
-							{day.actions.length > 3 && (
-								<button
-									className="button button-ghost text-xx p-1 opacity-25 transition duration-300 group-hover:translate-x-0 group-hover:opacity-100 md:translate-x-3"
-									onClick={() => setShowMore(!showMore)}
-								>
-									{showMore ? "Exibir Menos" : "Exibir todas"}
-								</button>
-							)}
-							<button className="button button-ghost p-1 opacity-0 group-hover:opacity-100">
-								<HiPlusCircle className="text-lg" />
-							</button>
-						</div>
-					</>
-				)}
-			</div>
-		</div>
-	);
-}
-
-export function WeekHeader() {
+function WeekHeader() {
 	return (
 		<div className="text-xx grid grid-cols-7 text-center font-bold text-gray-700">
 			<div className="p-2 lg:px-4">DOM</div>

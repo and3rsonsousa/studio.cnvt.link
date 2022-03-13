@@ -34,7 +34,7 @@ export default function Cronologic({ actions }: DisplayProps) {
 			{lateActions.length > 0 && <CronologicRow title="Em atraso" subtitle="em atraso" items={lateActions} />}
 
 			{todayActions.length === 0 ? (
-				<div className="col-span-2 my-16 text-gray-400">Nenhuma Ação para hoje.</div>
+				<div className="my-16">Nenhuma Ação para hoje.</div>
 			) : (
 				<CronologicRow title="Hoje" subtitle="para hoje" items={todayActions} />
 			)}

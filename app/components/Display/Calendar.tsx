@@ -13,7 +13,7 @@ type CalendarProps = {
 };
 
 export default function Calendar({ actions }: CalendarProps) {
-	let [view, setView] = useState(2);
+	let [view, setView] = useState(1);
 	let views = [
 		{
 			id: 1,

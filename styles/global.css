@@ -213,6 +213,27 @@
 	.section-sm {
 		@apply self-start rounded-xl bg-white px-4 py-6 shadow shadow-gray-500/20 ring-1 ring-black/5;
 	}
+
+	.listbox .listbox-button {
+		@apply text-xx focus-30 relative inline-block w-full overflow-hidden text-ellipsis whitespace-nowrap border-transparent  py-0.5 px-2 font-semibold uppercase tracking-wide  duration-300 focus:z-10 focus:outline-none;
+	}
+
+	.listbox-group .listbox:first-child .listbox-button {
+		@apply rounded-l-full;
+	}
+	.listbox-group .listbox:last-child .listbox-button {
+		@apply rounded-r-full;
+	}
+
+	.dropdown-menu {
+		@apply absolute z-50 max-h-52 origin-top overflow-auto rounded-xl bg-white p-2 shadow-2xl shadow-gray-500/30 outline-none ring-1 ring-black/5;
+	}
+	.dropdown-link {
+		@apply flex  w-36 cursor-pointer items-center justify-between gap-2 rounded-md py-2 px-3 transition hover:bg-brand-50 hover:text-brand-700;
+	}
+	.dropdown-link-active {
+		@apply bg-brand-50 text-brand-700;
+	}
 }
 
 .error-block {

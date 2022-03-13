@@ -172,12 +172,11 @@ export default function Action({ action }: ActionProps) {
         Flow - Step - Tag 
         */}
 				<div className="flex items-end justify-between gap-2">
-					<div className="flex">
+					<div className="listbox-group flex">
 						<ListBox
 							item_id={action.id}
 							values={flows}
 							selected={flows.filter((flow) => flow.id === action.flow_id)[0]}
-							start={true}
 							name="flow_id"
 							table="actions"
 						/>
@@ -192,8 +191,6 @@ export default function Action({ action }: ActionProps) {
 							item_id={action.id}
 							values={tags}
 							selected={tags.filter((tag) => tag.id === action.tag_id)[0]}
-							end={true}
-							columns={2}
 							name="tag_id"
 							table="actions"
 						/>

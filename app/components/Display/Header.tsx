@@ -21,7 +21,6 @@ export default function Header({ display, setDisplay }: HeaderProps) {
 
 	return (
 		<div className="z-10 flex flex-wrap items-center justify-between gap-4 border-b bg-white p-4 sm:flex-nowrap lg:px-8">
-			{loaderData?.account && <AccountName account={loaderData.account} />}
 			<div className="flex sm:gap-2">
 				{[
 					{ id: 1, icon: <HiOutlineClock /> },
@@ -40,12 +39,13 @@ export default function Header({ display, setDisplay }: HeaderProps) {
 					) : null;
 				})}
 			</div>
+			{loaderData?.account && <AccountName account={loaderData.account} />}
 
-			<div>
+			{/* <div>
 				<button className="button button-icon button-ghost">
 					<HiOutlineFilter />
 				</button>
-			</div>
+			</div> */}
 		</div>
 	);
 }

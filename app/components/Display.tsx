@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Dispatch, ReactChild, SetStateAction, useState } from "react";
-import { fade, slideH } from "~/lib/animations";
+import { ReactChild, useState } from "react";
+import { slideH } from "~/lib/animations";
 import { ActionType } from "~/types";
 import Calendar from "./Display/Calendar";
 import Cronologic from "./Display/Cronologic";
@@ -13,7 +13,7 @@ type DisplayProps = {
 };
 
 export default function Display({ actions }: DisplayProps) {
-	let [display, setDisplay] = useState<number>(2);
+	let [display, setDisplay] = useState<number>(1);
 
 	return (
 		<div>
@@ -24,7 +24,7 @@ export default function Display({ actions }: DisplayProps) {
 					{/* - Cronológico */}
 					{display === 1 && (
 						<motion.div
-							layout
+							layout="size"
 							key="cronologic"
 							initial={slideH.initial}
 							animate={slideH.animate}

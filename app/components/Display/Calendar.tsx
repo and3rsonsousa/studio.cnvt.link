@@ -82,7 +82,13 @@ export default function Calendar({ actions }: CalendarProps) {
 			/>
 			<AnimatePresence exitBeforeEnter initial={false}>
 				{view === 1 && (
-					<motion.div key="Month" initial={slideV.initial} animate={slideV.animate} exit={slideV.exit}>
+					<motion.div
+						layout="size"
+						key="Month"
+						initial={slideV.initial}
+						animate={slideV.animate}
+						exit={slideV.exit}
+					>
 						<MonthView actions={actions} color={color} />
 					</motion.div>
 				)}

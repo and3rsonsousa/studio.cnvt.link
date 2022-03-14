@@ -61,7 +61,7 @@ function CronologicRow({ title, subtitle, items }: { title: string; subtitle?: s
 						? `${items.length} ${items.length === 1 ? "ação" : "ações"} ${subtitle}`
 						: undefined
 				}
-				rightComponent={
+				right={
 					items.length > 6 ? (
 						<button className="button button-small button-ghost" onClick={() => setShowMore(!showMore)}>
 							{showMore ? (

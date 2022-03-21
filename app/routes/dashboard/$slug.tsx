@@ -1,7 +1,8 @@
-import { LoaderFunction, Outlet, useLoaderData } from "remix";
+import { ActionFunction, LoaderFunction, Outlet, useLoaderData } from "remix";
 import Action from "~/components/Action";
 import Display from "~/components/Display";
 import { AccountName } from "~/components/Display/Header";
+import { handleActionDB } from "~/lib/handleActionDB.server";
 import { getUserId } from "~/lib/session.server";
 import { supabase } from "~/lib/supabase";
 import { AccountType, ActionType } from "~/types";
@@ -58,6 +59,10 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 
 // TODO: Mover as ações laterais para a pagina $id.tsx
 // TODO: Inclur opção de Criação de Campanha direto na página
+
+export const action: ActionFunction = async ({ request }) => {
+	return await handleActionDB(request);
+};
 
 export default function Slug() {
 	let { account, params }: { account: AccountType; params: any } = useLoaderData();

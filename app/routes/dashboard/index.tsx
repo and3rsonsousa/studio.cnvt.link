@@ -28,7 +28,10 @@ export const loader: LoaderFunction = async ({ request }) => {
 		accounts
 			?.map((account: AccountType) => {
 				account.actions?.map((action) => {
-					actions.push({ ...action, account });
+					actions.push({
+						...action,
+						account,
+					});
 				});
 				account_ids.push(account.id);
 				return account.user_id;

@@ -14,9 +14,10 @@ export type AutoCompleteProps = {
 	items: Array<ItemType>;
 	selected?: string | number;
 	placeholder?: string;
+	form?: string;
 };
 
-export function AutoComplete({ label, name, items, selected, placeholder }: AutoCompleteProps) {
+export function AutoComplete({ label, name, items, selected, placeholder, form }: AutoCompleteProps) {
 	let [selectedItem, setSelectedItem] = useState(
 		selected ? items.filter((item) => item.id === selected)[0] : undefined
 	);
@@ -51,7 +52,14 @@ export function AutoComplete({ label, name, items, selected, placeholder }: Auto
 				</div>
 				<Combobox.Options className="dropdown-menu w-full">
 					{filteredItems.length === 0 && query !== "" ? (
-						<div className="p-2 text-center text-gray-400 lg:px-4">Nenhum item corresponde à sua busca</div>
+						<div className="p-2 text-center text-sm text-gray-300 lg:px-4">
+							<div>Nenhum item corresponde à sua busca</div>
+							{form && (
+								<button type="submit" form={form} className="button button-small button-dark mt-4">
+									Deseja criar {query}?
+								</button>
+							)}
+						</div>
 					) : (
 						filteredItems.map((item) => (
 							<Combobox.Option key={item.id} value={item} as={Fragment}>

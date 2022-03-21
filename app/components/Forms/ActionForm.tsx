@@ -48,12 +48,17 @@ export default function ({
 				</>
 			)}
 
+			{/* TODO: Incluir opção que não está na lista */}
+
 			<AutoComplete
 				label="Cliente"
 				name="account_id"
 				items={accounts.map((account) => ({ id: account.id, name: account.name }))}
 				selected={values ? values.account_id : undefined}
+				form="add-account"
 			/>
+
+			{/* <Form method="post" name="add-account" id="add-account"></Form> */}
 
 			{full ? (
 				<>

@@ -1,5 +1,7 @@
 let colors = require("tailwindcss/colors");
 
+// TODO: Mudar algumas cores `puras` para cores mais modernas
+
 module.exports = {
 	content: ["./app/**/*.{js,jsx,ts,tsx}"],
 	theme: {
@@ -35,7 +37,7 @@ module.exports = {
 			account: colors.violet,
 			planning: colors.blue,
 			copy: colors.teal,
-			creative: colors.green,
+			creative: colors.emerald,
 			financial: colors.lime,
 
 			idea: colors.amber,
@@ -49,7 +51,7 @@ module.exports = {
 			stories: colors.pink,
 			reels: colors.amber,
 			meeting: colors.yellow,
-			copy: colors.emerald,
+			copywriting: colors.emerald,
 			video: colors.sky,
 			shooting: colors.blue,
 			press: colors.indigo,

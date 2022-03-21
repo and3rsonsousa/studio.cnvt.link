@@ -81,7 +81,7 @@ export let tags = [
 	{
 		id: 5,
 		name: "Texto",
-		slug: "copy",
+		slug: "copywriting",
 	},
 	{
 		id: 6,

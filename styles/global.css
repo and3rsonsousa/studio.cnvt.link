@@ -226,7 +226,7 @@
 	}
 
 	.dropdown-menu {
-		@apply absolute z-30 max-h-52 w-44 origin-top overflow-auto rounded-xl bg-gray-700/80 p-2 shadow-2xl shadow-gray-500/30 outline-none ring-1 ring-black/5 backdrop-blur-lg;
+		@apply absolute z-30 max-h-52 w-44 origin-top overflow-auto rounded-xl bg-gray-900/70 p-2 shadow-2xl shadow-gray-500/30 outline-none ring-1 ring-black/20 backdrop-blur-lg;
 	}
 	.dropdown-link {
 		@apply flex w-full cursor-pointer items-center justify-between gap-2 rounded-lg py-2 px-3 text-sm text-gray-300 transition hover:bg-gray-700 hover:text-gray-100;
@@ -272,7 +272,7 @@
 	@apply bg-planning-500 text-planning-100 hover:bg-planning-700;
 }
 .bg-copy {
-	@apply bg-copy-500 text-copy-100 hover:bg-copy-700;
+	@apply bg-copy-400 text-copy-100 hover:bg-copy-600;
 }
 .bg-creative {
 	@apply bg-creative-500 text-creative-100 hover:bg-creative-700;
@@ -280,6 +280,7 @@
 .bg-financial {
 	@apply bg-financial-500 text-financial-100 hover:bg-financial-700;
 }
+
 .bg-idea {
 	@apply bg-idea-500 text-idea-100 hover:bg-idea-700;
 }
@@ -298,6 +299,7 @@
 .bg-accomplished {
 	@apply bg-accomplished-500 text-accomplished-100 hover:bg-accomplished-700;
 }
+
 .bg-post {
 	@apply bg-post-500 text-post-100 hover:bg-post-700;
 }
@@ -310,8 +312,8 @@
 .bg-meeting {
 	@apply bg-meeting-500 text-meeting-100 hover:bg-meeting-700;
 }
-.bg-copy {
-	@apply bg-copy-500 text-copy-100 hover:bg-copy-700;
+.bg-copywriting {
+	@apply bg-copywriting-500 text-copywriting-100 hover:bg-copywriting-700;
 }
 .bg-video {
 	@apply bg-video-500 text-video-100 hover:bg-video-700;

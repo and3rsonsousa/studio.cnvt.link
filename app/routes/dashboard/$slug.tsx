@@ -68,7 +68,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 		)[0],
 	}));
 
-	console.log({ user_ids, profiles });
+	// console.log({ user_ids, profiles });
 
 	return { account, params };
 };

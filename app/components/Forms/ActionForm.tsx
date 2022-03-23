@@ -1,10 +1,13 @@
 import dayjs from "dayjs";
 import { useEffect, useRef } from "react";
+import { HiOutlinePlus } from "react-icons/hi";
 import { Form } from "remix";
 import { flows, steps, tags } from "~/lib/data";
 import { ActionType } from "~/types";
 import { Input, RadioGroup, SelectField, AutoComplete } from ".";
 import { AddActionsProps } from "../AddAction";
+
+// TODO: Adicionar campanha
 
 export default function ({
 	data: { userId, accounts, campaigns, actionData, profiles },
@@ -20,6 +23,11 @@ export default function ({
 	let today = dayjs();
 	let formRef = useRef<null | HTMLFormElement>(null);
 	let isEditing = !!values?.id;
+	let _campaigns = isEditing
+		? campaigns.filter(
+				(campaign) => campaign.account_id === values?.account_id
+		  )
+		: campaigns;
 
 	useEffect(() => {
 		if (isAdding) {
@@ -51,16 +59,15 @@ export default function ({
 					<AutoComplete
 						label="Campanha"
 						name="campaign_id"
-						items={
-							isEditing
-								? campaigns.filter(
-										(campaign) =>
-											campaign.account_id ===
-											values?.account_id
-								  )
-								: campaigns
-						}
+						items={_campaigns}
 						selected={values ? values.campaign_id : undefined}
+						after={(value) => {
+							return (
+								<button className="button button-small button-ghost">
+									CRIAR
+								</button>
+							);
+						}}
 					/>
 
 					<Input
@@ -159,7 +166,7 @@ export default function ({
 						today.add(1, "hour").format("YYYY-MM-DD[T]HH:mm")
 					}
 					before={(value) => (
-						<div className="w-16 p-4 pr-0 text-sm font-semibold uppercase text-gray-700">
+						<div className="w-16 pl-4 text-sm font-semibold uppercase text-gray-700">
 							{dayjs(value).format("ddd")}
 						</div>
 					)}

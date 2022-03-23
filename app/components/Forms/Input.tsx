@@ -13,7 +13,7 @@ export interface InputProps {
 	value?: string;
 	disable?: boolean;
 	before?: (value?: string) => JSX.Element;
-	after?: JSX.Element;
+	after?: (value?: string) => JSX.Element;
 }
 
 export const Input = ({
@@ -34,9 +34,9 @@ export const Input = ({
 				{disable !== undefined ? (
 					<input
 						type="checkbox"
-						className="inline-block"
+						className="ml-2 inline-block"
 						checked={!isDisable}
-						onClick={() => setIsDisable(!isDisable)}
+						onChange={() => setIsDisable(!isDisable)}
 					/>
 				) : null}
 			</span>
@@ -60,7 +60,7 @@ export const Input = ({
 						onChange={(event) => set_value(event.target.value)}
 					/>
 				)}
-				{after}
+				{after && after(_value)}
 			</div>
 		</label>
 	);

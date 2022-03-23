@@ -5,20 +5,48 @@ export async function handleActionDB(request: Request) {
 
 	let { action } = Object.fromEntries(formData);
 
-	console.log(action, formData);
+	// console.log(action, formData);
+
+	// return null;
 
 	if (action === "update") {
-		let { id, action, table, ...values } = Object.fromEntries(formData);
+		let { ...values } = Object.fromEntries(formData);
+
+		let id: number = Number(values.id),
+			name = values.name,
+			campaign_id: number = Number(values.campaign_id),
+			description: string = values.description,
+			account_id: string = values.account_id,
+			user_id: string = values.user_id,
+			flow_id: string = values.flow_id,
+			step_id: string = values.step_id,
+			tag_id: string = values.tag_id,
+			start: string = values.start,
+			end: string = values.end;
 
 		let updated = await supabase
 			.from("actions")
-			.update({ ...values })
+			.update({
+				name,
+				campaign_id,
+				description,
+				account_id,
+				user_id,
+				flow_id,
+				step_id,
+				tag_id,
+				start,
+				end,
+			})
 			.eq("id", String(id));
 
 		return updated;
 	} else if (action === "delete") {
 		let { id } = Object.fromEntries(formData);
-		let deleted = await supabase.from("actions").delete().eq("id", String(id));
+		let deleted = await supabase
+			.from("actions")
+			.delete()
+			.eq("id", String(id));
 		return deleted;
 	} else if (action === "new-action") {
 		let { action, ...values } = Object.fromEntries(formData);

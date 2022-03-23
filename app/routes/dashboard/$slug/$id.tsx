@@ -67,7 +67,12 @@ export default function Action() {
 				full={true}
 			/>
 			<div className="text-right">
-				<button className="button button-primary" form="new_action">
+				<button
+					className="button button-primary"
+					form="new_action"
+					name="action"
+					value="update"
+				>
 					Atualizar
 				</button>
 			</div>

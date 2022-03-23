@@ -12,7 +12,11 @@ export default function ({
 	isAdding,
 	state,
 	values,
-}: AddActionsProps & { state: string; isAdding?: boolean; values?: ActionType }) {
+}: AddActionsProps & {
+	state: string;
+	isAdding?: boolean;
+	values?: ActionType;
+}) {
 	let today = dayjs();
 	let formRef = useRef<null | HTMLFormElement>(null);
 	let isEditing = !!values?.id;
@@ -26,11 +30,22 @@ export default function ({
 	return (
 		<Form method="post" name="new_action" id="new_action" ref={formRef}>
 			{/* Usuário que está criando */}
-			{!isEditing ? <input type="hidden" value={userId} name="created_by" /> : null}
+			{!isEditing ? (
+				<input type="hidden" value={userId} name="created_by" />
+			) : null}
 
 			{isEditing && <input type="hidden" value={values?.id} name="id" />}
-			{actionData?.error ? <div className="error-banner mt-8">{actionData.error.message}</div> : null}
-			<Input label="Título" name="name" type="text" value={values ? values.name : ""} />
+			{actionData?.error ? (
+				<div className="error-banner mt-8">
+					{actionData.error.message}
+				</div>
+			) : null}
+			<Input
+				label="Título"
+				name="name"
+				type="text"
+				value={values ? values.name : ""}
+			/>
 			{full && (
 				<>
 					<AutoComplete
@@ -38,13 +53,21 @@ export default function ({
 						name="campaign_id"
 						items={
 							isEditing
-								? campaigns.filter((campaign) => campaign.account_id === values?.account_id)
+								? campaigns.filter(
+										(campaign) =>
+											campaign.account_id ===
+											values?.account_id
+								  )
 								: campaigns
 						}
 						selected={values ? values.campaign_id : undefined}
 					/>
 
-					<Input label="Descrição" name="description" type="textarea" />
+					<Input
+						label="Descrição"
+						name="description"
+						type="textarea"
+					/>
 				</>
 			)}
 
@@ -53,7 +76,10 @@ export default function ({
 			<AutoComplete
 				label="Cliente"
 				name="account_id"
-				items={accounts.map((account) => ({ id: account.id, name: account.name }))}
+				items={accounts.map((account) => ({
+					id: account.id,
+					name: account.name,
+				}))}
 				selected={values ? values.account_id : undefined}
 				form="add-account"
 			/>
@@ -115,7 +141,11 @@ export default function ({
 						label="Data de Início"
 						name="start"
 						type="date"
-						value={values?.start ? dayjs(values?.start).format("YYYY-MM-DD") : today.format("YYYY-MM-DD")}
+						value={
+							values?.start
+								? dayjs(values?.start).format("YYYY-MM-DD")
+								: today.format("YYYY-MM-DD")
+						}
 						disable={!values?.start}
 					/>
 				)}
@@ -124,7 +154,15 @@ export default function ({
 					label="Data"
 					name="end"
 					type="datetime-local"
-					value={values?.end ?? today.add(1, "hour").format("YYYY-MM-DD[T]HH:mm")}
+					value={
+						values?.end ??
+						today.add(1, "hour").format("YYYY-MM-DD[T]HH:mm")
+					}
+					before={(value) => (
+						<div className="w-16 p-4 pr-0 text-sm font-semibold uppercase text-gray-700">
+							{dayjs(value).format("ddd")}
+						</div>
+					)}
 				/>
 			</div>
 			<br />

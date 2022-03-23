@@ -32,9 +32,21 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 
 	// Retorna os Perfis, as campanhas e a conta do slug
 	let data = await Promise.all([
-		supabase.from("profiles").select("*").in("user_id", user_ids).order("name"),
-		supabase.from("campaigns").select("*").in("account_id", account_ids).order("name"),
-		supabase.from("accounts").select("*, actions(*)").match({ slug }).single(),
+		supabase
+			.from("profiles")
+			.select("*")
+			.in("user_id", user_ids)
+			.order("name"),
+		supabase
+			.from("campaigns")
+			.select("*")
+			.in("account_id", account_ids)
+			.order("name"),
+		supabase
+			.from("accounts")
+			.select("*, actions(*)")
+			.match({ slug })
+			.single(),
 	]);
 
 	let { data: profiles } = data[0];
@@ -48,8 +60,12 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 	account.actions = account.actions.map((action: ActionType) => ({
 		...action,
 		account: { ...account, action: null },
-		campaign: campaigns?.filter((campaign) => campaign.id === action.campaign_id)[0],
-		profile: profiles?.filter((profile) => profile.user_id === action.user_id)[0],
+		campaign: campaigns?.filter(
+			(campaign) => campaign.id === action.campaign_id
+		)[0],
+		profile: profiles?.filter(
+			(profile) => profile.user_id === action.user_id
+		)[0],
 	}));
 
 	console.log({ user_ids, profiles });
@@ -65,7 +81,21 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function Slug() {
-	let { account, params }: { account: AccountType; params: any } = useLoaderData();
+	let { account, params }: { account: AccountType; params: any } =
+		useLoaderData();
+
+	let activeActions: Array<ActionType> = [];
+	let accomplishedActions: Array<ActionType> = [];
+
+	account.actions?.map((action) => {
+		if (action.step_id !== 6) {
+			activeActions.push(action);
+		} else {
+			accomplishedActions.push(action);
+		}
+		return null;
+	});
+
 	return (
 		<div>
 			{params.id !== undefined ? (
@@ -73,22 +103,45 @@ export default function Slug() {
 					<div className="relative z-10 flex w-full items-center justify-between  border-b bg-white px-4 py-6 lg:p-8">
 						<AccountName account={account} />
 					</div>
-					<div className="lg:flex">
+					<div className="xl:flex">
 						<Outlet />
 
-						<div className="px-4 py-6 lg:w-80 lg:py-8 lg:pl-0 lg:pr-8">
-							<h4 className="text-gray-700">Informações</h4>
-							<div className="mb-4 border-b pb-4">
-								{account.actions!.length > 0
-									? account.actions?.length === 1
-										? "Uma ação cadastrada"
-										: account.actions?.length + " ações cadastradas"
-									: "Nenhuma ação para este cliente"}
+						<div className="px-4 py-6 xl:w-80 xl:py-8 xl:pl-0 xl:pr-8">
+							<div className="mb-4 space-y-1 border-b pb-4">
+								<h4 className="text-gray-700">Informações</h4>
+								<div>
+									{account.actions!.length > 0
+										? account.actions?.length === 1
+											? "Uma ação cadastrada"
+											: account.actions?.length +
+											  " ações cadastradas"
+										: "Nenhuma ação para este cliente"}
+								</div>
+								<div className="text-xx uppercase tracking-wide text-gray-400">
+									<div>
+										{activeActions!.length > 0
+											? activeActions?.length === 1
+												? "Uma ação a fazer"
+												: activeActions?.length +
+												  " ações a serem concluídas"
+											: ""}
+									</div>
+									<div>
+										{accomplishedActions!.length > 0
+											? accomplishedActions?.length === 1
+												? "Uma ação concluída"
+												: accomplishedActions?.length +
+												  " ações concluídas"
+											: ""}
+									</div>
+								</div>
 							</div>
 							<h4 className="text-gray-700">Outras Ações</h4>
-							<div className="grid gap-2 md:grid-cols-2 lg:grid-cols-1">
-								{account.actions &&
-									account.actions.map((action, index) => <Action action={action} key={index} />)}
+							<div className="grid gap-2 md:grid-cols-2 xl:grid-cols-1">
+								{activeActions &&
+									activeActions.map((action, index) => (
+										<Action action={action} key={index} />
+									))}
 							</div>
 						</div>
 					</div>

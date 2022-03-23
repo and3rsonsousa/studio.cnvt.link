@@ -1,10 +1,14 @@
-import { ActionFunction, LoaderFunction, useActionData, useLoaderData, useTransition } from "remix";
-import { AccountName } from "~/components/Display/Header";
+import {
+	ActionFunction,
+	LoaderFunction,
+	useActionData,
+	useLoaderData,
+	useTransition,
+} from "remix";
 import ActionForm from "~/components/Forms/ActionForm";
 import { handleActionDB } from "~/lib/handleActionDB.server";
 import { getUserId } from "~/lib/session.server";
 import { supabase } from "~/lib/supabase";
-import { AccountType } from "~/types";
 
 export const action: ActionFunction = async ({ request }) => {
 	return await handleActionDB(request);
@@ -17,7 +21,11 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 	let data = await Promise.all([
 		supabase.from("actions").select("*").eq("id", id).single(),
 		supabase.from("profiles").select("*"),
-		supabase.from("accounts").select("*, actions(*)").contains("user_id", [userId]).order("name"),
+		supabase
+			.from("accounts")
+			.select("*, actions(*)")
+			.contains("user_id", [userId])
+			.order("name"),
 		supabase.from("campaigns").select("*"),
 	]);
 
@@ -40,7 +48,9 @@ export default function Action() {
 
 	let transition = useTransition();
 	let state = transition.state;
-	let isAdding = transition.submission && transition.submission.formData.get("action") === "new-action";
+	let isAdding =
+		transition.submission &&
+		transition.submission.formData.get("action") === "new-action";
 	return (
 		<div className="px-4 py-6 lg:p-8">
 			<ActionForm
@@ -56,6 +66,11 @@ export default function Action() {
 				isAdding={isAdding}
 				full={true}
 			/>
+			<div className="text-right">
+				<button className="button button-primary" form="new_action">
+					Atualizar
+				</button>
+			</div>
 		</div>
 	);
 }

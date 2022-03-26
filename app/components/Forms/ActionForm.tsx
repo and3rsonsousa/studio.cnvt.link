@@ -74,6 +74,7 @@ export default function ({
 						label="Descrição"
 						name="description"
 						type="textarea"
+						value={values ? values.description : ""}
 					/>
 				</>
 			)}

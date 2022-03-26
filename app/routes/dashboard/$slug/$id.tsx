@@ -24,7 +24,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 	let userId = await getUserId(request);
 	let { id } = params;
 
-	let data = await Promise.all([
+	let [
+		{ data: action, error: error1 },
+		{ data: profiles, error: error2 },
+		{ data: accounts, error: error3 },
+		{ data: campaigns, error: error4 },
+	] = await Promise.all([
 		supabase.from("actions").select("*").eq("id", id).single(),
 		supabase.from("profiles").select("*"),
 		supabase
@@ -34,11 +39,6 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 			.order("name"),
 		supabase.from("campaigns").select("*"),
 	]);
-
-	let { data: action, error: error1 } = data[0];
-	let { data: profiles, error: error2 } = data[1];
-	let { data: accounts, error: error3 } = data[2];
-	let { data: campaigns, error: error4 } = data[3];
 
 	if (error1) throw new Error(error1.message);
 	if (error2) throw new Error(error2.message);

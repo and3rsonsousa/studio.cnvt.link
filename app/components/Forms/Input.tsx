@@ -49,7 +49,8 @@ export const Input = ({
 						disabled={isDisable}
 						className="input-field"
 						onChange={(event) => set_value(event.target.value)}
-					></textarea>
+						defaultValue={value}
+					/>
 				) : (
 					<input
 						type={type}

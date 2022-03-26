@@ -5,40 +5,33 @@ export async function handleActionDB(request: Request) {
 
 	let { action } = Object.fromEntries(formData);
 
-	// console.log(action, formData);
-
-	// return null;
-
 	if (action === "update") {
-		let { ...values } = Object.fromEntries(formData);
+		let { id, table, action, ...values } = Object.fromEntries(formData);
 
-		let id: number = Number(values.id),
-			name = values.name,
-			campaign_id: number = Number(values.campaign_id),
-			description: string = values.description,
-			account_id: string = values.account_id,
-			user_id: string = values.user_id,
-			flow_id: string = values.flow_id,
-			step_id: string = values.step_id,
-			tag_id: string = values.tag_id,
-			start: string = values.start,
-			end: string = values.end;
+		// console.log({ action }, { values });
 
-		let updated = await supabase
+		let obj: any = {};
+
+		for (let k in values) {
+			if (values[k]) {
+				if (/(campaign|flow|step|tag)_id$/.test(k)) {
+					obj[k] = Number(values[k]);
+				} else {
+					obj[k] = String(values[k]);
+				}
+			}
+		}
+
+		// console.log({ obj });
+
+		let { data: updated, error } = await supabase
 			.from("actions")
 			.update({
-				name,
-				campaign_id,
-				description,
-				account_id,
-				user_id,
-				flow_id,
-				step_id,
-				tag_id,
-				start,
-				end,
+				...obj,
 			})
 			.eq("id", String(id));
+
+		if (error) throw new Error(error.message);
 
 		return updated;
 	} else if (action === "delete") {
@@ -69,5 +62,7 @@ export async function handleActionDB(request: Request) {
 		});
 
 		return created;
+	} else {
+		throw new Error("No action defined.");
 	}
 }

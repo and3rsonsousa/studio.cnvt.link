@@ -8,13 +8,14 @@ export const loader: LoaderFunction = async ({ request }) => {
 	let userId: string = await getUserId(request);
 	if (!userId) return redirect("/login");
 
-	let data = await Promise.all([
+	let [{ data: profile }, { data: accounts, error }] = await Promise.all([
 		supabase.from("profiles").select("*").eq("user_id", userId).single(),
-		supabase.from("accounts").select("*").contains("user_id", [userId]).order("name"),
+		supabase
+			.from("accounts")
+			.select("*")
+			.contains("user_id", [userId])
+			.order("name"),
 	]);
-
-	let { data: profile } = data[0];
-	let { data: accounts, error } = data[1];
 
 	if (error) throw new Error(error.message);
 
@@ -22,7 +23,8 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function () {
-	let { profile, accounts } = useLoaderData<{ profile: ProfileType; accounts: AccountType[] }>();
+	let { profile, accounts } =
+		useLoaderData<{ profile: ProfileType; accounts: AccountType[] }>();
 	let links: LinkType[] = accounts.map((account) => ({
 		name: account.name,
 		url: `/dashboard/${account.slug}`,

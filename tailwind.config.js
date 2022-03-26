@@ -35,27 +35,27 @@ module.exports = {
 			warning: colors.yellow,
 
 			account: colors.violet,
-			planning: colors.blue,
-			copy: colors.teal,
-			creative: colors.emerald,
+			planning: colors.pink,
+			copy: colors.orange,
+			creative: colors.yellow,
 			financial: colors.lime,
 
 			idea: colors.amber,
-			do: colors.orange,
-			doing: colors.red,
-			review: colors.pink,
-			done: colors.purple,
-			accomplished: colors.indigo,
+			do: colors.rose,
+			doing: colors.purple,
+			review: colors.indigo,
+			done: colors.sky,
+			accomplished: colors.green,
 
-			post: colors.purple,
-			stories: colors.pink,
-			reels: colors.amber,
-			meeting: colors.yellow,
-			copywriting: colors.emerald,
-			video: colors.sky,
-			shooting: colors.blue,
-			press: colors.indigo,
-			task: colors.lime,
+			post: colors.orange,
+			stories: colors.amber,
+			reels: colors.lime,
+			meeting: colors.emerald,
+			copywriting: colors.sky,
+			video: colors.indigo,
+			shooting: colors.purple,
+			press: colors.fuchsia,
+			task: colors.pink,
 			tiktok: colors.rose,
 		},
 		extend: {
@@ -64,6 +64,13 @@ module.exports = {
 			},
 		},
 	},
+
+	safelist: [
+		{
+			pattern:
+				/bg-(account|planning|copy|creative|financial|idea|do|doing|review|done|accomplished|post|stories|reels|meeting|copywriting|video|shooting|press|task|tiktok)/,
+		},
+	],
 
 	plugins: [],
 };

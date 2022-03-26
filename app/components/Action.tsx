@@ -2,7 +2,12 @@ import dayjs from "dayjs";
 import "dayjs/locale/pt-br"; // import locale
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useState } from "react";
-import { HiOutlineCalendar, HiOutlineChevronRight, HiOutlinePencil, HiOutlineX } from "react-icons/hi";
+import {
+	HiOutlineCalendar,
+	HiOutlineChevronRight,
+	HiOutlinePencil,
+	HiOutlineX,
+} from "react-icons/hi";
 import { Form, Link, useSubmit, useTransition } from "remix";
 import { flows, steps, tags } from "~/lib/data";
 import { isLate } from "~/lib/functions";
@@ -28,8 +33,12 @@ export default function Action({ action }: ActionProps) {
 	let [timeInfo, setTimeInfo] = useState(true);
 	let submit = useSubmit();
 	let transition = useTransition();
-	let isMutating = transition.submission?.formData.get("id") === String(action.id);
+	let isMutating =
+		transition.submission?.formData.get("id") === String(action.id);
 
+	if (transition.submission?.formData.get("id") === String(action.id)) {
+		console.log(Object.fromEntries(transition.submission?.formData));
+	}
 	return (
 		<div
 			className={`group flex min-w-fit justify-between gap-2 rounded-xl border border-transparent bg-white px-4 py-3 text-sm shadow shadow-gray-500/20 ring-1 ring-black/[.02] transition focus-within:border-brand-600 focus-within:ring-4 focus-within:ring-brand-600/20 focus-within:duration-500 ${
@@ -67,12 +76,29 @@ export default function Action({ action }: ActionProps) {
 
 				{/* Name of the Action */}
 				<div className="flex gap-1">
-					<Form className="w-full" method="post" name="action_form" id={`action_form_${action.id}`}>
+					<Form
+						className="w-full"
+						method="post"
+						name="action_form"
+						id={`action_form_${action.id}`}
+					>
 						{/* <input type="hidden" name="action" value="update" /> */}
 						<input type="hidden" name="id" value={action.id} />
-						<input type="hidden" name="flow_id" value={action.flow_id} />
-						<input type="hidden" name="step_id" value={action.step_id} />
-						<input type="hidden" name="tag_id" value={action.tag_id} />
+						<input
+							type="hidden"
+							name="flow_id"
+							value={action.flow_id}
+						/>
+						<input
+							type="hidden"
+							name="step_id"
+							value={action.step_id}
+						/>
+						<input
+							type="hidden"
+							name="tag_id"
+							value={action.tag_id}
+						/>
 						<input
 							type="text"
 							name="name"
@@ -80,7 +106,11 @@ export default function Action({ action }: ActionProps) {
 							defaultValue={action.name}
 							autoComplete="off"
 							onBlur={(event) => {
-								if (action.name !== event.currentTarget.value.trim()) submit(event.currentTarget.form);
+								if (
+									action.name !==
+									event.currentTarget.value.trim()
+								)
+									submit(event.currentTarget.form);
 							}}
 						/>
 					</Form>
@@ -96,7 +126,10 @@ export default function Action({ action }: ActionProps) {
         */}
 
 				<div className="flex  items-center gap-2">
-					<div className="flex cursor-pointer flex-wrap gap-1 text-xs" onClick={() => setTimeInfo(!timeInfo)}>
+					<div
+						className="flex cursor-pointer flex-wrap gap-1 text-xs"
+						onClick={() => setTimeInfo(!timeInfo)}
+					>
 						{timeInfo ? (
 							action.start ? (
 								<div
@@ -107,7 +140,9 @@ export default function Action({ action }: ActionProps) {
 									}`}
 								>
 									{dayjs(action.start).fromNow() +
-										(isLate(action.start, action.step_id) ? " em atraso" : "")}
+										(isLate(action.start, action.step_id)
+											? " em atraso"
+											: "")}
 								</div>
 							) : (
 								<div
@@ -118,7 +153,9 @@ export default function Action({ action }: ActionProps) {
 									}`}
 								>
 									{dayjs(action.end).fromNow() +
-										(isLate(action.end, action.step_id) ? " em atraso" : "")}
+										(isLate(action.end, action.step_id)
+											? " em atraso"
+											: "")}
 								</div>
 							)
 						) : (
@@ -127,27 +164,48 @@ export default function Action({ action }: ActionProps) {
 									<>
 										<div className="order-1  whitespace-nowrap">
 											{dayjs(action.start).format("D") +
-												(dayjs(action.start).format("MMMM YYYY") !==
-												dayjs(action.end).format("MMMM YYYY")
-													? dayjs(action.start).format(" [de] MMMM")
+												(dayjs(action.start).format(
+													"MMMM YYYY"
+												) !==
+												dayjs(action.end).format(
+													"MMMM YYYY"
+												)
+													? dayjs(
+															action.start
+													  ).format(" [de] MMMM")
 													: "") +
-												(dayjs(action.start).year() !== dayjs(action.end).year()
-													? dayjs(action.start).format("[ de] YYYY")
+												(dayjs(action.start).year() !==
+												dayjs(action.end).year()
+													? dayjs(
+															action.start
+													  ).format("[ de] YYYY")
 													: "") +
 												" a"}
 										</div>
 
 										<div className="order-3  whitespace-nowrap text-gray-400 transition hover:text-gray-700">
-											({dayjs(action.start).to(action.end, true)})
+											(
+											{dayjs(action.start).to(
+												action.end,
+												true
+											)}
+											)
 										</div>
 									</>
 								) : null}
 								<div className="order-2  whitespace-nowrap">
 									{dayjs(action.end).format("D [de] MMMM") +
-										(dayjs(action.end).year() !== dayjs().year() ||
-										(action.start && dayjs(action.start).year() !== dayjs(action.end).year())
-											? dayjs(action.end).format("[ de] YYYY [às] H[:]mm")
-											: dayjs(action.end).format(" [às] H[:]mm"))}
+										(dayjs(action.end).year() !==
+											dayjs().year() ||
+										(action.start &&
+											dayjs(action.start).year() !==
+												dayjs(action.end).year())
+											? dayjs(action.end).format(
+													"[ de] YYYY [às] H[:]mm"
+											  )
+											: dayjs(action.end).format(
+													" [às] H[:]mm"
+											  ))}
 								</div>
 							</>
 						)}
@@ -165,21 +223,33 @@ export default function Action({ action }: ActionProps) {
 						<ListBox
 							item_id={action.id}
 							values={flows}
-							selected={flows.filter((flow) => flow.id === action.flow_id)[0]}
+							selected={
+								flows.filter(
+									(flow) => flow.id === action.flow_id
+								)[0]
+							}
 							name="flow_id"
 							table="actions"
 						/>
 						<ListBox
 							item_id={action.id}
 							values={steps}
-							selected={steps.filter((step) => step.id === action.step_id)[0]}
+							selected={
+								steps.filter(
+									(step) => step.id === action.step_id
+								)[0]
+							}
 							name="step_id"
 							table="actions"
 						/>
 						<ListBox
 							item_id={action.id}
 							values={tags}
-							selected={tags.filter((tag) => tag.id === action.tag_id)[0]}
+							selected={
+								tags.filter(
+									(tag) => tag.id === action.tag_id
+								)[0]
+							}
 							name="tag_id"
 							table="actions"
 						/>
@@ -208,7 +278,15 @@ export default function Action({ action }: ActionProps) {
 	);
 }
 
-export function ActionLink({ action, small, color }: { action: ActionType; small?: boolean; color?: string }) {
+export function ActionLink({
+	action,
+	small,
+	color,
+}: {
+	action: ActionType;
+	small?: boolean;
+	color?: string;
+}) {
 	let bg = "";
 
 	switch (color) {
@@ -235,12 +313,18 @@ export function ActionLink({ action, small, color }: { action: ActionType; small
 					<span className="block h-1 w-1 shrink-0 animate-pulse rounded-full bg-error-500"></span>
 				)}
 				<span
-					className={`overflow-hidden text-ellipsis ${small ? "whitespace-nowrap" : "lg:whitespace-nowrap"}`}
+					className={`overflow-hidden text-ellipsis ${
+						small ? "whitespace-nowrap" : "lg:whitespace-nowrap"
+					}`}
 				>
 					{action.name}
 				</span>
 			</span>
-			<span className={`${small ? "hidden" : ""} text-xx font-medium opacity-75 sm:block`}>
+			<span
+				className={`${
+					small ? "hidden" : ""
+				} text-xx font-medium opacity-75 sm:block`}
+			>
 				{!action.start
 					? dayjs(action.end).minute() === 0
 						? dayjs(action.end).format("HH[h]")

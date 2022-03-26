@@ -1,6 +1,7 @@
 import {
 	ActionFunction,
 	LoaderFunction,
+	redirect,
 	useActionData,
 	useLoaderData,
 	useTransition,
@@ -10,8 +11,13 @@ import { handleActionDB } from "~/lib/handleActionDB.server";
 import { getUserId } from "~/lib/session.server";
 import { supabase } from "~/lib/supabase";
 
-export const action: ActionFunction = async ({ request }) => {
-	return await handleActionDB(request);
+export const action: ActionFunction = async ({ request, params }) => {
+	let data = await handleActionDB(request);
+
+	if (data) {
+		return redirect(`/dashboard/${params.slug}`);
+	}
+	return null;
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {

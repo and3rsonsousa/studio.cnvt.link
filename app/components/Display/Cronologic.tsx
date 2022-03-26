@@ -1,6 +1,6 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { HiOutlineMinusCircle, HiOutlinePlusCircle } from "react-icons/hi";
-import { isFuture, isLate, isToday } from "~/lib/functions";
+import { isFuture, isToday } from "~/lib/functions";
 import { ActionType } from "~/types";
 import Action from "../Action";
 import { Heading } from "../Display";
@@ -18,38 +18,72 @@ export default function Cronologic({ actions }: DisplayProps) {
 
 	actions.map((action: ActionType) => {
 		let date = action.start ? action.start : action.end;
+		// Se estiver concluída
 		if (action.step_id === 6) {
 			accomplishedActions.push(action);
-		} else if (isLate(date) && !isToday(date)) {
-			lateActions.push(action);
+		} else if (isToday(date)) {
+			todayActions.push(action);
 		} else if (isFuture(date)) {
 			futureActions.push(action);
 		} else {
-			todayActions.push(action);
+			lateActions.push(action);
 		}
+		// } else if (isLate(date) && !isToday(date)) {
+		// 	lateActions.push(action);
+		// } else if (isFuture(date)) {
+		// 	futureActions.push(action);
+		// } else {
+		// 	todayActions.push(action);
+		// }
 	});
 
 	return (
 		<>
-			{lateActions.length > 0 && <CronologicRow title="Em atraso" subtitle="em atraso" items={lateActions} />}
+			{lateActions.length > 0 && (
+				<CronologicRow
+					title="Em atraso"
+					subtitle="em atraso"
+					items={lateActions}
+				/>
+			)}
 
 			{todayActions.length === 0 ? (
 				<div className="my-16">Nenhuma Ação para hoje.</div>
 			) : (
-				<CronologicRow title="Hoje" subtitle="para hoje" items={todayActions} />
+				<CronologicRow
+					title="Hoje"
+					subtitle="para hoje"
+					items={todayActions}
+				/>
 			)}
 
 			{futureActions.length > 0 && (
-				<CronologicRow title="Próximas" subtitle="para os próximos dias" items={futureActions} />
+				<CronologicRow
+					title="Próximas"
+					subtitle="para os próximos dias"
+					items={futureActions}
+				/>
 			)}
 			{accomplishedActions.length > 0 && (
-				<CronologicRow title="Concluídas" subtitle="finalizadas" items={accomplishedActions} />
+				<CronologicRow
+					title="Concluídas"
+					subtitle="finalizadas"
+					items={accomplishedActions.reverse()}
+				/>
 			)}
 		</>
 	);
 }
 
-function CronologicRow({ title, subtitle, items }: { title: string; subtitle?: string; items: Array<ActionType> }) {
+function CronologicRow({
+	title,
+	subtitle,
+	items,
+}: {
+	title: string;
+	subtitle?: string;
+	items: Array<ActionType>;
+}) {
 	let [showMore, setShowMore] = useState(false);
 
 	return (
@@ -58,12 +92,17 @@ function CronologicRow({ title, subtitle, items }: { title: string; subtitle?: s
 				title={title}
 				subTitle={
 					items.length > 0
-						? `${items.length} ${items.length === 1 ? "ação" : "ações"} ${subtitle}`
+						? `${items.length} ${
+								items.length === 1 ? "ação" : "ações"
+						  } ${subtitle}`
 						: undefined
 				}
 				right={
 					items.length > 6 ? (
-						<button className="button button-small button-ghost" onClick={() => setShowMore(!showMore)}>
+						<button
+							className="button button-small button-ghost"
+							onClick={() => setShowMore(!showMore)}
+						>
 							{showMore ? (
 								<>
 									<span>Motrar menos</span>
@@ -84,7 +123,12 @@ function CronologicRow({ title, subtitle, items }: { title: string; subtitle?: s
 				{items.slice(0, 6).map((action: ActionType) => (
 					<Action key={action.id} action={action} />
 				))}
-				{showMore && items.slice(6).map((action: ActionType) => <Action key={action.id} action={action} />)}
+				{showMore &&
+					items
+						.slice(6)
+						.map((action: ActionType) => (
+							<Action key={action.id} action={action} />
+						))}
 			</GridActions>
 		</>
 	);

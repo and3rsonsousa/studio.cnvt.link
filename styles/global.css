@@ -268,69 +268,69 @@
 }
 
 .bg-account {
-	@apply bg-account-500 text-account-100 hover:bg-account-700;
+	@apply bg-account-500 text-account-50 hover:bg-account-600;
 }
 .bg-planning {
-	@apply bg-planning-500 text-planning-100 hover:bg-planning-700;
+	@apply bg-planning-500 text-planning-50 hover:bg-planning-600;
 }
 .bg-copy {
-	@apply bg-copy-400 text-copy-100 hover:bg-copy-600;
+	@apply bg-copy-500 text-copy-50 hover:bg-copy-600;
 }
 .bg-creative {
-	@apply bg-creative-500 text-creative-100 hover:bg-creative-700;
+	@apply bg-creative-400 text-creative-50 hover:bg-creative-500;
 }
 .bg-financial {
-	@apply bg-financial-500 text-financial-100 hover:bg-financial-700;
+	@apply bg-financial-500 text-financial-50 hover:bg-financial-600;
 }
 
 .bg-idea {
-	@apply bg-idea-500 text-idea-100 hover:bg-idea-700;
+	@apply bg-idea-400 text-idea-50 hover:bg-idea-500;
 }
 .bg-do {
-	@apply bg-do-500 text-do-100 hover:bg-do-700;
+	@apply bg-do-400 text-do-50 hover:bg-do-500;
 }
 .bg-doing {
-	@apply bg-doing-500 text-doing-100 hover:bg-doing-700;
+	@apply bg-doing-400 text-doing-50 hover:bg-doing-500;
 }
 .bg-review {
-	@apply bg-review-500 text-review-100 hover:bg-review-700;
+	@apply bg-review-400 text-review-50 hover:bg-review-500;
 }
 .bg-done {
-	@apply bg-done-500 text-done-100 hover:bg-done-700;
+	@apply bg-done-400 text-done-50 hover:bg-done-500;
 }
 .bg-accomplished {
-	@apply bg-accomplished-500 text-accomplished-100 hover:bg-accomplished-700;
+	@apply bg-accomplished-400 text-accomplished-50 hover:bg-accomplished-500;
 }
 
 .bg-post {
-	@apply bg-post-500 text-post-100 hover:bg-post-700;
+	@apply bg-post-500 text-post-100 hover:bg-post-600;
 }
 .bg-stories {
-	@apply bg-stories-500 text-stories-100 hover:bg-stories-700;
+	@apply bg-stories-500 text-stories-100 hover:bg-stories-600;
 }
 .bg-reels {
-	@apply bg-reels-500 text-reels-100 hover:bg-reels-700;
+	@apply bg-reels-500 text-reels-100 hover:bg-reels-600;
 }
 .bg-meeting {
-	@apply bg-meeting-500 text-meeting-100 hover:bg-meeting-700;
+	@apply bg-meeting-500 text-meeting-100 hover:bg-meeting-600;
 }
 .bg-copywriting {
-	@apply bg-copywriting-500 text-copywriting-100 hover:bg-copywriting-700;
+	@apply bg-copywriting-500 text-copywriting-100 hover:bg-copywriting-600;
 }
 .bg-video {
-	@apply bg-video-500 text-video-100 hover:bg-video-700;
+	@apply bg-video-500 text-video-100 hover:bg-video-600;
 }
 .bg-shooting {
-	@apply bg-shooting-500 text-shooting-100 hover:bg-shooting-700;
+	@apply bg-shooting-500 text-shooting-100 hover:bg-shooting-600;
 }
 .bg-press {
-	@apply bg-press-500 text-press-100 hover:bg-press-700;
+	@apply bg-press-500 text-press-100 hover:bg-press-600;
 }
 .bg-task {
-	@apply bg-task-500 text-task-100 hover:bg-task-700;
+	@apply bg-task-500 text-task-100 hover:bg-task-600;
 }
 .bg-tiktok {
-	@apply bg-tiktok-500 text-tiktok-100 hover:bg-tiktok-700;
+	@apply bg-tiktok-500 text-tiktok-100 hover:bg-tiktok-600;
 }
 
 .bg-account-light {
@@ -348,24 +348,26 @@
 .bg-financial-light {
 	@apply bg-financial-100 text-financial-600 hover:bg-financial-200;
 }
+
 .bg-idea-light {
-	@apply bg-idea-100 text-idea-600 hover:bg-idea-200;
+	@apply bg-idea-200 text-idea-600 hover:bg-idea-100;
 }
 .bg-do-light {
-	@apply bg-do-100 text-do-600 hover:bg-do-200;
+	@apply bg-do-200 text-do-600 hover:bg-do-100;
 }
 .bg-doing-light {
-	@apply bg-doing-100 text-doing-600 hover:bg-doing-200;
+	@apply bg-doing-200 text-doing-600 hover:bg-doing-100;
 }
 .bg-review-light {
-	@apply bg-review-100 text-review-600 hover:bg-review-200;
+	@apply bg-review-200 text-review-600 hover:bg-review-100;
 }
 .bg-done-light {
-	@apply bg-done-100 text-done-600 hover:bg-done-200;
+	@apply bg-done-200 text-done-600 hover:bg-done-100;
 }
 .bg-accomplished-light {
-	@apply bg-accomplished-100 text-accomplished-600 hover:bg-accomplished-200;
+	@apply bg-accomplished-200 text-accomplished-600 hover:bg-accomplished-100;
 }
+
 .bg-post-light {
 	@apply bg-post-100 text-post-600 hover:bg-post-200;
 }
@@ -378,8 +380,8 @@
 .bg-meeting-light {
 	@apply bg-meeting-100 text-meeting-600 hover:bg-meeting-200;
 }
-.bg-copy-light {
-	@apply bg-copy-100 text-copy-600 hover:bg-copy-200;
+.bg-copywriting-light {
+	@apply bg-copywriting-100 text-copywriting-600 hover:bg-copywriting-200;
 }
 .bg-video-light {
 	@apply bg-video-100 text-video-600 hover:bg-video-200;

@@ -4,7 +4,13 @@ import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
 import { ActionType, DayType } from "~/types";
 import { Day } from "./Day";
 
-export function MonthView({ actions, color }: { actions: ActionType[]; color: string | undefined }) {
+export function MonthView({
+	actions,
+	color,
+}: {
+	actions: ActionType[];
+	color: string | undefined;
+}) {
 	let today = dayjs();
 	let [month, setMonth] = useState(today);
 	let firstDay = month.startOf("M").startOf("w");
@@ -12,11 +18,16 @@ export function MonthView({ actions, color }: { actions: ActionType[]; color: st
 	let currentDay = firstDay;
 	let monthDays: Array<DayType> = [];
 
-	while (currentDay.format("YYYY/MM/DD") !== lastDay.add(1, "d").format("YYYY/MM/DD")) {
+	while (
+		currentDay.format("YYYY/MM/DD") !==
+		lastDay.add(1, "d").format("YYYY/MM/DD")
+	) {
 		monthDays.push({
 			day: currentDay,
 			actions: actions.filter(
-				(action) => dayjs(action.end).format("YYYY/MM/DD") === currentDay.format("YYYY/MM/DD")
+				(action) =>
+					dayjs(action.end).format("YYYY/MM/DD") ===
+					currentDay.format("YYYY/MM/DD")
 			),
 		});
 		currentDay = currentDay.add(1, "d");
@@ -34,7 +45,13 @@ export function MonthView({ actions, color }: { actions: ActionType[]; color: st
 
 			<section className="grid grid-cols-7">
 				{monthDays.map((day, index) => (
-					<Day color={color} day={day} index={index} month={month} key={index} />
+					<Day
+						color={color}
+						day={day}
+						index={index}
+						month={month}
+						key={index}
+					/>
 				))}
 			</section>
 		</div>
@@ -55,19 +72,35 @@ function WeekHeader() {
 	);
 }
 
-export function ViewHeader({ title, prev, next }: { title: string; prev: any; next: any }) {
+export function ViewHeader({
+	title,
+	prev,
+	next,
+}: {
+	title: string;
+	prev: any;
+	next: any;
+}) {
 	return (
 		<header className="border-b p-2 lg:p-4">
 			<div className="flex items-center justify-between gap-4">
 				{/* Nome do mês */}
-				<h4 className="m-0 text-gray-700 first-letter:uppercase">{title}</h4>
+				<h4 className="m-0 text-gray-700 first-letter:uppercase">
+					{title}
+				</h4>
 				<div className="flex">
 					{/* Mês anterior */}
-					<button className="button button-small button-ghost" onClick={() => prev()}>
+					<button
+						className="button button-small button-ghost"
+						onClick={() => prev()}
+					>
 						<HiOutlineChevronLeft className="text-lg" />
 					</button>
 					{/* Próximo mês */}
-					<button className="button button-small button-ghost" onClick={() => next()}>
+					<button
+						className="button button-small button-ghost"
+						onClick={() => next()}
+					>
 						<HiOutlineChevronRight className="text-lg" />
 					</button>
 				</div>

@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { HiOutlinePlus } from "react-icons/hi";
 import { Form } from "remix";
 import { flows, steps, tags } from "~/lib/data";
@@ -21,6 +21,7 @@ export default function ({
 	values?: ActionType;
 }) {
 	let today = dayjs();
+	let [accountID, setAccountID] = useState(values ? values.account_id : null);
 	let formRef = useRef<null | HTMLFormElement>(null);
 	let isEditing = !!values?.id;
 	let _campaigns = isEditing
@@ -28,6 +29,18 @@ export default function ({
 				(campaign) => campaign.account_id === values?.account_id
 		  )
 		: campaigns;
+	let _account = values
+		? accounts.filter((account) => account.id === values?.account_id)[0]
+		: null;
+	let _profiles = accountID
+		? profiles.filter((profile) =>
+				_account
+					? _account.user_id.filter(
+							(user_id) => user_id === profile.user_id
+					  ).length > 0
+					: true
+		  )
+		: profiles;
 
 	useEffect(() => {
 		if (isAdding) {
@@ -99,7 +112,7 @@ export default function ({
 					<RadioGroup
 						label="Responsável"
 						name="user_id"
-						items={profiles.map((profile) => ({
+						items={_profiles.map((profile) => ({
 							id: profile.id,
 							name: profile.name,
 							value: profile.user_id,

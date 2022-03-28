@@ -334,3 +334,21 @@ export function ActionLink({
 		</Link>
 	);
 }
+
+export function ActionGrid({
+	action,
+	className,
+}: {
+	action: ActionType;
+	className?: string;
+}) {
+	return (
+		<div
+			className={` aspect-square bg-white p-2 text-sm ${
+				className ? className : ""
+			}`}
+		>
+			{action.name}
+		</div>
+	);
+}

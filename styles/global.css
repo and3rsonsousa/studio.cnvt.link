@@ -95,17 +95,17 @@
 	}
 
 	.button-group {
-		@apply flex rounded-full shadow shadow-gray-500/20;
+		@apply mx-auto flex rounded-lg shadow shadow-gray-500/20;
 	}
 	.button-group .button {
 		@apply rounded-none;
 	}
 
 	.button-group .button:first-child {
-		@apply rounded-l-full;
+		@apply rounded-l-lg;
 	}
 	.button-group .button:last-child {
-		@apply rounded-r-full;
+		@apply rounded-r-lg;
 	}
 
 	.button-group-small .button:first-child {
@@ -146,7 +146,12 @@
 	}
 
 	.input-field {
-		@apply w-full appearance-none rounded-xl  bg-transparent px-4 py-[11px] text-gray-700 focus:outline-none disabled:bg-gray-50 disabled:text-gray-300;
+		@apply w-full appearance-none rounded-xl  bg-transparent px-4 py-3 text-gray-700 focus:outline-none disabled:bg-gray-50 disabled:text-gray-300;
+	}
+
+	.field .input [type="date"],
+	[type="datetime-local"] {
+		@apply py-[11px];
 	}
 
 	/* .field .input [type="text"],

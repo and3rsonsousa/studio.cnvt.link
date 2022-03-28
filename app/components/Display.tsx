@@ -24,7 +24,7 @@ export default function Display({ actions }: DisplayProps) {
 					{/* - Cronológico */}
 					{display === 1 && (
 						<motion.div
-							layout="size"
+							layout="position"
 							key="cronologic"
 							initial={slideH.initial}
 							animate={slideH.animate}
@@ -42,7 +42,7 @@ export default function Display({ actions }: DisplayProps) {
 
 					{display === 2 && (
 						<motion.div
-							layout
+							layout="position"
 							key="calendar"
 							initial={slideH.initial}
 							animate={slideH.animate}
@@ -55,7 +55,7 @@ export default function Display({ actions }: DisplayProps) {
 					{/* - Lista */}
 					{display === 3 && (
 						<motion.div
-							layout
+							layout="position"
 							key="list"
 							initial={slideH.initial}
 							animate={slideH.animate}
@@ -68,7 +68,7 @@ export default function Display({ actions }: DisplayProps) {
 					{/* - Grid */}
 					{display === 4 && (
 						<motion.div
-							layout
+							layout="position"
 							key="grid"
 							initial={slideH.initial}
 							animate={slideH.animate}
@@ -100,7 +100,9 @@ export function Heading({
 				<h3 className="m-0 text-gray-700">{title}</h3>
 
 				{subTitle && (
-					<div className="text-xx font-medium uppercase tracking-wide text-gray-400">{subTitle}</div>
+					<div className="text-xx font-medium uppercase tracking-wide text-gray-400">
+						{subTitle}
+					</div>
 				)}
 			</div>
 			{middle && <div>{middle}</div>}

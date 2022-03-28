@@ -2,28 +2,31 @@ import { useState } from "react";
 
 export interface InputProps {
 	label: string;
-	type:
+	type?:
 		| "text"
 		| "password"
 		| "textarea"
 		| "email"
 		| "datetime-local"
-		| "date";
+		| "date"
+		| "number";
 	name: string;
 	value?: string;
 	disable?: boolean;
 	before?: (value?: string) => JSX.Element;
 	after?: (value?: string) => JSX.Element;
+	attributes?: any;
 }
 
 export const Input = ({
 	label,
-	type,
+	type = "text",
 	name,
 	value,
 	disable,
 	before,
 	after,
+	attributes,
 }: InputProps) => {
 	let [isDisable, setIsDisable] = useState(disable);
 	let [_value, set_value] = useState(value);
@@ -59,6 +62,7 @@ export const Input = ({
 						disabled={isDisable}
 						className="input-field"
 						onChange={(event) => set_value(event.target.value)}
+						{...attributes}
 					/>
 				)}
 				{after && after(_value)}

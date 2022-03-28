@@ -8,8 +8,6 @@ export async function handleActionDB(request: Request) {
 	if (action === "update") {
 		let { id, table, action, ...values } = Object.fromEntries(formData);
 
-		// console.log({ action }, { values });
-
 		let obj: any = {};
 
 		for (let k in values) {
@@ -21,8 +19,6 @@ export async function handleActionDB(request: Request) {
 				}
 			}
 		}
-
-		// console.log({ obj });
 
 		let { data: updated, error } = await supabase
 			.from("actions")

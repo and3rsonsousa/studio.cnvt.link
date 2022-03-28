@@ -14,10 +14,10 @@ import { supabase } from "~/lib/supabase";
 export const action: ActionFunction = async ({ request, params }) => {
 	let data = await handleActionDB(request);
 
-	if (data) {
-		return redirect(`/dashboard/${params.slug}`);
-	}
-	return null;
+	// if (data) {
+	// 	return redirect(`/dashboard/${params.slug}`);
+	// }
+	return { data };
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {

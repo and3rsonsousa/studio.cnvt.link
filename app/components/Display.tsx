@@ -13,7 +13,7 @@ type DisplayProps = {
 };
 
 export default function Display({ actions }: DisplayProps) {
-	let [display, setDisplay] = useState<number>(1);
+	let [display, setDisplay] = useState<number>(4);
 
 	return (
 		<div>

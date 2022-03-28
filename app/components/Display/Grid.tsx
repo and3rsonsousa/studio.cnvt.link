@@ -19,8 +19,8 @@ export default function Grid({ actions }: GridProps) {
 	// let monthDays: Array<DayType> = [];
 	let _actions: Array<ActionType> = actions.filter((action) => {
 		if (
-			(dayjs(action.end).isAfter(firstDay.subtract(1, "day")) ||
-				dayjs(action.end).isBefore(lastDay.add(1, "day"))) &&
+			dayjs(action.end).isAfter(firstDay.subtract(1, "day")) &&
+			dayjs(action.end).isBefore(lastDay.add(1, "day")) &&
 			[1, 3, 6].filter((n) => n === action.tag_id).length > 0
 		) {
 			return true;
@@ -30,15 +30,9 @@ export default function Grid({ actions }: GridProps) {
 
 	_actions = _actions.sort((a, b) => (dayjs(a.end).isAfter(b.end) ? -1 : 1));
 
-	// console.warn(
-	// 	Math.ceil(_actions.length / 3) * 3,
-	// 	Math.floor(_actions.length / 3)
-	// );
-
 	let qtd = _actions.length;
 	let total = Math.ceil(qtd / 3) * 3;
 	let lastIndex = Math.floor(qtd / 3) * 3;
-	console.warn({ qtd }, { total }, { lastIndex });
 
 	return (
 		<div>

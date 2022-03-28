@@ -10,7 +10,7 @@ import {
 } from "react-icons/hi";
 import { Form, Link, useSubmit, useTransition } from "remix";
 import { flows, steps, tags } from "~/lib/data";
-import { isLate } from "~/lib/functions";
+import { isLate, writeDate } from "~/lib/functions";
 import { ActionType } from "~/types";
 import Avatar from "./Avatar";
 import { ListBox } from "./Forms";
@@ -344,11 +344,54 @@ export function ActionGrid({
 }) {
 	return (
 		<div
-			className={` aspect-square bg-white p-2 text-sm ${
+			className={` group flex aspect-square flex-col justify-between bg-white p-2 text-center ${
 				className ? className : ""
 			}`}
 		>
-			{action.name}
+			<div className="flex justify-between text-xs">
+				<div>{writeDate(action.end)}</div>
+				<div>
+					<div className="flex gap-2 opacity-0 transition group-hover:opacity-100">
+						<Avatar
+							avatar={{ name: action.profile.name }}
+							size="s"
+						/>
+						<Link
+							to={`/dashboard/${action.account?.slug}/${action.id}`}
+							className="button button-ghost flex p-0 text-xl text-gray-300 "
+						>
+							<HiOutlinePencil />
+						</Link>
+						<button
+							type="submit"
+							form={`action_form_${action.id}`}
+							name="action"
+							value="delete"
+							className="button button-ghost p-0 text-xl text-gray-300"
+						>
+							<HiOutlineX />
+						</button>
+					</div>
+				</div>
+			</div>
+			<div>
+				<Form
+					className="w-full"
+					method="post"
+					name="action_form"
+					id={`action_form_${action.id}`}
+				>
+					{/* <input type="hidden" name="action" value="update" /> */}
+					<input type="hidden" name="id" value={action.id} />
+				</Form>
+				<div className="font-semibold text-gray-700">{action.name}</div>
+				{action.description ? (
+					<div className="text-xs text-gray-400">
+						{action.description}
+					</div>
+				) : null}
+			</div>
+			<div></div>
 		</div>
 	);
 }

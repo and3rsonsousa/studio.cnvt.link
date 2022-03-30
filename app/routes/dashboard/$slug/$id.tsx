@@ -1,7 +1,6 @@
 import {
 	ActionFunction,
 	LoaderFunction,
-	redirect,
 	useActionData,
 	useLoaderData,
 	useTransition,
@@ -70,7 +69,7 @@ export default function Action() {
 				isAdding={isAdding}
 				full={true}
 			/>
-			<div className="text-right">
+			<div className="mt-8 text-right">
 				<Button
 					form="action_form"
 					text="Atualizar"

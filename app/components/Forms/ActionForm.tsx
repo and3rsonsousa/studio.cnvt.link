@@ -186,7 +186,7 @@ export default function ({
 					)}
 				/>
 			</div>
-			<br />
+			{/* <br />
 			<button
 				className="button button-primary"
 				type="submit"
@@ -194,7 +194,7 @@ export default function ({
 				value="update"
 			>
 				Atualizar
-			</button>
+			</button> */}
 		</Form>
 	);
 }

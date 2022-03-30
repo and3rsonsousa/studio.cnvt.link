@@ -1,71 +1,28 @@
-import dayjs from "dayjs";
-import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { HiPlus } from "react-icons/hi";
-import { ActionFunction, LoaderFunction, useActionData, useLoaderData } from "remix";
-import AddAction from "~/components/AddAction";
+import {
+	ActionFunction,
+	LoaderFunction,
+	useActionData,
+	useLoaderData,
+} from "remix";
 import Display from "~/components/Display";
-import { handleActionDB } from "~/lib/handleActionDB.server";
+import { DisplayActionForm } from "~/components/DisplayActionForm";
+import { getActionFormData, handleAction } from "~/lib/db.server";
 import { getUserId } from "~/lib/session.server";
-import { supabase } from "~/lib/supabase";
-import { AccountType, ActionType } from "~/types";
 
 export const loader: LoaderFunction = async ({ request }) => {
 	//Returns the user ID
-	let userId = await getUserId(request);
-	// Returns 'accounts'
-	let { data: accounts } = await supabase
-		.from("accounts")
-		.select("*, actions(*)")
-		.contains("user_id", [userId])
-		.order("name");
-
-	// Set 'actions' array and returns/flats the user_id's in accounts array
-	// also set the 'actions' array with the values.
-	let actions: ActionType[] = [];
-	let account_ids: number[] = [];
-	let user_ids =
-		accounts
-			?.map((account: AccountType) => {
-				account.actions?.map((action) => {
-					actions.push({
-						...action,
-						account,
-					});
-				});
-				account_ids.push(account.id);
-				return account.user_id;
-			})
-			.flat() || [];
-
-	let data = await Promise.all([
-		supabase.from("profiles").select("*").in("user_id", user_ids).order("name"),
-		supabase.from("campaigns").select("*").in("account_id", account_ids).order("name"),
-	]);
-
-	let { data: profiles } = data[0];
-	let { data: campaigns } = data[1];
-
-	//Order the actions by 'end' date
-	actions = actions.sort((a, b) => dayjs(a.start ? a.start : a.end).diff(b.start ? b.start : b.end));
-
-	actions = actions.map((action) => ({
-		...action,
-		campaign: campaigns?.filter((campaign) => campaign.id === action.campaign_id)[0],
-		profile: profiles?.filter((profile) => profile.user_id === action.user_id)[0],
-	}));
+	let userId: string = await getUserId(request);
+	let data = await getActionFormData(userId);
 
 	return {
-		profiles,
-		accounts,
-		actions,
 		userId,
-		campaigns,
+		...data,
 	};
 };
 
 export const action: ActionFunction = async ({ request }) => {
-	return await handleActionDB(request);
+	return await handleAction(request);
 };
 
 export default function DashboardIndex() {
@@ -78,30 +35,17 @@ export default function DashboardIndex() {
 		<>
 			<div className="page">
 				<Display actions={actions} />
-				<div className="fixed bottom-8 right-8">
-					<button
-						onClick={() => setShowAddActionForm(() => !showAddActionForm)}
-						className="button-primary focus:ring-interdimensional/30 grid h-12 w-12 place-content-center rounded-full transition-all duration-300 focus:ring-4 active:translate-y-0.5"
-					>
-						<HiPlus
-							className={`text-3xl transition duration-500 ${showAddActionForm ? "-rotate-45" : ""}`}
-						/>
-					</button>
-				</div>
+
+				<DisplayActionForm
+					showAddActionForm={showAddActionForm}
+					setShowAddActionForm={setShowAddActionForm}
+					accounts={accounts}
+					profiles={profiles}
+					userId={userId}
+					actionData={actionData}
+					campaigns={campaigns}
+				/>
 			</div>
-			<AnimatePresence>
-				{showAddActionForm && (
-					<AddAction
-						data={{
-							accounts,
-							profiles,
-							userId,
-							actionData,
-							campaigns,
-						}}
-					/>
-				)}
-			</AnimatePresence>
 		</>
 	);
 }

@@ -4,7 +4,7 @@ import { HiOutlinePlus } from "react-icons/hi";
 import { Form } from "remix";
 import { flows, steps, tags } from "~/lib/data";
 import { ActionType } from "~/types";
-import { Input, RadioGroup, SelectField, AutoComplete } from ".";
+import { Input, RadioGroup, SelectField, AutoComplete, Button } from ".";
 import { AddActionsProps } from "../AddAction";
 
 // TODO: Adicionar campanha
@@ -49,7 +49,7 @@ export default function ({
 	}, [state]);
 
 	return (
-		<Form method="post" name="new_action" id="new_action" ref={formRef}>
+		<Form method="post" name="action_form" id="action_form" ref={formRef}>
 			{/* Usuário que está criando */}
 			{!isEditing ? (
 				<input type="hidden" value={userId} name="created_by" />
@@ -187,6 +187,14 @@ export default function ({
 				/>
 			</div>
 			<br />
+			<button
+				className="button button-primary"
+				type="submit"
+				name="action"
+				value="update"
+			>
+				Atualizar
+			</button>
 		</Form>
 	);
 }

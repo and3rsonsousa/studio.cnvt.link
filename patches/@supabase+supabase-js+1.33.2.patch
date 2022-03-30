@@ -1,14 +1,14 @@
 diff --git a/node_modules/@supabase/supabase-js/package.json b/node_modules/@supabase/supabase-js/package.json
-index 8541cee..03942bc 100644
+index 94944e3..29a1ad3 100644
 --- a/node_modules/@supabase/supabase-js/package.json
 +++ b/node_modules/@supabase/supabase-js/package.json
-@@ -64,5 +64,8 @@
+@@ -65,5 +65,8 @@
      }
    },
    "jsdelivr": "dist/umd/supabase.js",
 -  "unpkg": "dist/umd/supabase.js"
 +  "unpkg": "dist/umd/supabase.js",
 +  "exports": {
-+    "default": "./dist/umd/supabase.js"
++    "default" : "./dist/umd/supabase.js"
 +  }
  }

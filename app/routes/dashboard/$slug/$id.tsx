@@ -6,17 +6,15 @@ import {
 	useLoaderData,
 	useTransition,
 } from "remix";
+import { Button } from "~/components/Forms";
 import ActionForm from "~/components/Forms/ActionForm";
-import { handleActionDB } from "~/lib/handleActionDB.server";
+import { handleAction } from "~/lib/db.server";
 import { getUserId } from "~/lib/session.server";
 import { supabase } from "~/lib/supabase";
 
 export const action: ActionFunction = async ({ request, params }) => {
-	let data = await handleActionDB(request);
+	let data = await handleAction(request);
 
-	// if (data) {
-	// 	return redirect(`/dashboard/${params.slug}`);
-	// }
 	return { data };
 };
 
@@ -73,14 +71,22 @@ export default function Action() {
 				full={true}
 			/>
 			<div className="text-right">
-				<button
+				<Button
+					form="action_form"
+					text="Atualizar"
+					primary
+					name="action"
+					value="update"
+					isAdding={isAdding}
+				/>
+				{/* <button
 					className="button button-primary"
-					form="new_action"
+					form="action_form"
 					name="action"
 					value="update"
 				>
 					Atualizar
-				</button>
+				</button> */}
 			</div>
 		</div>
 	);

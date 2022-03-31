@@ -5,11 +5,11 @@ import { fade, popup } from "~/lib/animations";
 import { AccountType, CampaignType, ProfileType } from "~/types";
 import AddAction from "./AddAction";
 
-export function DisplayActionForm({
+export function DialogActionForm({
 	showAddActionForm,
 	setShowAddActionForm,
 	accounts,
-	account,
+	account /* para ser usado quando  estiver em uma página de cliente */,
 	profiles,
 	userId,
 	actionData,

@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { useTransition } from "remix";
 import { Button } from "~/components/Forms";
-import { popup } from "~/lib/animations";
 import { AccountType, CampaignType, ProfileType } from "~/types";
 import ActionForm from "./Forms/ActionForm";
 
@@ -63,8 +62,6 @@ export default function AddAction({
 					form="action_form"
 					text="Inserir"
 					primary
-					name="action"
-					value="create"
 					isAdding={isAdding}
 				/>
 			</div>

@@ -74,8 +74,6 @@ export default function Action() {
 					form="action_form"
 					text="Atualizar"
 					primary
-					name="action"
-					value="update"
 					isAdding={isAdding}
 				/>
 				{/* <button

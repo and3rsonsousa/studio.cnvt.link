@@ -6,7 +6,7 @@ import {
 	useLoaderData,
 } from "remix";
 import Display from "~/components/Display";
-import { DisplayActionForm } from "~/components/DisplayActionForm";
+import { DialogActionForm } from "~/components/DialogActionForm";
 import { getActionFormData, handleAction } from "~/lib/db.server";
 import { getUserId } from "~/lib/session.server";
 
@@ -36,7 +36,7 @@ export default function DashboardIndex() {
 			<div className="page">
 				<Display actions={actions} />
 
-				<DisplayActionForm
+				<DialogActionForm
 					showAddActionForm={showAddActionForm}
 					setShowAddActionForm={setShowAddActionForm}
 					accounts={accounts}

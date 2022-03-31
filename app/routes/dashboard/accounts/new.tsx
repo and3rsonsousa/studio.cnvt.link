@@ -1,11 +1,21 @@
 import { useEffect, useRef } from "react";
-import { ActionFunction, Form, LoaderFunction, useActionData, useLoaderData, useTransition } from "remix";
+import {
+	ActionFunction,
+	Form,
+	LoaderFunction,
+	useActionData,
+	useLoaderData,
+	useTransition,
+} from "remix";
 import { CheckboxGroup, Input, Button } from "~/components/Forms/";
 import { supabase } from "~/lib/supabase";
 import { ProfileType } from "~/types";
 
 export const loader: LoaderFunction = async () => {
-	let { data: profiles, error } = await supabase.from("profiles").select("*").order("name");
+	let { data: profiles, error } = await supabase
+		.from("profiles")
+		.select("*")
+		.order("name");
 
 	if (error) throw new Error(error.message);
 
@@ -52,7 +62,9 @@ export default function () {
 	let actionData = useActionData();
 	let transition = useTransition();
 	let state = transition.state;
-	let isAdding = transition.submission && transition.submission.formData.get("action") === "create";
+	let isAdding =
+		transition.submission &&
+		transition.submission.formData.get("action") === "create";
 	let formRef = useRef<null | HTMLFormElement>(null);
 
 	useEffect(() => {
@@ -83,7 +95,13 @@ export default function () {
 					}))}
 				/>
 				<div className="mt-8 text-right">
-					<Button text="Cadastrar" isAdding={isAdding} primary name="action" value="create" />
+					<Button
+						text="Cadastrar"
+						isAdding={isAdding}
+						primary
+						name="action"
+						value="create"
+					/>
 				</div>
 			</Form>
 		</div>

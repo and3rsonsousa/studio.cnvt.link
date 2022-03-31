@@ -50,10 +50,15 @@ export default function ({
 
 	return (
 		<Form method="post" name="action_form" id="action_form" ref={formRef}>
-			{/* Usuário que está criando */}
-			{!isEditing ? (
-				<input type="hidden" value={userId} name="created_by" />
-			) : null}
+			{/* Usuário que está criando + action */}
+			{isEditing ? (
+				<input type="hidden" value="update" name="action" />
+			) : (
+				<>
+					<input type="hidden" value={userId} name="created_by" />
+					<input type="hidden" value="create" name="action" />
+				</>
+			)}
 
 			{isEditing && <input type="hidden" value={values?.id} name="id" />}
 			{actionData?.error ? (
@@ -186,15 +191,6 @@ export default function ({
 					)}
 				/>
 			</div>
-			{/* <br />
-			<button
-				className="button button-primary"
-				type="submit"
-				name="action"
-				value="update"
-			>
-				Atualizar
-			</button> */}
 		</Form>
 	);
 }

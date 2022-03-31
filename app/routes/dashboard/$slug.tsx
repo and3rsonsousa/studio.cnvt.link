@@ -9,7 +9,7 @@ import {
 import Action from "~/components/Action";
 import Display from "~/components/Display";
 import { AccountName } from "~/components/Display/Header";
-import { DisplayActionForm } from "~/components/DisplayActionForm";
+import { DialogActionForm } from "~/components/DialogActionForm";
 import { getActionFormData, handleAction } from "~/lib/db.server";
 import { getUserId } from "~/lib/session.server";
 import { ActionType } from "~/types";
@@ -106,7 +106,7 @@ export default function Slug() {
 			) : (
 				<>
 					<Display actions={actions ?? []} />
-					<DisplayActionForm
+					<DialogActionForm
 						showAddActionForm={showAddActionForm}
 						setShowAddActionForm={setShowAddActionForm}
 						accounts={accounts}

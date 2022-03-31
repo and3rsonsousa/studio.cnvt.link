@@ -99,6 +99,8 @@ export default function Action({ action }: ActionProps) {
 							name="tag_id"
 							value={action.tag_id}
 						/>
+						<input type="hidden" name="action" value="update" />
+
 						<input
 							type="text"
 							name="name"

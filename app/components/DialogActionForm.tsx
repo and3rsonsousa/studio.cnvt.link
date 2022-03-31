@@ -1,5 +1,6 @@
 import { Dialog } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useEffect } from "react";
 import { HiPlus } from "react-icons/hi";
 import { fade, popup } from "~/lib/animations";
 import { AccountType, CampaignType, ProfileType } from "~/types";
@@ -24,9 +25,19 @@ export function DialogActionForm({
 	actionData: any;
 	campaigns: Array<CampaignType>;
 }) {
+	useEffect(() => {
+		function keyDown(event: KeyboardEvent) {
+			if ((event.ctrlKey || event.metaKey) && event.key === "k") {
+				setShowAddActionForm(!showAddActionForm);
+			}
+		}
+		window.addEventListener("keydown", keyDown);
+
+		return () => window.removeEventListener("keydown", keyDown);
+	}, [showAddActionForm]);
 	return (
 		<>
-			<div className="fixed bottom-4 right-4 ">
+			<div className="fixed bottom-4 right-4">
 				<button
 					onClick={() =>
 						setShowAddActionForm(() => !showAddActionForm)
@@ -54,7 +65,7 @@ export function DialogActionForm({
 							initial={fade.initial}
 							animate={fade.animate}
 							exit={fade.exit}
-							className="fixed inset-0 bg-gray-500/90 backdrop-blur-sm"
+							className="fixed inset-0 bg-gray-500/20 backdrop-blur"
 						/>
 						<motion.div
 							initial={popup.initial}
@@ -70,6 +81,7 @@ export function DialogActionForm({
 									userId,
 									actionData,
 									campaigns,
+									setShowAddActionForm: setShowAddActionForm,
 								}}
 							/>
 						</motion.div>

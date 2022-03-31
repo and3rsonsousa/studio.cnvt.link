@@ -289,7 +289,7 @@
 }
 
 .bg-idea {
-	@apply bg-idea-400 text-idea-50 hover:bg-idea-500;
+	@apply bg-idea-500 text-idea-50 hover:bg-idea-600;
 }
 .bg-do {
 	@apply bg-do-400 text-do-50 hover:bg-do-500;

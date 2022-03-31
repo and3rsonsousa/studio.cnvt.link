@@ -76,8 +76,6 @@ export async function getActionFormData(
 export async function handleAction(request: Request) {
 	const formData = await request.formData();
 
-	console.log(formData);
-
 	let { action } = Object.fromEntries(formData);
 
 	if (action === "update") {
@@ -115,22 +113,24 @@ export async function handleAction(request: Request) {
 	} else if (action === "create") {
 		let { action, ...values } = Object.fromEntries(formData);
 
-		if (values.name === "" || values.name === undefined) {
+		if (!values.name) {
 			return {
 				error: { message: "Insira um título na sua ação." },
 			};
 		}
 
-		if (values.account_id === undefined) {
+		if (!values.account_id) {
 			return {
 				error: { message: "Defina um cliente para essa ação." },
 			};
 		}
 
-		let created = await supabase.from("actions").insert({
+		let { data: created, error } = await supabase.from("actions").insert({
 			...values,
 			campaign_id: values.campaign_id === "" ? null : values.campaign_id,
 		});
+
+		if (error) throw new Error(error.message);
 
 		return created;
 	} else {

@@ -10,6 +10,7 @@ export type ButtonProps = {
 	name?: string;
 	value?: string;
 	form?: string;
+	onClick?: () => {};
 };
 
 export function Button({
@@ -22,6 +23,7 @@ export function Button({
 	name,
 	value,
 	form,
+	onClick,
 }: ButtonProps) {
 	return (
 		<motion.button

@@ -1,27 +1,36 @@
 import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
-import { HiOutlinePlus } from "react-icons/hi";
 import { Form } from "remix";
 import { flows, steps, tags } from "~/lib/data";
 import { ActionType } from "~/types";
-import { Input, RadioGroup, SelectField, AutoComplete, Button } from ".";
+import { AutoComplete, Input, RadioGroup } from ".";
 import { AddActionsProps } from "../AddAction";
 
 // TODO: Adicionar campanha
 
 export default function ({
-	data: { userId, accounts, campaigns, actionData, profiles },
+	data: {
+		userId,
+		accounts,
+		campaigns,
+		actionData,
+		profiles,
+		setShowAddActionForm,
+	},
 	full,
 	isAdding,
 	state,
 	values,
+	shouldClose,
 }: AddActionsProps & {
 	state: string;
 	isAdding?: boolean;
 	values?: ActionType;
+	shouldClose: boolean;
 }) {
 	let today = dayjs();
 	let [accountID, setAccountID] = useState(values ? values.account_id : null);
+
 	let formRef = useRef<null | HTMLFormElement>(null);
 	let isEditing = !!values?.id;
 	let _campaigns = isEditing
@@ -45,6 +54,10 @@ export default function ({
 	useEffect(() => {
 		if (isAdding) {
 			formRef.current?.reset();
+		} else if (actionData && !actionData.error) {
+			if (shouldClose) {
+				setShowAddActionForm(false);
+			}
 		}
 	}, [state]);
 

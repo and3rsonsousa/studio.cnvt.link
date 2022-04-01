@@ -52,12 +52,9 @@ export default function ({
 		: profiles;
 
 	useEffect(() => {
-		if (isAdding) {
+		if (isAdding && actionData && !actionData.error && shouldClose) {
 			formRef.current?.reset();
-		} else if (actionData && !actionData.error) {
-			if (shouldClose) {
-				setShowAddActionForm(false);
-			}
+			setShowAddActionForm(false);
 		}
 	}, [state]);
 

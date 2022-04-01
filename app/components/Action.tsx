@@ -36,9 +36,9 @@ export default function Action({ action }: ActionProps) {
 	let isMutating =
 		transition.submission?.formData.get("id") === String(action.id);
 
-	if (transition.submission?.formData.get("id") === String(action.id)) {
-		console.log(Object.fromEntries(transition.submission?.formData));
-	}
+	// if (transition.submission?.formData.get("id") === String(action.id)) {
+	// 	console.log(Object.fromEntries(transition.submission?.formData));
+	// }
 	return (
 		<div
 			className={`group flex min-w-fit justify-between gap-2 rounded-xl border border-transparent bg-white px-4 py-3 text-sm shadow shadow-gray-500/20 ring-1 ring-black/[.02] transition focus-within:border-brand-600 focus-within:ring-4 focus-within:ring-brand-600/20 focus-within:duration-500 ${

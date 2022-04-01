@@ -308,7 +308,7 @@ export function ActionLink({
 			to={`/dashboard/${action.account?.slug}/${action.id}`}
 			className={`${
 				small ? "text-xx" : ""
-			} mb-2 flex items-center justify-between gap-2 rounded-md bg-gray-100 py-1 px-2 font-semibold tracking-tight text-gray-700 lg:text-xs ${bg}`}
+			} mb-2 flex items-center justify-between gap-2 rounded-md bg-gray-50 py-1 px-2 font-semibold tracking-tight text-gray-700 ring-1 ring-black/5 lg:text-xs ${bg}`}
 		>
 			<span className="relative flex min-w-0 items-center gap-1">
 				{isLate(action.start ?? action.end, action.step_id) && (

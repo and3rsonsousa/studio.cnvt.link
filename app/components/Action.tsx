@@ -393,7 +393,17 @@ export function ActionGrid({
 					</div>
 				) : null}
 			</div>
-			<div></div>
+			<div className="mt-4 flex justify-end">
+				<div
+					className={`h-2 w-2 rounded-full ${
+						isLate(action.start ?? action.end, action.step_id)
+							? "bg-error-500"
+							: action.step_id === 6
+							? "bg-success-500"
+							: ""
+					}`}
+				></div>
+			</div>
 		</div>
 	);
 }

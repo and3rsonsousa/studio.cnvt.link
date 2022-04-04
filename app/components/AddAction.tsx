@@ -12,26 +12,17 @@ export type AddActionsProps = {
 		userId: string;
 		actionData: any;
 		campaigns: CampaignType[];
-		setShowAddActionForm: React.Dispatch<React.SetStateAction<boolean>>;
+		setShowAddActionForm?: React.Dispatch<React.SetStateAction<boolean>>;
 	};
 	full?: boolean;
 };
 
 export default function AddAction({
-	data: {
-		accounts,
-		profiles,
-		userId,
-		actionData,
-		campaigns,
-		setShowAddActionForm,
-	},
+	data: { accounts, profiles, userId, actionData, campaigns },
 }: AddActionsProps) {
 	let [largeForm, setLargeForm] = useState(false);
-	let [shouldClose, setShouldClose] = useState(true);
 
 	let transition = useTransition();
-	let state = transition.state;
 	let isAdding =
 		transition.submission &&
 		transition.submission.formData.get("action") === "create";
@@ -54,21 +45,13 @@ export default function AddAction({
 						userId,
 						actionData,
 						campaigns,
-						setShowAddActionForm,
 					}}
 					full={largeForm}
-					state={state}
 					isAdding={isAdding}
-					shouldClose={shouldClose}
 				/>
 				<br />
 			</div>
 			<div className="flex items-center justify-between gap-2 border-t p-4 md:px-6 ">
-				<input
-					type="checkbox"
-					checked={shouldClose}
-					onChange={() => setShouldClose(!shouldClose)}
-				/>
 				<button
 					className="button button-small button-ghost"
 					onClick={() => setLargeForm(() => !largeForm)}

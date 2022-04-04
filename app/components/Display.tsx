@@ -20,64 +20,22 @@ export default function Display({ actions }: DisplayProps) {
 			{/* Header */}
 			<Header display={display} setDisplay={setDisplay} />
 			<div className="px-4 py-6 lg:p-8">
-				<AnimatePresence initial={false} exitBeforeEnter>
-					{/* - Cronológico */}
-					{display === 1 && (
-						<motion.div
-							layout="position"
-							key="cronologic"
-							initial={slideH.initial}
-							animate={slideH.animate}
-							exit={slideH.exit}
-						>
-							<Cronologic actions={actions} />
-						</motion.div>
-					)}
+				{/* - Cronológico */}
+				{display === 1 && <Cronologic actions={actions} />}
 
-					{/* - Calendário */}
-					{/* - - Mês */}
-					{/* - - Semana */}
-					{/* - - Dia */}
-					{/* - - Ano */}
+				{/* - Calendário */}
+				{/* - - Mês */}
+				{/* - - Semana */}
+				{/* - - Dia */}
+				{/* - - Ano */}
 
-					{display === 2 && (
-						<motion.div
-							layout="position"
-							key="calendar"
-							initial={slideH.initial}
-							animate={slideH.animate}
-							exit={slideH.exit}
-						>
-							<Calendar actions={actions} />
-						</motion.div>
-					)}
+				{display === 2 && <Calendar actions={actions} />}
 
-					{/* - Lista */}
-					{display === 3 && (
-						<motion.div
-							layout="position"
-							key="list"
-							initial={slideH.initial}
-							animate={slideH.animate}
-							exit={slideH.exit}
-						>
-							<List actions={actions} />
-						</motion.div>
-					)}
+				{/* - Lista */}
+				{display === 3 && <List actions={actions} />}
 
-					{/* - Grid */}
-					{display === 4 && (
-						<motion.div
-							layout="position"
-							key="grid"
-							initial={slideH.initial}
-							animate={slideH.animate}
-							exit={slideH.exit}
-						>
-							<Grid actions={actions} />
-						</motion.div>
-					)}
-				</AnimatePresence>
+				{/* - Grid */}
+				{display === 4 && <Grid actions={actions} />}
 			</div>
 		</div>
 	);
@@ -95,10 +53,9 @@ export function Heading({
 	subTitle?: string;
 }) {
 	return (
-		<div className="flex justify-between gap-4">
+		<div className="flex justify-between gap-4 overflow-hidden">
 			<div className="mb-8">
-				<h3 className="m-0 text-gray-700">{title}</h3>
-
+				<h3 className="m-0 text-gray-700 ">{title}</h3>
 				{subTitle && (
 					<div className="text-xx font-medium uppercase tracking-wide text-gray-400">
 						{subTitle}

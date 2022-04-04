@@ -28,13 +28,6 @@ export default function Cronologic({ actions }: DisplayProps) {
 		} else {
 			lateActions.push(action);
 		}
-		// } else if (isLate(date) && !isToday(date)) {
-		// 	lateActions.push(action);
-		// } else if (isFuture(date)) {
-		// 	futureActions.push(action);
-		// } else {
-		// 	todayActions.push(action);
-		// }
 	});
 
 	return (

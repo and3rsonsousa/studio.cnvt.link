@@ -6,27 +6,14 @@ import { ActionType } from "~/types";
 import { AutoComplete, Input, RadioGroup } from ".";
 import { AddActionsProps } from "../AddAction";
 
-// TODO: Adicionar campanha
-
-export default function ({
-	data: {
-		userId,
-		accounts,
-		campaigns,
-		actionData,
-		profiles,
-		setShowAddActionForm,
-	},
+export default function ActionForm({
+	data: { userId, accounts, campaigns, actionData, profiles },
 	full,
 	isAdding,
-	state,
 	values,
-	shouldClose,
 }: AddActionsProps & {
-	state: string;
 	isAdding?: boolean;
 	values?: ActionType;
-	shouldClose: boolean;
 }) {
 	let today = dayjs();
 	let [accountID, setAccountID] = useState(values ? values.account_id : null);
@@ -52,11 +39,10 @@ export default function ({
 		: profiles;
 
 	useEffect(() => {
-		if (isAdding && actionData && !actionData.error && shouldClose) {
+		if (isAdding && actionData && !actionData.error) {
 			formRef.current?.reset();
-			setShowAddActionForm(false);
 		}
-	}, [state]);
+	}, [actionData, isAdding]);
 
 	return (
 		<Form method="post" name="action_form" id="action_form" ref={formRef}>

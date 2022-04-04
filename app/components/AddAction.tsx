@@ -4,6 +4,7 @@ import { useTransition } from "remix";
 import { Button } from "~/components/Forms";
 import { AccountType, CampaignType, ProfileType } from "~/types";
 import ActionForm from "./Forms/ActionForm";
+import { FaCompress, FaExpand } from "react-icons/fa";
 
 export type AddActionsProps = {
 	data: {
@@ -30,12 +31,16 @@ export default function AddAction({
 	return (
 		<motion.div
 			layout
-			className={`flex max-h-[70vh] w-72  flex-col rounded-lg bg-white shadow-2xl shadow-gray-500/50 ring-1 ring-black/5 ${
-				largeForm ? "md:w-[36rem]" : "md:w-96"
-			}`}
+			className={`flex max-h-[80vh] w-72  flex-col rounded-lg bg-white shadow-2xl shadow-gray-500/50 ring-1 ring-black/5 md:w-[36rem]`}
 		>
-			<div className="flex justify-between border-b p-4 text-gray-700 md:px-6 ">
+			<div className="flex items-center justify-between border-b p-4 text-gray-700 md:px-6 ">
 				<h4 className="mb-0">Nova Ação</h4>
+				<button
+					className="button button-icon button-small button-ghost -mr-2"
+					onClick={() => setLargeForm(() => !largeForm)}
+				>
+					{largeForm ? <FaCompress /> : <FaExpand />}
+				</button>
 			</div>
 			<div className="overflow-y-auto overflow-x-visible px-4 md:px-6 ">
 				<ActionForm
@@ -51,13 +56,7 @@ export default function AddAction({
 				/>
 				<br />
 			</div>
-			<div className="flex items-center justify-between gap-2 border-t p-4 md:px-6 ">
-				<button
-					className="button button-small button-ghost"
-					onClick={() => setLargeForm(() => !largeForm)}
-				>
-					{largeForm ? "Comprimir" : "Expandir"}
-				</button>
+			<div className="flex items-center justify-end gap-2 border-t p-4 md:px-6 ">
 				<Button
 					form="action_form"
 					text="Inserir"

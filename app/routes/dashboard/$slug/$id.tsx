@@ -54,7 +54,7 @@ export default function Action() {
 
 	let isAdding =
 		transition.submission &&
-		transition.submission.formData.get("action") === "new-action";
+		transition.submission.formData.get("action") === "update";
 
 	let account: AccountType = action.accounts;
 
@@ -86,45 +86,6 @@ export default function Action() {
 						/>
 					</div>
 				</div>
-
-				{/* <div className="px-4 py-6 xl:w-80 xl:py-8 xl:pl-0 xl:pr-8">
-					<div className="mb-4 space-y-1 border-b pb-4">
-						<h4 className="text-gray-700">Informações</h4>
-						<div>
-							{account.actions!.length > 0
-								? account.actions?.length === 1
-									? "Uma ação cadastrada"
-									: account.actions?.length +
-									  " ações cadastradas"
-								: "Nenhuma ação para este cliente"}
-						</div>
-						<div className="text-xx uppercase tracking-wide text-gray-400">
-							<div>
-								{activeActions!.length > 0
-									? activeActions?.length === 1
-										? "Uma ação a fazer"
-										: activeActions?.length +
-										  " ações a serem concluídas"
-									: ""}
-							</div>
-							<div>
-								{accomplishedActions!.length > 0
-									? accomplishedActions?.length === 1
-										? "Uma ação concluída"
-										: accomplishedActions?.length +
-										  " ações concluídas"
-									: ""}
-							</div>
-						</div>
-					</div>
-					<h4 className="text-gray-700">Outras Ações</h4>
-					<div className="grid gap-2 md:grid-cols-2 xl:grid-cols-1">
-						{activeActions &&
-							activeActions.map((action, index) => (
-								<Action action={action} key={index} />
-							))}
-					</div>
-				</div>*/}
 			</div>
 		</>
 	);

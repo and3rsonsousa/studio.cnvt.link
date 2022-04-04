@@ -6,6 +6,9 @@ import { ActionType } from "~/types";
 import { AutoComplete, Input, RadioGroup } from ".";
 import { AddActionsProps } from "../AddAction";
 
+import "dayjs/locale/pt-br";
+dayjs.locale("pt-br");
+
 export default function ActionForm({
 	data: { userId, accounts, campaigns, actionData, profiles },
 	full,

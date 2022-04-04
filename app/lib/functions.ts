@@ -9,7 +9,9 @@ export function isToday(date: string | Dayjs) {
 }
 
 export function isFuture(date: string) {
-	return dayjs(date).isAfter(dayjs()) && dayjs(date).day() !== dayjs().day();
+	return (
+		dayjs(date).isAfter(dayjs()) && dayjs(date).date() !== dayjs().date()
+	);
 }
 
 export function writeDate(date: string, reference?: string) {

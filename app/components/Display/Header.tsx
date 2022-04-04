@@ -15,8 +15,6 @@ type HeaderProps = {
 export default function Header({ display, setDisplay }: HeaderProps) {
 	let loaderData = useLoaderData();
 
-	console.log({ loaderData });
-
 	return (
 		<div className="z-10 flex flex-wrap items-center justify-between gap-4 border-b bg-white p-4 sm:flex-nowrap lg:px-8">
 			{loaderData?.account ? (

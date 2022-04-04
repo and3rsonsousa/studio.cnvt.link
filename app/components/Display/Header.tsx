@@ -15,6 +15,8 @@ type HeaderProps = {
 export default function Header({ display, setDisplay }: HeaderProps) {
 	let loaderData = useLoaderData();
 
+	console.log({ loaderData });
+
 	return (
 		<div className="z-10 flex flex-wrap items-center justify-between gap-4 border-b bg-white p-4 sm:flex-nowrap lg:px-8">
 			{loaderData?.account ? (
@@ -30,7 +32,7 @@ export default function Header({ display, setDisplay }: HeaderProps) {
 					{ id: 4, icon: <BsGrid3X3 /> },
 				].map((item) => {
 					return item.id !== 4 ||
-						loaderData?.params?.slug !== undefined ? (
+						loaderData?.account !== undefined ? (
 						<button
 							className={`button button-icon ${
 								display !== item.id ? "button-ghost" : ""

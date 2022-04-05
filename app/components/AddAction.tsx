@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTransition } from "remix";
 import { Button } from "~/components/Forms";
 import { AccountType, CampaignType, ProfileType } from "~/types";
@@ -27,6 +27,24 @@ export default function AddAction({
 	let isAdding =
 		transition.submission &&
 		transition.submission.formData.get("action") === "create";
+
+	useEffect(() => {
+		function keyDown(event: KeyboardEvent) {
+			if (
+				(event.ctrlKey || event.metaKey) &&
+				event.shiftKey &&
+				event.key === "k"
+			) {
+				setLargeForm(() => !largeForm);
+			}
+		}
+
+		window.addEventListener("keydown", keyDown);
+
+		return () => {
+			window.removeEventListener("keydown", keyDown);
+		};
+	}, [largeForm, setLargeForm]);
 
 	return (
 		<motion.div

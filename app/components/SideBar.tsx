@@ -1,4 +1,4 @@
-import { Form, Link } from "remix";
+import { Form, Link, useTransition } from "remix";
 import { AccountType, ProfileType } from "~/types";
 import { HiOutlineUsers } from "react-icons/hi";
 import { MdWorkOutline } from "react-icons/md";
@@ -12,24 +12,31 @@ type SideBarType = {
 };
 
 export default function SideBar({ links, profile }: SideBarType) {
+	let transition = useTransition();
+
 	return (
 		<aside className="sidebar relative z-20 bg-gray-900 py-4 lg:w-52 ">
 			<div className="space-y-6 px-2 lg:px-4">
-				<Link
-					to="/dashboard"
-					className="focus-50 block rounded-lg p-2 lg:p-4"
-				>
-					<img
-						src="/logo-small.svg"
-						alt="STUDIO"
-						className="mx-auto w-12 lg:hidden"
-					/>
-					<img
-						src="/logo.svg"
-						alt="STUDIO"
-						className="hidden w-24 lg:block"
-					/>
-				</Link>
+				<div className="flex items-center gap-2">
+					<Link
+						to="/dashboard"
+						className="focus-50 block rounded-lg p-2 lg:p-4"
+					>
+						<img
+							src="/logo-small.svg"
+							alt="STUDIO"
+							className="mx-auto w-12 lg:hidden"
+						/>
+						<img
+							src="/logo.svg"
+							alt="STUDIO"
+							className="hidden w-24 lg:block"
+						/>
+					</Link>
+					{transition.state !== "idle" && (
+						<div className="h-6 w-6 animate-spin rounded-full border-4 border-brand-600 border-t-brand-600/20"></div>
+					)}
+				</div>
 				<div>
 					<h6 className="hidden px-4 font-bold text-gray-600 lg:block">
 						Clientes

@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
-import { Form, useParams } from "remix";
+import { Form, useParams, useSearchParams } from "remix";
 import { flows, steps, tags } from "~/lib/data";
 import { ActionType } from "~/types";
 import { AutoComplete, Input, RadioGroup } from ".";
@@ -19,8 +19,10 @@ export default function ActionForm({
 	values?: ActionType;
 }) {
 	let today = dayjs();
-	let [accountID, setAccountID] = useState(values ? values.account_id : null);
+	let [accountID] = useState(values ? values.account_id : null);
 	let params = useParams();
+	let [seachParams] = useSearchParams();
+	let backTo = seachParams.get("backTo");
 
 	let formRef = useRef<null | HTMLFormElement>(null);
 	let isEditing = !!values?.id;
@@ -54,7 +56,10 @@ export default function ActionForm({
 		<Form method="post" name="action_form" id="action_form" ref={formRef}>
 			{/* Usuário que está criando + action */}
 			{isEditing ? (
-				<input type="hidden" value="update" name="action" />
+				<>
+					<input type="hidden" value="update" name="action" />
+					<input type="hidden" value={backTo} name="backTo" />
+				</>
 			) : (
 				<>
 					<input type="hidden" value={userId} name="created_by" />

@@ -1,5 +1,7 @@
+import { redirect } from "remix";
 import dayjs from "dayjs";
-import { AccountType, ActionType, CampaignType, ProfileType } from "~/types";
+import { AccountType, CampaignType, ProfileType } from "~/types";
+import { ActionType } from "./../types";
 import { supabase } from "./supabase";
 
 export async function getActionFormData(
@@ -74,12 +76,19 @@ export async function getActionFormData(
 }
 
 export async function handleAction(request: Request) {
+	let returning: {
+		error?: { message: string };
+		success?: boolean;
+		payload?: any;
+	} = {};
+
 	const formData = await request.formData();
 
 	let { action } = Object.fromEntries(formData);
 
 	if (action === "update") {
-		let { id, table, action, ...values } = Object.fromEntries(formData);
+		let { id, table, action, backTo, ...values } =
+			Object.fromEntries(formData);
 
 		let obj: any = {};
 
@@ -102,27 +111,35 @@ export async function handleAction(request: Request) {
 
 		if (error) throw new Error(error.message);
 
-		return updated;
+		returning = { success: true, payload: updated };
+
+		return backTo ? redirect(backTo as string) : returning;
 	} else if (action === "delete") {
-		let { id } = Object.fromEntries(formData);
+		let { id, backTo } = Object.fromEntries(formData);
 		let deleted = await supabase
 			.from("actions")
 			.delete()
 			.eq("id", String(id));
-		return deleted;
+
+		returning = { success: true, payload: deleted };
+		return backTo ? redirect(backTo as string) : returning;
 	} else if (action === "create") {
-		let { action, ...values } = Object.fromEntries(formData);
+		let { action, backTo, ...values } = Object.fromEntries(formData);
 
 		if (!values.name) {
-			return {
+			returning = {
+				success: false,
 				error: { message: "Insira um título na sua ação." },
 			};
+			return returning;
 		}
 
 		if (!values.account_id) {
-			return {
+			returning = {
+				success: false,
 				error: { message: "Defina um cliente para essa ação." },
 			};
+			return returning;
 		}
 
 		let { data: created, error } = await supabase.from("actions").insert({
@@ -132,7 +149,8 @@ export async function handleAction(request: Request) {
 
 		if (error) throw new Error(error.message);
 
-		return created;
+		returning = { success: true, payload: created };
+		return backTo ? redirect(backTo as string) : returning;
 	} else {
 		throw new Error("No action defined.");
 	}

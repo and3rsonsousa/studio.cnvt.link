@@ -14,14 +14,18 @@ export const loader: LoaderFunction = async ({ request }) => {
 	//Returns the user ID
 	let userId: string = await getUserId(request);
 	let data = await getActionFormData(userId);
+	// let url = request.url;
 
 	return {
 		userId,
+		// url,
 		...data,
 	};
 };
 
 export const action: ActionFunction = async ({ request }) => {
+	console.log({ url: request.url });
+
 	return await handleAction(request);
 };
 

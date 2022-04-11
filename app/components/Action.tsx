@@ -8,7 +8,14 @@ import {
 	HiOutlinePencil,
 	HiOutlineX,
 } from "react-icons/hi";
-import { Form, Link, useSubmit, useTransition } from "remix";
+import {
+	Form,
+	Link,
+	useLocation,
+	useParams,
+	useSubmit,
+	useTransition,
+} from "remix";
 import { flows, steps, tags } from "~/lib/data";
 import { isLate, writeDate } from "~/lib/functions";
 import { ActionType } from "~/types";
@@ -35,6 +42,7 @@ export default function Action({ action }: ActionProps) {
 	let transition = useTransition();
 	let isMutating =
 		transition.submission?.formData.get("id") === String(action.id);
+	let location = useLocation();
 
 	// if (transition.submission?.formData.get("id") === String(action.id)) {
 	// 	console.log(Object.fromEntries(transition.submission?.formData));
@@ -261,7 +269,7 @@ export default function Action({ action }: ActionProps) {
 			<div className="grid place-content-center gap-2 opacity-0 transition group-hover:opacity-100">
 				<Avatar avatar={{ name: action.profile.name }} size="s" />
 				<Link
-					to={`/dashboard/${action.account?.slug}/${action.id}`}
+					to={`/dashboard/${action.account?.slug}/${action.id}/?backTo=${location.pathname}`}
 					className="button button-ghost flex p-0 text-xl text-gray-300 "
 				>
 					<HiOutlinePencil />

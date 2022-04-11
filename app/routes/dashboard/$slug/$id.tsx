@@ -1,8 +1,10 @@
 import {
 	ActionFunction,
 	LoaderFunction,
+	redirect,
 	useActionData,
 	useLoaderData,
+	useSearchParams,
 	useTransition,
 } from "remix";
 import { AccountName } from "~/components/Display/Header";
@@ -16,7 +18,7 @@ import { AccountType } from "~/types";
 export const action: ActionFunction = async ({ request, params }) => {
 	let data = await handleAction(request);
 
-	return { data };
+	return data;
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {

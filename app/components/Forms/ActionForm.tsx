@@ -58,7 +58,11 @@ export default function ActionForm({
 			{isEditing ? (
 				<>
 					<input type="hidden" value="update" name="action" />
-					<input type="hidden" value={backTo} name="backTo" />
+					<input
+						type="hidden"
+						value={backTo ?? undefined}
+						name="backTo"
+					/>
 				</>
 			) : (
 				<>

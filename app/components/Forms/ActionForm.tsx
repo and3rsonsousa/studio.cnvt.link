@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
-import { Form } from "remix";
+import { Form, useParams } from "remix";
 import { flows, steps, tags } from "~/lib/data";
 import { ActionType } from "~/types";
 import { AutoComplete, Input, RadioGroup } from ".";
@@ -20,6 +20,7 @@ export default function ActionForm({
 }) {
 	let today = dayjs();
 	let [accountID, setAccountID] = useState(values ? values.account_id : null);
+	let params = useParams();
 
 	let formRef = useRef<null | HTMLFormElement>(null);
 	let isEditing = !!values?.id;
@@ -30,6 +31,8 @@ export default function ActionForm({
 		: campaigns;
 	let _account = values
 		? accounts.filter((account) => account.id === values?.account_id)[0]
+		: params.slug
+		? accounts.filter((account) => account.slug === params.slug)[0]
 		: null;
 	let _profiles = accountID
 		? profiles.filter((profile) =>
@@ -105,7 +108,13 @@ export default function ActionForm({
 					id: account.id,
 					name: account.name,
 				}))}
-				selected={values ? values.account_id : undefined}
+				selected={
+					values
+						? values.account_id
+						: _account
+						? _account.id
+						: undefined
+				}
 				form="add-account"
 			/>
 

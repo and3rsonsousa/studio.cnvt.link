@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { FaCompress, FaExpand } from "react-icons/fa";
 import { useTransition } from "remix";
 import { Button } from "~/components/Forms";
 import { AccountType, CampaignType, ProfileType } from "~/types";
 import ActionForm from "./Forms/ActionForm";
-import { FaCompress, FaExpand } from "react-icons/fa";
 
 export type AddActionsProps = {
 	data: {
@@ -22,7 +22,6 @@ export default function AddAction({
 	data: { accounts, profiles, userId, actionData, campaigns },
 }: AddActionsProps) {
 	let [largeForm, setLargeForm] = useState(false);
-
 	let transition = useTransition();
 	let isAdding =
 		transition.submission &&

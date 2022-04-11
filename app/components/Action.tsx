@@ -313,7 +313,7 @@ export function ActionLink({
 
 	return (
 		<Link
-			to={`/dashboard/${action.account?.slug}/${action.id}`}
+			to={`/dashboard/${action.account?.slug}/${action.id}/?backTo=${location.pathname}`}
 			className={`${
 				small ? "text-xx" : ""
 			} mb-2 flex items-center justify-between gap-2 rounded-md bg-gray-50 py-1 px-2 font-semibold tracking-tight text-gray-700 ring-1 ring-black/5 lg:text-xs ${bg}`}

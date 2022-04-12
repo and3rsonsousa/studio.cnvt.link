@@ -5,11 +5,11 @@ import {
 	HiOutlineClock,
 	HiOutlineViewList,
 } from "react-icons/hi";
-import { useLoaderData } from "remix";
+import { Link, redirect, useLoaderData } from "remix";
 import { AccountType } from "~/types";
 type HeaderProps = {
-	display: number;
-	setDisplay: Dispatch<SetStateAction<number>>;
+	display: string;
+	setDisplay: Dispatch<SetStateAction<string>>;
 };
 
 export default function Header({ display, setDisplay }: HeaderProps) {
@@ -24,19 +24,26 @@ export default function Header({ display, setDisplay }: HeaderProps) {
 			)}
 			<div className="flex sm:gap-2">
 				{[
-					{ id: 1, icon: <HiOutlineClock /> },
-					{ id: 2, icon: <HiOutlineCalendar /> },
-					{ id: 3, icon: <HiOutlineViewList /> },
-					{ id: 4, icon: <BsGrid3X3 /> },
+					{ id: "cronologic", icon: <HiOutlineClock /> },
+					{ id: "calendar", icon: <HiOutlineCalendar /> },
+					{ id: "list", icon: <HiOutlineViewList /> },
+					{ id: "grid", icon: <BsGrid3X3 /> },
 				].map((item) => {
-					return item.id !== 4 ||
+					return item.id !== "grid" ||
 						loaderData?.account !== undefined ? (
 						<button
 							className={`button button-icon ${
 								display !== item.id ? "button-ghost" : ""
 							} button-primary`}
 							key={item.id}
-							onClick={() => setDisplay(item.id)}
+							onClick={() => {
+								setDisplay(item.id);
+								window.history.pushState(
+									"",
+									"",
+									`?display=${item.id}`
+								);
+							}}
 						>
 							{item.icon}
 						</button>

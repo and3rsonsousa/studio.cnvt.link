@@ -269,7 +269,7 @@ export default function Action({ action }: ActionProps) {
 			<div className="grid place-content-center gap-2 opacity-0 transition group-hover:opacity-100">
 				<Avatar avatar={{ name: action.profile.name }} size="s" />
 				<Link
-					to={`/dashboard/${action.account?.slug}/${action.id}/?backTo=${location.pathname}`}
+					to={`/dashboard/${action.account?.slug}/${action.id}/?backTo=${location.pathname}${location.search}`}
 					className="button button-ghost flex p-0 text-xl text-gray-300 "
 				>
 					<HiOutlinePencil />
@@ -298,6 +298,7 @@ export function ActionLink({
 	color?: string;
 }) {
 	let bg = "";
+	let location = useLocation();
 
 	switch (color) {
 		case "Flow":
@@ -313,7 +314,7 @@ export function ActionLink({
 
 	return (
 		<Link
-			to={`/dashboard/${action.account?.slug}/${action.id}/?backTo=${location.pathname}`}
+			to={`/dashboard/${action.account?.slug}/${action.id}/?backTo=${location.pathname}${location.search}`}
 			className={`${
 				small ? "text-xx" : ""
 			} mb-2 flex items-center justify-between gap-2 rounded-md bg-gray-50 py-1 px-2 font-semibold tracking-tight text-gray-700 ring-1 ring-black/5 lg:text-xs ${bg}`}
@@ -367,7 +368,7 @@ export function ActionGrid({
 							size="s"
 						/>
 						<Link
-							to={`/dashboard/${action.account?.slug}/${action.id}`}
+							to={`/dashboard/${action.account?.slug}/${action.id}/?backTo=${location.pathname}${location.search}`}
 							className="button button-ghost flex p-0 text-xl text-gray-300 "
 						>
 							<HiOutlinePencil />

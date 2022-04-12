@@ -1,6 +1,5 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { ReactChild, useState } from "react";
-import { slideH } from "~/lib/animations";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "remix";
 import { ActionType } from "~/types";
 import Calendar from "./Display/Calendar";
 import Cronologic from "./Display/Cronologic";
@@ -13,15 +12,21 @@ type DisplayProps = {
 };
 
 export default function Display({ actions }: DisplayProps) {
-	let [display, setDisplay] = useState<number>(1);
+	let [searchParams] = useSearchParams();
+	let display = searchParams.get("display") as string;
+	let [internalDisplay, setDisplay] = useState<string>(
+		display || "cronologic"
+	);
 
 	return (
 		<div>
 			{/* Header */}
-			<Header display={display} setDisplay={setDisplay} />
+			<Header display={internalDisplay} setDisplay={setDisplay} />
 			<div className="px-4 py-6 lg:p-8">
 				{/* - Cronológico */}
-				{display === 1 && <Cronologic actions={actions} />}
+				{internalDisplay === "cronologic" && (
+					<Cronologic actions={actions} />
+				)}
 
 				{/* - Calendário */}
 				{/* - - Mês */}
@@ -29,13 +34,15 @@ export default function Display({ actions }: DisplayProps) {
 				{/* - - Dia */}
 				{/* - - Ano */}
 
-				{display === 2 && <Calendar actions={actions} />}
+				{internalDisplay === "calendar" && (
+					<Calendar actions={actions} />
+				)}
 
 				{/* - Lista */}
-				{display === 3 && <List actions={actions} />}
+				{internalDisplay === "list" && <List actions={actions} />}
 
 				{/* - Grid */}
-				{display === 4 && <Grid actions={actions} />}
+				{internalDisplay === "grid" && <Grid actions={actions} />}
 			</div>
 		</div>
 	);
@@ -48,8 +55,8 @@ export function Heading({
 	subTitle,
 }: {
 	title: string;
-	middle?: ReactChild;
-	right?: ReactChild;
+	middle?: JSX.Element;
+	right?: JSX.Element;
 	subTitle?: string;
 }) {
 	return (

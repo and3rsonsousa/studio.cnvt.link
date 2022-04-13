@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br"; // import locale
 import relativeTime from "dayjs/plugin/relativeTime";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
 	HiOutlineCalendar,
 	HiOutlineChevronRight,
@@ -42,7 +42,12 @@ export default function Action({ action }: ActionProps) {
 	let transition = useTransition();
 	let isMutating =
 		transition.submission?.formData.get("id") === String(action.id);
+	let [backTo, setBackTo] = useState("");
 	let location = useLocation();
+
+	useEffect(() => {
+		setBackTo(`${location.pathname}${location.search}`);
+	}, [backTo, location]);
 
 	// if (transition.submission?.formData.get("id") === String(action.id)) {
 	// 	console.log(Object.fromEntries(transition.submission?.formData));
@@ -269,7 +274,7 @@ export default function Action({ action }: ActionProps) {
 			<div className="grid place-content-center gap-2 opacity-0 transition group-hover:opacity-100">
 				<Avatar avatar={{ name: action.profile.name }} size="s" />
 				<Link
-					to={`/dashboard/${action.account?.slug}/${action.id}/?backTo=${location.pathname}${location.search}`}
+					to={`/dashboard/${action.account?.slug}/${action.id}/?backTo=${backTo}`}
 					className="button button-ghost flex p-0 text-xl text-gray-300 "
 				>
 					<HiOutlinePencil />
@@ -299,25 +304,39 @@ export function ActionLink({
 }) {
 	let bg = "";
 	let location = useLocation();
+	let [backTo, setBackTo] = useState("");
+
+	useEffect(() => {
+		setBackTo(`${location.pathname}${location.search}`);
+	}, [location, backTo]);
 
 	switch (color) {
 		case "Flow":
-			bg = `bg-${flows[action.flow_id - 1].slug}`;
+			bg = `bg-${flows[action.flow_id - 1].slug}${
+				action.step_id === 6 ? "-light" : ""
+			}`;
 			break;
 		case "Step":
 			bg = `bg-${steps[action.step_id - 1].slug}`;
 			break;
 		case "Tag":
-			bg = `bg-${tags[action.tag_id - 1].slug}`;
+			bg = `bg-${tags[action.tag_id - 1].slug}${
+				action.step_id === 6 ? "-light" : ""
+			}`;
+		default:
+			bg =
+				action.step_id === 6
+					? "text-gray-700 p-0"
+					: `bg-gray-50 text-gray-700 ring-1 ring-black/5`;
 			break;
 	}
 
 	return (
 		<Link
-			to={`/dashboard/${action.account?.slug}/${action.id}/?backTo=${location.pathname}${location.search}`}
+			to={`/dashboard/${action.account?.slug}/${action.id}/?backTo=${backTo}`}
 			className={`${
 				small ? "text-xx" : ""
-			} mb-2 flex items-center justify-between gap-2 rounded-md bg-gray-50 py-1 px-2 font-semibold tracking-tight text-gray-700 ring-1 ring-black/5 lg:text-xs ${bg}`}
+			} mb-2 flex items-center justify-between gap-2 rounded-md py-1 px-2 font-semibold tracking-tight transition-colors lg:text-xs ${bg}`}
 		>
 			<span className="relative flex min-w-0 items-center gap-1">
 				{isLate(action.start ?? action.end, action.step_id) && (
@@ -353,6 +372,13 @@ export function ActionGrid({
 	action: ActionType;
 	className?: string;
 }) {
+	let location = useLocation();
+	let [backTo, setBackTo] = useState("");
+
+	useEffect(() => {
+		setBackTo(`${location.pathname}${location.search}`);
+	}, [location, backTo]);
+
 	return (
 		<div
 			className={` group flex aspect-square flex-col justify-between bg-white p-2 text-center ${
@@ -368,7 +394,7 @@ export function ActionGrid({
 							size="s"
 						/>
 						<Link
-							to={`/dashboard/${action.account?.slug}/${action.id}/?backTo=${location.pathname}${location.search}`}
+							to={`/dashboard/${action.account?.slug}/${action.id}/?backTo=${backTo}`}
 							className="button button-ghost flex p-0 text-xl text-gray-300 "
 						>
 							<HiOutlinePencil />

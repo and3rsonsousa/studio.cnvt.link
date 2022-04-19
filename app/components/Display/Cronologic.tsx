@@ -3,7 +3,7 @@ import { useState } from "react";
 import { HiOutlineMinusCircle, HiOutlinePlusCircle } from "react-icons/hi";
 import { isFuture, isToday } from "~/lib/functions";
 import { ActionType } from "~/types";
-import Action from "../Action";
+import { ActionCard } from "../Action";
 import { Heading } from "../Display";
 import GridActions from "./GridActions";
 
@@ -115,13 +115,13 @@ function CronologicRow({
 
 			<GridActions>
 				{items.slice(0, 6).map((action: ActionType) => (
-					<Action key={action.id} action={action} />
+					<ActionCard key={action.id} action={action} />
 				))}
 				{showMore &&
 					items
 						.slice(6)
 						.map((action: ActionType) => (
-							<Action key={action.id} action={action} />
+							<ActionCard key={action.id} action={action} />
 						))}
 			</GridActions>
 		</>

@@ -3,7 +3,9 @@ import {
 	ActionFunction,
 	Form,
 	LoaderFunction,
+	useFetcher,
 	useLoaderData,
+	useSubmit,
 	useTransition,
 } from "remix";
 
@@ -37,17 +39,38 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export const action: ActionFunction = async ({ request }) => {
-	let { action, ...values } = Object.fromEntries(await request.formData());
+	// let { action, ...values } = Object.fromEntries(await request.formData());
 
-	if (action === "create") {
-		let { data: created, error } = await supabase
-			.from("finance")
-			.insert({ ...values });
+	console.log(request);
 
-		if (error) {
-			throw new Error(error.message);
-		}
-	}
+	// console.log({ action, values });
+
+	// if (action === "create") {
+	// 	let { data: created, error } = await supabase
+	// 		.from("finance")
+	// 		.insert({ ...values });
+
+	// 	if (error) {
+	// 		throw new Error(error.message);
+	// 	}
+
+	// 	return created;
+	// } else if (action === "update") {
+	// 	console.log({ values });
+
+	// let { id } = values;
+
+	// let { data: updated, error } = await supabase
+	// 	.from("finance")
+	// 	.update({ ...values })
+	// 	.eq("id", id);
+
+	// if (error) {
+	// 	throw new Error(error.message);
+	// }
+
+	// return updated;
+	// }
 
 	return "";
 };
@@ -216,10 +239,11 @@ type ItemProps = {
 	name: string;
 	date: string;
 	amount: string;
+	isForm?: true;
 };
 
 const Item = ({
-	item: { name, date, amount, io, id },
+	item: { name, date, amount, io, id, isForm },
 }: {
 	item: ItemProps;
 }) => {
@@ -228,10 +252,16 @@ const Item = ({
 	});
 
 	let datejs = dayjs(date);
+	let form = useRef<HTMLFormElement>(null);
 
 	return (
-		<Form method="post" className="flex items-center gap-2 border-b py-2">
-			<input type="hidden" value={id} />
+		<Form
+			method="post"
+			ref={form}
+			className="flex items-center gap-2 border-b py-2 transition-colors focus-within:border-brand-600"
+		>
+			<input type="hidden" value={id} name="id" />
+			<input type="hidden" value="update" name="action" />
 
 			<div className="flex w-4 items-center">
 				<div
@@ -241,9 +271,16 @@ const Item = ({
 				></div>
 			</div>
 			<div className="w-full">
-				<div className="overflow-hidden text-ellipsis whitespace-nowrap">
+				<input
+					type="text"
+					defaultValue={name}
+					className="w-full bg-transparent transition-colors focus:text-gray-900 focus:outline-none"
+					onBlur={() => form.current?.submit()}
+					name="name"
+				/>
+				{/* <div className="overflow-hidden text-ellipsis whitespace-nowrap">
 					{name}
-				</div>
+				</div> */}
 			</div>
 			<div className="w-20 text-xs">
 				<span className="mr-1 font-bold">{datejs.format(`DD`)}</span>

@@ -27,6 +27,7 @@ dayjs.locale("pt-br");
 
 export type ActionProps = {
 	action: ActionType;
+	type: "card" | "link" | "grid";
 };
 
 // TODO Incluir Responsável caso seja outra pessoa
@@ -36,22 +37,166 @@ export type ActionProps = {
 // TODO: update Start Date
 // TODO: update End Date
 
-export default function Action({ action }: ActionProps) {
+export function ActionLink({
+	action,
+	small,
+	color,
+}: {
+	action: ActionType;
+	small?: boolean;
+	color?: string;
+}) {
+	let bg = "";
+	let [backTo, setBackTo] = useState("");
+
+	useEffect(() => {
+		setBackTo(window.location.href);
+	}, []);
+
+	switch (color) {
+		case "Flow":
+			bg = `bg-${flows[action.flow_id - 1].slug}${
+				action.step_id === 6 ? "-light" : ""
+			}`;
+			break;
+		case "Step":
+			bg = `bg-${steps[action.step_id - 1].slug}`;
+			break;
+		case "Tag":
+			bg = `bg-${tags[action.tag_id - 1].slug}${
+				action.step_id === 6 ? "-light" : ""
+			}`;
+		default:
+			bg =
+				action.step_id === 6
+					? "text-gray-700 p-0"
+					: `bg-gray-50 text-gray-700 ring-1 ring-black/5`;
+			break;
+	}
+
+	return (
+		<Link
+			to={`/dashboard/${action.account?.slug}/${action.id}/?backTo=${backTo}`}
+			className={`${
+				small ? "text-xx" : ""
+			} mb-2 flex items-center justify-between gap-2 rounded-md py-1 px-2 font-semibold tracking-tight transition-colors lg:text-xs ${bg}`}
+		>
+			<span className="relative flex min-w-0 items-center gap-1">
+				{isLate(action.start ?? action.end, action.step_id) && (
+					<span className="block h-1 w-1 shrink-0 animate-pulse rounded-full bg-error-500"></span>
+				)}
+				<span
+					className={`overflow-hidden text-ellipsis ${
+						small ? "whitespace-nowrap" : "lg:whitespace-nowrap"
+					}`}
+				>
+					{action.name}
+				</span>
+			</span>
+			<span
+				className={`${
+					small ? "hidden" : ""
+				} text-xx font-medium opacity-75 sm:block`}
+			>
+				{!action.start
+					? dayjs(action.end).minute() === 0
+						? dayjs(action.end).format("HH[h]")
+						: dayjs(action.end).format("HH[h]mm")
+					: null}
+			</span>
+		</Link>
+	);
+}
+
+export function ActionGrid({
+	action,
+	className,
+}: {
+	action: ActionType;
+	className?: string;
+}) {
+	let [backTo, setBackTo] = useState("");
+
+	useEffect(() => {
+		setBackTo(window.location.href);
+	}, []);
+
+	return (
+		<div
+			className={` group flex aspect-square flex-col justify-between bg-white p-2 text-center ${
+				className ? className : ""
+			}`}
+		>
+			<div className="flex justify-between text-xs">
+				<div>{writeDate(action.end)}</div>
+				<div>
+					<div className="flex gap-2 opacity-0 transition group-hover:opacity-100">
+						<Avatar
+							avatar={{ name: action.profile.name }}
+							size="s"
+						/>
+						<Link
+							to={`/dashboard/${action.account?.slug}/${action.id}/?backTo=${backTo}`}
+							className="button button-ghost flex p-0 text-xl text-gray-300 "
+						>
+							<HiOutlinePencil />
+						</Link>
+						<button
+							type="submit"
+							form={`action_form_${action.id}`}
+							name="action"
+							value="delete"
+							className="button button-ghost p-0 text-xl text-gray-300"
+						>
+							<HiOutlineX />
+						</button>
+					</div>
+				</div>
+			</div>
+			<div>
+				<Form
+					className="w-full"
+					method="post"
+					name="action_form"
+					id={`action_form_${action.id}`}
+				>
+					{/* <input type="hidden" name="action" value="update" /> */}
+					<input type="hidden" name="id" value={action.id} />
+				</Form>
+				<div className="font-semibold text-gray-700">{action.name}</div>
+				{action.description ? (
+					<div className="text-xs text-gray-400">
+						{action.description}
+					</div>
+				) : null}
+			</div>
+			<div className="mt-4 flex justify-end">
+				<div
+					className={`h-2 w-2 rounded-full ${
+						isLate(action.start ?? action.end, action.step_id)
+							? "bg-error-500"
+							: action.step_id === 6
+							? "bg-success-500"
+							: ""
+					}`}
+				></div>
+			</div>
+		</div>
+	);
+}
+
+export function ActionCard({ action }: { action: ActionType }) {
 	let [timeInfo, setTimeInfo] = useState(true);
 	let submit = useSubmit();
 	let transition = useTransition();
 	let isMutating =
 		transition.submission?.formData.get("id") === String(action.id);
 	let [backTo, setBackTo] = useState("");
-	let location = useLocation();
 
 	useEffect(() => {
-		setBackTo(`${location.pathname}${location.search}`);
-	}, [backTo, location]);
+		setBackTo(window.location.href);
+	}, []);
 
-	// if (transition.submission?.formData.get("id") === String(action.id)) {
-	// 	console.log(Object.fromEntries(transition.submission?.formData));
-	// }
 	return (
 		<div
 			className={`group flex min-w-fit justify-between gap-2 rounded-xl border border-transparent bg-white px-4 py-3 text-sm shadow shadow-gray-500/20 ring-1 ring-black/[.02] transition focus-within:border-brand-600 focus-within:ring-4 focus-within:ring-brand-600/20 focus-within:duration-500 ${
@@ -293,152 +438,4 @@ export default function Action({ action }: ActionProps) {
 	);
 }
 
-export function ActionLink({
-	action,
-	small,
-	color,
-}: {
-	action: ActionType;
-	small?: boolean;
-	color?: string;
-}) {
-	let bg = "";
-	let location = useLocation();
-	let [backTo, setBackTo] = useState("");
-
-	useEffect(() => {
-		setBackTo(`${location.pathname}${location.search}`);
-	}, [location, backTo]);
-
-	switch (color) {
-		case "Flow":
-			bg = `bg-${flows[action.flow_id - 1].slug}${
-				action.step_id === 6 ? "-light" : ""
-			}`;
-			break;
-		case "Step":
-			bg = `bg-${steps[action.step_id - 1].slug}`;
-			break;
-		case "Tag":
-			bg = `bg-${tags[action.tag_id - 1].slug}${
-				action.step_id === 6 ? "-light" : ""
-			}`;
-		default:
-			bg =
-				action.step_id === 6
-					? "text-gray-700 p-0"
-					: `bg-gray-50 text-gray-700 ring-1 ring-black/5`;
-			break;
-	}
-
-	return (
-		<Link
-			to={`/dashboard/${action.account?.slug}/${action.id}/?backTo=${backTo}`}
-			className={`${
-				small ? "text-xx" : ""
-			} mb-2 flex items-center justify-between gap-2 rounded-md py-1 px-2 font-semibold tracking-tight transition-colors lg:text-xs ${bg}`}
-		>
-			<span className="relative flex min-w-0 items-center gap-1">
-				{isLate(action.start ?? action.end, action.step_id) && (
-					<span className="block h-1 w-1 shrink-0 animate-pulse rounded-full bg-error-500"></span>
-				)}
-				<span
-					className={`overflow-hidden text-ellipsis ${
-						small ? "whitespace-nowrap" : "lg:whitespace-nowrap"
-					}`}
-				>
-					{action.name}
-				</span>
-			</span>
-			<span
-				className={`${
-					small ? "hidden" : ""
-				} text-xx font-medium opacity-75 sm:block`}
-			>
-				{!action.start
-					? dayjs(action.end).minute() === 0
-						? dayjs(action.end).format("HH[h]")
-						: dayjs(action.end).format("HH[h]mm")
-					: null}
-			</span>
-		</Link>
-	);
-}
-
-export function ActionGrid({
-	action,
-	className,
-}: {
-	action: ActionType;
-	className?: string;
-}) {
-	let location = useLocation();
-	let [backTo, setBackTo] = useState("");
-
-	useEffect(() => {
-		setBackTo(`${location.pathname}${location.search}`);
-	}, [location, backTo]);
-
-	return (
-		<div
-			className={` group flex aspect-square flex-col justify-between bg-white p-2 text-center ${
-				className ? className : ""
-			}`}
-		>
-			<div className="flex justify-between text-xs">
-				<div>{writeDate(action.end)}</div>
-				<div>
-					<div className="flex gap-2 opacity-0 transition group-hover:opacity-100">
-						<Avatar
-							avatar={{ name: action.profile.name }}
-							size="s"
-						/>
-						<Link
-							to={`/dashboard/${action.account?.slug}/${action.id}/?backTo=${backTo}`}
-							className="button button-ghost flex p-0 text-xl text-gray-300 "
-						>
-							<HiOutlinePencil />
-						</Link>
-						<button
-							type="submit"
-							form={`action_form_${action.id}`}
-							name="action"
-							value="delete"
-							className="button button-ghost p-0 text-xl text-gray-300"
-						>
-							<HiOutlineX />
-						</button>
-					</div>
-				</div>
-			</div>
-			<div>
-				<Form
-					className="w-full"
-					method="post"
-					name="action_form"
-					id={`action_form_${action.id}`}
-				>
-					{/* <input type="hidden" name="action" value="update" /> */}
-					<input type="hidden" name="id" value={action.id} />
-				</Form>
-				<div className="font-semibold text-gray-700">{action.name}</div>
-				{action.description ? (
-					<div className="text-xs text-gray-400">
-						{action.description}
-					</div>
-				) : null}
-			</div>
-			<div className="mt-4 flex justify-end">
-				<div
-					className={`h-2 w-2 rounded-full ${
-						isLate(action.start ?? action.end, action.step_id)
-							? "bg-error-500"
-							: action.step_id === 6
-							? "bg-success-500"
-							: ""
-					}`}
-				></div>
-			</div>
-		</div>
-	);
-}
+export function ActionList() {}

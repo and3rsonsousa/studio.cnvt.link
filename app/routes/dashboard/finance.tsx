@@ -9,7 +9,7 @@ import {
 	useTransition,
 } from "remix";
 
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -39,40 +39,40 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export const action: ActionFunction = async ({ request }) => {
-	// let { action, ...values } = Object.fromEntries(await request.formData());
+	const formData = await request.formData();
 
-	console.log(request);
+	let { action, ...values } = Object.fromEntries(formData);
 
-	// console.log({ action, values });
-
-	// if (action === "create") {
-	// 	let { data: created, error } = await supabase
-	// 		.from("finance")
-	// 		.insert({ ...values });
-
-	// 	if (error) {
-	// 		throw new Error(error.message);
-	// 	}
-
-	// 	return created;
-	// } else if (action === "update") {
-	// 	console.log({ values });
-
-	// let { id } = values;
-
-	// let { data: updated, error } = await supabase
-	// 	.from("finance")
-	// 	.update({ ...values })
-	// 	.eq("id", id);
-
-	// if (error) {
-	// 	throw new Error(error.message);
-	// }
-
-	// return updated;
-	// }
-
-	return "";
+	if (action === "create") {
+		let { data: created, error } = await supabase
+			.from("finance")
+			.insert({ ...values });
+		if (error) {
+			throw new Error(error.message);
+		}
+		return created;
+	} else if (action === "update") {
+		let { id } = values;
+		let { data: updated, error } = await supabase
+			.from("finance")
+			.update({ ...values })
+			.eq("id", id);
+		if (error) {
+			throw new Error(error.message);
+		}
+		return updated;
+	} else if (action === "delete") {
+		console.log({ values });
+		let { id } = values;
+		let { data: deleted, error } = await supabase
+			.from("finance")
+			.delete()
+			.eq("id", id);
+		if (error) {
+			throw new Error(error.message);
+		}
+		return deleted;
+	}
 };
 
 export default function Finance() {
@@ -90,6 +90,8 @@ export default function Finance() {
 			value: -1,
 		},
 	];
+
+	let [view, setView] = useState(2);
 	let [current, setCurrent] = useState(dayjs());
 	let currentData = data.filter(
 		(item) => dayjs(item.date).month() === current.month()
@@ -109,7 +111,6 @@ export default function Finance() {
 		setType(1);
 	}, [isAdding]);
 
-	let values = currentData.map((d) => Number(d.amount) * Number(d.io));
 	return (
 		<div className="px-4 py-6 lg:p-8">
 			<h2 className="text-gray-700">Financeiro</h2>
@@ -180,7 +181,7 @@ export default function Finance() {
 										type="radio"
 										value={item.value}
 										name="io"
-										checked={item.value === type}
+										defaultChecked={item.value === type}
 										className="hidden"
 									/>
 									<span>
@@ -211,23 +212,12 @@ export default function Finance() {
 					prev={() => setCurrent(current.subtract(1, "month"))}
 					next={() => setCurrent(current.add(1, "month"))}
 				/>
-				{currentData.map((item: ItemProps) => (
-					<Item item={item} key={item.id} />
-				))}
-			</div>
-			<div className="border-t border-gray-700">
-				<Item
-					item={{
-						amount: sum(values).toString(),
-						date:
-							dayjs().month() === current.month()
-								? dayjs().format("YYYY-MM-DD")
-								: current.endOf("M").format("YYYY-MM-DD"),
-						id: "0",
-						io: "1",
-						name: "Total",
-					}}
-				/>
+				{view === 1 ? (
+					<List data={currentData} current={current} />
+				) : null}
+				{view === 2 ? (
+					<Calendar data={currentData} current={current} />
+				) : null}
 			</div>
 		</div>
 	);
@@ -253,16 +243,10 @@ const Item = ({
 
 	let datejs = dayjs(date);
 	let form = useRef<HTMLFormElement>(null);
+	let submit = useSubmit();
 
 	return (
-		<Form
-			method="post"
-			ref={form}
-			className="flex items-center gap-2 border-b py-2 transition-colors focus-within:border-brand-600"
-		>
-			<input type="hidden" value={id} name="id" />
-			<input type="hidden" value="update" name="action" />
-
+		<div className="group flex items-center gap-2 border-b py-2 transition-colors focus-within:border-brand-600">
 			<div className="flex w-4 items-center">
 				<div
 					className={`h-2 w-2 rounded-full ${
@@ -270,17 +254,36 @@ const Item = ({
 					}`}
 				></div>
 			</div>
-			<div className="w-full">
+
+			<Form
+				method="post"
+				ref={form}
+				className="w-full"
+				id={`form_item_${id}`}
+			>
+				<input type="hidden" value={id} name="id" />
+				<input type="hidden" value="update" name="action" />
 				<input
 					type="text"
 					defaultValue={name}
 					className="w-full bg-transparent transition-colors focus:text-gray-900 focus:outline-none"
-					onBlur={() => form.current?.submit()}
+					onBlur={(event) => {
+						if (name !== event.currentTarget.value.trim())
+							submit(event.currentTarget.form);
+					}}
 					name="name"
 				/>
-				{/* <div className="overflow-hidden text-ellipsis whitespace-nowrap">
-					{name}
-				</div> */}
+			</Form>
+
+			<div className=" opacity-0 transition group-hover:opacity-100">
+				<button
+					className="text-xx button button-small button-ghost p-0  font-medium uppercase tracking-wider text-error-700 hover:text-error-500"
+					name="action"
+					value="delete"
+					form={`form_item_${id}`}
+				>
+					Deletar
+				</button>
 			</div>
 			<div className="w-20 text-xs">
 				<span className="mr-1 font-bold">{datejs.format(`DD`)}</span>
@@ -294,10 +297,106 @@ const Item = ({
 					{formatter.format(Number(amount))}
 				</span>
 			</div>
-		</Form>
+		</div>
 	);
 };
 
-function sum(values: Array<number>) {
+function sum(values: Array<number> | undefined): number {
+	if (!values) return 0;
+
 	return values.length > 0 ? values.reduce((prev, curr) => prev + curr) : 0;
+}
+
+function List({ data, current }: { data: ItemProps[]; current: Dayjs }) {
+	let values = data.map((d) => Number(d.amount) * Number(d.io));
+
+	return (
+		<div>
+			<div>
+				{data.map((item: ItemProps) => (
+					<Item item={item} key={item.id} />
+				))}
+			</div>
+			<div className="border-t border-gray-700">
+				<Item
+					item={{
+						amount: sum(values).toString(),
+						date:
+							dayjs().month() === current.month()
+								? dayjs().format("YYYY-MM-DD")
+								: current.endOf("M").format("YYYY-MM-DD"),
+						id: "0",
+						io: "1",
+						name: "Total",
+					}}
+				/>
+			</div>
+		</div>
+	);
+}
+
+type DayProps = { date: number; finances?: undefined | Array<ItemProps> };
+
+function Calendar({ data, current }: { data: ItemProps[]; current: Dayjs }) {
+	let days = Array<DayProps>(current.endOf("month").date());
+
+	for (let i = 0; i < days.length; i++) {
+		let finances = data.filter((item) => dayjs(item.date).date() === i + 1);
+		days[i] = {
+			date: i + 1,
+			finances: finances.length ? finances : undefined,
+		};
+	}
+
+	return (
+		<div className="flex snap-x overflow-x-scroll">
+			{days.map((day) =>
+				day.finances ? <CalendarItem day={day} /> : null
+			)}
+		</div>
+	);
+}
+
+function CalendarItem({ day }: { day: DayProps }) {
+	let values = day.finances?.map((d) => Number(d.amount) * Number(d.io));
+	let formatter = Intl.NumberFormat("pt-BR", {
+		currency: "BRL",
+	});
+	return (
+		<div
+			key={day.date}
+			className="flex w-80 shrink-0 snap-start flex-col justify-between p-4"
+		>
+			<div>
+				<h5>{day.date}</h5>
+				<div>
+					{day.finances?.map((finance) => (
+						<div
+							className="flex justify-between border-t py-2"
+							key={finance.id}
+						>
+							<div className="w-full overflow-hidden text-ellipsis whitespace-nowrap">
+								{finance.name}
+							</div>
+							<div className="flex w-32 items-start justify-end gap-1">
+								<span className="mt-1 text-xs">R$</span>
+								<span className="font-bold">
+									{formatter.format(Number(finance.amount))}
+								</span>
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+			<div className="flex justify-between border-t border-gray-700 py-2">
+				<div className="font-bold">Total do dia</div>
+				<div className="flex w-32 items-start justify-end gap-1">
+					<span className="mt-1 text-xs">R$</span>
+					<span className="font-bold">
+						{formatter.format(sum(values))}
+					</span>
+				</div>
+			</div>
+		</div>
+	);
 }

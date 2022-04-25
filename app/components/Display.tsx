@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSearchParams } from "remix";
 import { ActionType } from "~/types";
 import Calendar from "./Display/Calendar";
@@ -60,7 +60,7 @@ export function Heading({
 	subTitle?: string;
 }) {
 	return (
-		<div className="flex justify-between gap-4 overflow-hidden">
+		<div className="flex justify-between gap-4">
 			<div className="mb-8">
 				<h3 className="m-0 text-gray-700 ">{title}</h3>
 				{subTitle && (

@@ -1,10 +1,9 @@
 import {
 	ActionFunction,
+	Form,
 	LoaderFunction,
-	redirect,
 	useActionData,
 	useLoaderData,
-	useSearchParams,
 	useTransition,
 } from "remix";
 import { AccountName } from "~/components/Display/Header";
@@ -79,7 +78,17 @@ export default function Action() {
 						isAdding={isAdding}
 						full={true}
 					/>
-					<div className="mt-8 text-right">
+					<div className="mt-8 flex justify-end gap-2">
+						<Form method="post">
+							<input type="hidden" name="id" value={action.id} />
+							<input type="hidden" name="action" value="delete" />
+							<input
+								type="hidden"
+								name="backTo"
+								value={`/dashboard/${account.slug}`}
+							/>
+							<Button text="Deletar" />
+						</Form>
 						<Button
 							form="action_form"
 							text="Atualizar"

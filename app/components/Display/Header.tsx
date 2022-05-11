@@ -1,12 +1,12 @@
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { BsGrid3X3 } from "react-icons/bs";
 import {
 	HiOutlineCalendar,
 	HiOutlineClock,
 	HiOutlineViewList,
 } from "react-icons/hi";
-import { Link, redirect, useLoaderData } from "remix";
-import { AccountType } from "~/types";
+import { useLoaderData } from "@remix-run/react";
+import type { AccountType } from "~/types";
 type HeaderProps = {
 	display: string;
 	setDisplay: Dispatch<SetStateAction<string>>;

@@ -1,14 +1,23 @@
-import { ActionFunction, Form, LoaderFunction, useActionData, useLoaderData } from "remix";
+import type { ActionFunction, LoaderFunction } from "@remix-run/cloudflare";
+import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { CheckboxGroup, Input } from "~/components/Forms";
 import { supabase } from "~/lib/supabase";
-import { AccountType, ProfileType } from "~/types";
+import type { AccountType, ProfileType } from "~/types";
 
 export const loader: LoaderFunction = async ({ params, request }) => {
-	let { data: profile } = await supabase.from("profiles").select().match({ id: params.id }).single();
+	let { data: profile } = await supabase
+		.from("profiles")
+		.select()
+		.match({ id: params.id })
+		.single();
 
 	let data = await Promise.all([
 		supabase.from("accounts").select("*").order("name"),
-		supabase.from("accounts").select("*").contains("user_id", [profile.user_id]).order("name"),
+		supabase
+			.from("accounts")
+			.select("*")
+			.contains("user_id", [profile.user_id])
+			.order("name"),
 	]);
 
 	let { data: accounts } = data[0];
@@ -39,30 +48,45 @@ export const action: ActionFunction = async ({ request }) => {
 		};
 	}
 
-	let { data: accounts, error } = await supabase.from("accounts").select("*").order("name");
+	let { data: accounts, error } = await supabase
+		.from("accounts")
+		.select("*")
+		.order("name");
 
 	let accountsUpsert = accounts?.map((account: AccountType) => {
 		//if accounts.user_id is not null and has this user_id
 		// Caso o usuário esteja listado nessa conta
-		if (account.user_id !== null && account.user_id.find((id) => id === values.user_id)) {
+		if (
+			account.user_id !== null &&
+			account.user_id.find((id) => id === values.user_id)
+		) {
 			// Caso os id's das accounts não contenham o id da conta no loop
 			// Caso o usuário vá ser removido
-			if (values.accounts.filter((value) => value === String(account.id)).length === 0) {
+			if (
+				values.accounts.filter((value) => value === String(account.id))
+					.length === 0
+			) {
 				//retorna uma account sem o id do usuário
 				//remove o usuário
 				return {
 					...account,
-					user_id: account.user_id.filter((id) => id !== values.user_id),
+					user_id: account.user_id.filter(
+						(id) => id !== values.user_id
+					),
 				};
 			}
 
 			return account;
 
 			//if accounts.user_id is not null and the id of the account is listed in values.accounts
-		} else if (values.accounts.find((value) => value === String(account.id))) {
+		} else if (
+			values.accounts.find((value) => value === String(account.id))
+		) {
 			return {
 				...account,
-				user_id: account.user_id ? [...account.user_id, values.user_id] : [values.user_id],
+				user_id: account.user_id
+					? [...account.user_id, values.user_id]
+					: [values.user_id],
 			};
 		}
 	});
@@ -77,7 +101,9 @@ export const action: ActionFunction = async ({ request }) => {
 			})
 			.eq("id", formData.get("id"))
 			.single(),
-		accountsUpsert != undefined ? supabase.from("accounts").upsert(accountsUpsert) : null,
+		accountsUpsert != undefined
+			? supabase.from("accounts").upsert(accountsUpsert)
+			: null,
 	]);
 
 	return "data";
@@ -105,8 +131,17 @@ export default function () {
 			)}
 			<Form method="post">
 				<input name="id" value={profile.id} type="hidden" />
-				<input type="hidden" name="user_id" defaultValue={profile.user_id} />
-				<Input label="Nome" type="text" name="name" value={profile.name} />
+				<input
+					type="hidden"
+					name="user_id"
+					defaultValue={profile.user_id}
+				/>
+				<Input
+					label="Nome"
+					type="text"
+					name="name"
+					value={profile.name}
+				/>
 
 				<CheckboxGroup
 					label="Clientes"

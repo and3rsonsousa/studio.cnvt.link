@@ -1,7 +1,6 @@
-import { Form, Link, useTransition } from "remix";
-import { AccountType, ProfileType } from "~/types";
 import { HiOutlineUsers } from "react-icons/hi";
 import { MdWorkOutline } from "react-icons/md";
+import { Form, Link, useTransition } from "@remix-run/react";
 import Avatar from "~/components/Avatar";
 
 export type LinkType = { name: string; url: string };

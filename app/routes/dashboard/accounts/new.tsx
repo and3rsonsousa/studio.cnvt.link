@@ -1,15 +1,14 @@
-import { useEffect, useRef } from "react";
+import type { ActionFunction, LoaderFunction } from "@remix-run/cloudflare";
 import {
-	ActionFunction,
 	Form,
-	LoaderFunction,
 	useActionData,
 	useLoaderData,
 	useTransition,
-} from "remix";
-import { CheckboxGroup, Input, Button } from "~/components/Forms/";
+} from "@remix-run/react";
+import { useEffect, useRef } from "react";
+import { Button, CheckboxGroup, Input } from "~/components/Forms/";
 import { supabase } from "~/lib/supabase";
-import { ProfileType } from "~/types";
+import type { ProfileType } from "~/types";
 
 export const loader: LoaderFunction = async () => {
 	let { data: profiles, error } = await supabase

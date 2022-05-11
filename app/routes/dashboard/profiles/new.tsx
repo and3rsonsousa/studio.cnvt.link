@@ -1,8 +1,9 @@
+import type { ActionFunction } from "@remix-run/cloudflare";
+import { Form, useActionData, useTransition } from "@remix-run/react";
 import { useEffect, useRef } from "react";
-import { ActionFunction, Form, useActionData, useTransition } from "remix";
 import { Button, Input } from "~/components/Forms";
 import { supabase } from "~/lib/supabase";
-import { ProfileType } from "~/types";
+import type { ProfileType } from "~/types";
 
 export const action: ActionFunction = async ({ request }) => {
 	const formData = await request.formData();
@@ -51,7 +52,9 @@ export default function () {
 
 	let transition = useTransition();
 	let state = transition.state;
-	let isAdding = transition.submission && transition.submission.formData.get("action") === "create";
+	let isAdding =
+		transition.submission &&
+		transition.submission.formData.get("action") === "create";
 	let formRef = useRef<null | HTMLFormElement>(null);
 
 	useEffect(() => {
@@ -75,7 +78,13 @@ export default function () {
 				<Input label="Senha" name="password" type="password" />
 
 				<div className="mt-8 text-right">
-					<Button text="Cadastrar" isAdding={isAdding} primary name="action" value="create" />
+					<Button
+						text="Cadastrar"
+						isAdding={isAdding}
+						primary
+						name="action"
+						value="create"
+					/>
 				</div>
 			</Form>
 		</div>

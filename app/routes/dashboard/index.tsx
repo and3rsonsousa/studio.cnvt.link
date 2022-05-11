@@ -1,14 +1,11 @@
 import { useState } from "react";
-import {
-	ActionFunction,
-	LoaderFunction,
-	useActionData,
-	useLoaderData,
-} from "remix";
+
 import Display from "~/components/Display";
 import { DialogActionForm } from "~/components/DialogActionForm";
 import { getActionFormData, handleAction } from "~/lib/db.server";
 import { getUserId } from "~/lib/session.server";
+import type { ActionFunction, LoaderFunction } from "@remix-run/cloudflare";
+import { useActionData, useLoaderData } from "@remix-run/react";
 
 export const loader: LoaderFunction = async ({ request }) => {
 	//Returns the user ID

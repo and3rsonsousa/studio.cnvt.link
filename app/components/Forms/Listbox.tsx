@@ -1,10 +1,10 @@
 import { Listbox } from "@headlessui/react";
+import { Form } from "@remix-run/react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Fragment, ReactChild, useState } from "react";
+import { Fragment, useState } from "react";
 import { HiCheckCircle } from "react-icons/hi";
-import { Form } from "remix";
 import { menu } from "~/lib/animations";
-import { BasicType } from "~/types";
+import type { BasicType } from "~/types";
 
 type ListboxProps = {
 	item_id: number;
@@ -14,7 +14,13 @@ type ListboxProps = {
 	table: string;
 };
 
-export const ListBox = ({ item_id, values, selected, name, table }: ListboxProps) => {
+export const ListBox = ({
+	item_id,
+	values,
+	selected,
+	name,
+	table,
+}: ListboxProps) => {
 	let [option, setOption] = useState(selected || values[0]);
 
 	return (
@@ -31,13 +37,29 @@ export const ListBox = ({ item_id, values, selected, name, table }: ListboxProps
 				{({ open }) => (
 					<>
 						<Form id={`form_${name}_${item_id}`} method="post">
-							<input type="hidden" name="id" defaultValue={item_id} />
-							<input type="hidden" name={name} defaultValue={option.id} />
-							<input type="hidden" name="table" defaultValue={table} />
+							<input
+								type="hidden"
+								name="id"
+								defaultValue={item_id}
+							/>
+							<input
+								type="hidden"
+								name={name}
+								defaultValue={option.id}
+							/>
+							<input
+								type="hidden"
+								name="table"
+								defaultValue={table}
+							/>
 							<input type="hidden" name="action" value="update" />
 						</Form>
 
-						<Listbox.Button className={`listbox-button bg-${option.slug}`}>{option.name}</Listbox.Button>
+						<Listbox.Button
+							className={`listbox-button bg-${option.slug}`}
+						>
+							{option.name}
+						</Listbox.Button>
 
 						<AnimatePresence>
 							{open && (
@@ -51,11 +73,19 @@ export const ListBox = ({ item_id, values, selected, name, table }: ListboxProps
 									exit={menu.exit}
 								>
 									{values.map((value) => (
-										<Listbox.Option value={value} key={value.id} as={Fragment}>
+										<Listbox.Option
+											value={value}
+											key={value.id}
+											as={Fragment}
+										>
 											{({ active, selected }) => (
 												// flex w-full items-center justify-between
 												<button
-													className={`dropdown-link${active ? " dropdown-link-active" : ""}`}
+													className={`dropdown-link${
+														active
+															? " dropdown-link-active"
+															: ""
+													}`}
 													type="submit"
 													form={`form_${name}_${item_id}`}
 													name="action"
@@ -63,7 +93,9 @@ export const ListBox = ({ item_id, values, selected, name, table }: ListboxProps
 												>
 													{value.name}
 
-													{selected && <HiCheckCircle className="ml-2 text-xl text-white" />}
+													{selected && (
+														<HiCheckCircle className="ml-2 text-xl text-white" />
+													)}
 												</button>
 											)}
 										</Listbox.Option>

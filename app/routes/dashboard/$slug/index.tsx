@@ -1,15 +1,12 @@
+import type { ActionFunction, LoaderFunction } from "@remix-run/cloudflare";
+import { useActionData, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
-import {
-	ActionFunction,
-	LoaderFunction,
-	useActionData,
-	useLoaderData,
-} from "remix";
+
 import { DialogActionForm } from "~/components/DialogActionForm";
 import Display from "~/components/Display";
 import { getActionFormData, handleAction } from "~/lib/db.server";
 import { getUserId } from "~/lib/session.server";
-import { ActionType } from "~/types";
+import type { ActionType } from "~/types";
 
 export const action: ActionFunction = async ({ request }) => {
 	return await handleAction(request);

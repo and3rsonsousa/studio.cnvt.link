@@ -1,8 +1,11 @@
-import { LoaderFunction, Outlet, redirect, useLoaderData } from "remix";
-import SideBar, { LinkType } from "~/components/SideBar";
+import type { LoaderFunction } from "@remix-run/cloudflare";
+import { redirect } from "@remix-run/cloudflare";
+import SideBar from "~/components/SideBar";
+import { getUserId } from "~/lib/session.server";
 import { supabase } from "~/lib/supabase";
-import { getSession, getUserId } from "~/lib/session.server";
-import { AccountType, ProfileType } from "~/types";
+import type { LinkType } from "~/components/SideBar";
+import type { AccountType, ProfileType } from "~/types";
+import { Outlet, useLoaderData } from "@remix-run/react";
 
 export const loader: LoaderFunction = async ({ request }) => {
 	let userId: string = await getUserId(request);
@@ -23,8 +26,10 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function () {
-	let { profile, accounts } =
-		useLoaderData<{ profile: ProfileType; accounts: AccountType[] }>();
+	let { profile, accounts } = useLoaderData<{
+		profile: ProfileType;
+		accounts: AccountType[];
+	}>();
 	let links: LinkType[] = accounts.map((account) => ({
 		name: account.name,
 		url: `/dashboard/${account.slug}`,

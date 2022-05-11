@@ -1,9 +1,8 @@
-import { redirect } from "remix";
+import { redirect } from "@remix-run/cloudflare";
 import dayjs from "dayjs";
-import { AccountType, CampaignType, ProfileType } from "~/types";
-import { ActionType } from "./../types";
+import type { AccountType, CampaignType, ProfileType } from "~/types";
+import type { ActionType } from "./../types";
 import { supabase } from "./supabase";
-import { IoTrendingUpOutline } from "react-icons/io5";
 
 export async function getActionFormData(
 	userId: string,

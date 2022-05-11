@@ -1,10 +1,14 @@
-import { LoaderFunction, Outlet, useLoaderData } from "remix";
+import type { LoaderFunction } from "@remix-run/cloudflare";
+import { Outlet, useLoaderData } from "@remix-run/react";
 import ListItem from "~/components/ListItem";
 import { supabase } from "~/lib/supabase";
-import { ProfileType } from "~/types";
+import type { ProfileType } from "~/types";
 
 export const loader: LoaderFunction = async () => {
-	let { data: profiles, error } = await supabase.from("profiles").select("*").order("name");
+	let { data: profiles, error } = await supabase
+		.from("profiles")
+		.select("*")
+		.order("name");
 
 	if (error) throw new Error(error.message);
 
@@ -37,7 +41,9 @@ export default function () {
 						))}
 					</div>
 				) : (
-					<div className="text-sm text-gray-400">Nenhum usuário cadastrado no sistema</div>
+					<div className="text-sm text-gray-400">
+						Nenhum usuário cadastrado no sistema
+					</div>
 				)}
 			</div>
 		</div>

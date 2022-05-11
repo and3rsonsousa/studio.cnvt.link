@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useSearchParams } from "remix";
-import { ActionType } from "~/types";
+import { useSearchParams } from "@remix-run/react";
+import type { ActionType } from "~/types";
 import Calendar from "./Display/Calendar";
 import Cronologic from "./Display/Cronologic";
 import Grid from "./Display/Grid";

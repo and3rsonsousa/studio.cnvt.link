@@ -1,8 +1,10 @@
-import { ActionFunction, Form, LoaderFunction, redirect, useActionData } from "remix";
 import { supabase } from "~/lib/supabase";
 import { commitSession, getSession } from "~/lib/session.server";
 import { HiOutlineLockClosed } from "react-icons/hi";
 import { useState } from "react";
+import type { ActionFunction, LoaderFunction } from "@remix-run/cloudflare";
+import { redirect } from "@remix-run/cloudflare";
+import { Form, useActionData } from "@remix-run/react";
 
 export const action: ActionFunction = async ({ request }) => {
 	const formData = await request.formData();
@@ -52,7 +54,12 @@ export default function () {
 					<label className="field">
 						<span>Email</span>
 						<div className="input">
-							<input type="email" name="email" placeholder="Seu email" className="input-field" />
+							<input
+								type="email"
+								name="email"
+								placeholder="Seu email"
+								className="input-field"
+							/>
 						</div>
 					</label>
 					<label className="field">

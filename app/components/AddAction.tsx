@@ -1,9 +1,9 @@
+import { useTransition } from "@remix-run/react";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { FaCompress, FaExpand } from "react-icons/fa";
-import { useTransition } from "remix";
 import { Button } from "~/components/Forms";
-import { AccountType, CampaignType, ProfileType } from "~/types";
+import type { AccountType, CampaignType, ProfileType } from "~/types";
 import ActionForm from "./Forms/ActionForm";
 
 export type AddActionsProps = {

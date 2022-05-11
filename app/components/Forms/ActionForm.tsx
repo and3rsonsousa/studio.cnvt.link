@@ -1,12 +1,12 @@
+import { Form, useParams, useSearchParams } from "@remix-run/react";
 import dayjs from "dayjs";
-import { useEffect, useRef, useState } from "react";
-import { Form, useParams, useSearchParams } from "remix";
-import { flows, steps, tags } from "~/lib/data";
-import { ActionType } from "~/types";
-import { AutoComplete, Input, RadioGroup } from ".";
-import { AddActionsProps } from "../AddAction";
-
 import "dayjs/locale/pt-br";
+import { useEffect, useRef, useState } from "react";
+import { flows, steps, tags } from "~/lib/data";
+import type { ActionType } from "~/types";
+import { AutoComplete, Input, RadioGroup } from ".";
+import type { AddActionsProps } from "../AddAction";
+
 dayjs.locale("pt-br");
 
 export default function ActionForm({

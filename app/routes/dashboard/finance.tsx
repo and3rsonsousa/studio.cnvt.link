@@ -1,23 +1,20 @@
-import { useEffect, useRef, useState } from "react";
+import type { ActionFunction, LoaderFunction } from "@remix-run/cloudflare";
 import {
-	ActionFunction,
 	Form,
-	LoaderFunction,
-	useFetcher,
 	useLoaderData,
 	useSubmit,
 	useTransition,
-} from "remix";
-
-import dayjs, { Dayjs } from "dayjs";
+} from "@remix-run/react";
+import type { Dayjs } from "dayjs";
+import dayjs from "dayjs";
+import "dayjs/locale/pt-br"; // import locale
+import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
-import relativeTime from "dayjs/plugin/relativeTime";
-import "dayjs/locale/pt-br"; // import locale
-
+import { useEffect, useRef, useState } from "react";
+import { ViewHeader } from "~/components/Display/Calendar/MonthView";
 import { Input } from "~/components/Forms";
 import { supabase } from "~/lib/supabase";
-import { ViewHeader } from "~/components/Display/Calendar/MonthView";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -91,7 +88,7 @@ export default function Finance() {
 		},
 	];
 
-	let [view, setView] = useState(2);
+	let [view, setView] = useState(1);
 	let [current, setCurrent] = useState(dayjs());
 	let currentData = data.filter(
 		(item) => dayjs(item.date).month() === current.month()
@@ -293,9 +290,28 @@ const Item = ({
 			</div>
 			<div className="flex w-32 items-start justify-end gap-1">
 				<span className="mt-1 text-xs">R$</span>
-				<span className="font-bold">
+				{/* <span className="font-bold">
 					{formatter.format(Number(amount))}
-				</span>
+				</span> */}
+				<Form
+					method="post"
+					ref={form}
+					className="w-full"
+					id={`form_item_amount_${id}`}
+				>
+					<input type="hidden" value={id} name="id" />
+					<input type="hidden" value="update" name="action" />
+					<input
+						type="number"
+						defaultValue={Number(amount)}
+						className="w-full bg-transparent font-bold transition-colors focus:text-gray-900 focus:outline-none"
+						onBlur={(event) => {
+							if (amount !== event.currentTarget.value.trim())
+								submit(event.currentTarget.form);
+						}}
+						name="amount"
+					/>
+				</Form>
 			</div>
 		</div>
 	);

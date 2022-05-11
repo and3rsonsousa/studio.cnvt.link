@@ -1,6 +1,6 @@
 import { HiOutlinePencil, HiOutlineX } from "react-icons/hi";
-import { Link, useFetcher, useTransition } from "remix";
-import { ActionType } from "~/types";
+import { Link, useFetcher, useTransition } from "@remix-run/react";
+import type { ActionType } from "~/types";
 import { Heading } from "../Display";
 
 type ListProps = {

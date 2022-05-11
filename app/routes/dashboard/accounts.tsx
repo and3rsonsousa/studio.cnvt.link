@@ -1,11 +1,14 @@
-import { ActionFunction, LoaderFunction, Outlet, useFetcher, useLoaderData, useTransition } from "remix";
-import { supabase } from "~/lib/supabase";
-import { AccountType } from "~/types";
+import type { ActionFunction, LoaderFunction } from "@remix-run/cloudflare";
+import { Outlet, useLoaderData } from "@remix-run/react";
 import ListItem from "~/components/ListItem";
-import { useEffect } from "react";
+import { supabase } from "~/lib/supabase";
+import type { AccountType } from "~/types";
 
 export const loader: LoaderFunction = async () => {
-	let { data: accounts, error } = await supabase.from("accounts").select("*").order("name");
+	let { data: accounts, error } = await supabase
+		.from("accounts")
+		.select("*")
+		.order("name");
 
 	if (error) throw new Error(error.message);
 
@@ -44,11 +47,19 @@ export default function () {
 				{accounts.length ? (
 					<div>
 						{accounts.map((account: AccountType) => (
-							<ListItem item={account} edit del model="accounts" key={account.id} />
+							<ListItem
+								item={account}
+								edit
+								del
+								model="accounts"
+								key={account.id}
+							/>
 						))}
 					</div>
 				) : (
-					<div className="text-sm text-gray-400">Nenhum cliente casdastrado no sistema.</div>
+					<div className="text-sm text-gray-400">
+						Nenhum cliente casdastrado no sistema.
+					</div>
 				)}
 			</div>
 		</div>

@@ -1,7 +1,8 @@
-import { LoaderFunction, useLoaderData } from "remix";
-import { supabase } from "~/lib/supabase";
+import type { LoaderFunction } from "@remix-run/cloudflare";
+import { useLoaderData } from "@remix-run/react";
 import { getSession } from "~/lib/session.server";
-import { ProfileType } from "~/types";
+import { supabase } from "~/lib/supabase";
+import type { ProfileType } from "~/types";
 
 export const loader: LoaderFunction = async ({ request }) => {
 	let session = await getSession(request.headers.get("Cookie"));

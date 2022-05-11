@@ -1,7 +1,9 @@
-import { ActionFunction, Form, LoaderFunction, redirect, useActionData, useLoaderData } from "remix";
+import type { ActionFunction, LoaderFunction } from "@remix-run/cloudflare";
+import { redirect } from "@remix-run/cloudflare";
+import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { CheckboxGroup, Input } from "~/components/Forms";
 import { supabase } from "~/lib/supabase";
-import { AccountType, ProfileType } from "~/types";
+import type { AccountType, ProfileType } from "~/types";
 
 export const loader: LoaderFunction = async ({ params }) => {
 	let data = await Promise.all([
@@ -37,7 +39,7 @@ export const action: ActionFunction = async ({ request }) => {
 		};
 	}
 
-	let { data: account, error } = await supabase
+	let { error } = await supabase
 		.from("accounts")
 		.update({
 			name: values.name,
@@ -53,7 +55,10 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function () {
-	let { account, profiles }: { account: AccountType; profiles: ProfileType[] } = useLoaderData();
+	let {
+		account,
+		profiles,
+	}: { account: AccountType; profiles: ProfileType[] } = useLoaderData();
 	let actionData = useActionData();
 
 	return (
@@ -65,8 +70,18 @@ export default function () {
 				</div>
 			)}
 			<Form method="post">
-				<Input label="Nome" type="text" name="name" value={account.name} />
-				<Input label="Slug" type="text" name="slug" value={account.slug} />
+				<Input
+					label="Nome"
+					type="text"
+					name="name"
+					value={account.name}
+				/>
+				<Input
+					label="Slug"
+					type="text"
+					name="slug"
+					value={account.slug}
+				/>
 				<CheckboxGroup
 					label="Usuários"
 					name="user_id"

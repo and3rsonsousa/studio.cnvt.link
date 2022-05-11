@@ -1,5 +1,5 @@
-import { ReactChild } from "react";
-import type { LinksFunction, MetaFunction } from "remix";
+import type { ReactChild } from "react";
+import type { LinksFunction, MetaFunction } from "@remix-run/cloudflare";
 import {
 	Links,
 	LiveReload,
@@ -8,7 +8,7 @@ import {
 	Scripts,
 	ScrollRestoration,
 	useCatch,
-} from "remix";
+} from "@remix-run/react";
 import styles from "./app.css";
 
 export const links: LinksFunction = () => {

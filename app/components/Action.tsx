@@ -1,5 +1,6 @@
+import { Form, Link, useSubmit, useTransition } from "@remix-run/react";
 import dayjs from "dayjs";
-import "dayjs/locale/pt-br"; // import locale
+import "dayjs/locale/pt-br";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useEffect, useState } from "react";
 import {
@@ -8,10 +9,9 @@ import {
 	HiOutlinePencil,
 	HiOutlineX,
 } from "react-icons/hi";
-import { Form, Link, useSubmit, useTransition } from "remix";
 import { flows, steps, tags } from "~/lib/data";
 import { isLate, writeDate } from "~/lib/functions";
-import { ActionType } from "~/types";
+import type { ActionType } from "~/types";
 import Avatar from "./Avatar";
 import { ListBox } from "./Forms";
 

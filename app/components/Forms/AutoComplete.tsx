@@ -63,7 +63,9 @@ export function AutoComplete({
 						onChange={(event) => {
 							setQuery(event.target.value);
 						}}
-						displayValue={(item: ItemType) => item.name}
+						displayValue={(item: ItemType) => {
+							return item?.name;
+						}}
 						autoComplete="off"
 						className="input-field"
 					/>

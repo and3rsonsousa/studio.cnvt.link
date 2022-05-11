@@ -1,6 +1,6 @@
 import { BsFillPencilFill } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
-import { Form, Link } from "remix";
+import { Form, Link } from "@remix-run/react";
 
 interface ListItemProps {
 	id: number;
@@ -21,15 +21,24 @@ export default function ListItem({
 	model: string;
 }) {
 	return (
-		<div className="flex items-center justify-between gap-2 border-b py-4" key={item.id}>
+		<div
+			className="flex items-center justify-between gap-2 border-b py-4"
+			key={item.id}
+		>
 			<div>
 				<div className="text-gray-700">{item.name}</div>
 				{(item.description || item.slug) && (
-					<div className="text-xs tracking-wide text-gray-400">{item.description || item.slug}</div>
+					<div className="text-xs tracking-wide text-gray-400">
+						{item.description || item.slug}
+					</div>
 				)}
 			</div>
 			{(edit || del) && (
-				<Form method="post" className="flex items-center space-x-4" name="listitem">
+				<Form
+					method="post"
+					className="flex items-center space-x-4"
+					name="listitem"
+				>
 					<input type="hidden" value={item.id} name="id" />
 					{edit && (
 						<Link

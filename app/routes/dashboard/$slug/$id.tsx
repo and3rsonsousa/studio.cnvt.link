@@ -1,18 +1,17 @@
+import type { ActionFunction, LoaderFunction } from "@remix-run/cloudflare";
 import {
-	ActionFunction,
 	Form,
-	LoaderFunction,
 	useActionData,
 	useLoaderData,
 	useTransition,
-} from "remix";
+} from "@remix-run/react";
 import { AccountName } from "~/components/Display/Header";
 import { Button } from "~/components/Forms";
 import ActionForm from "~/components/Forms/ActionForm";
 import { handleAction } from "~/lib/db.server";
 import { getUserId } from "~/lib/session.server";
 import { supabase } from "~/lib/supabase";
-import { AccountType } from "~/types";
+import type { AccountType } from "~/types";
 
 export const action: ActionFunction = async ({ request, params }) => {
 	let data = await handleAction(request);
